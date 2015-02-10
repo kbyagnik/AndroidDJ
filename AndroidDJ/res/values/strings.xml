@@ -2,11 +2,11 @@
 <resources>
 
     <string name="app_name">AndroidDJ</string>
-    <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
 	<string name="footer_layout">This is a layout for adding songs
 	     from local storage</string>
 	<string name="host_button">Host a party</string>
 	<string name="join_button">Join a party</string>
-	
+    <string name="add_song">Add_Songs</string>
+
 </resources>

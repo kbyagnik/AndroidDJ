@@ -1,42 +1,52 @@
-<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+    android:orientation="vertical"
+tools:context="com.example.androiddj.StartActivity"
+    android:background="@android:drawable/screen_background_light">
+
+<LinearLayout
+    android:layout_weight="1"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical">
-    
-<RelativeLayout 
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical" 
-    android:layout_weight="1">
-    
-    <Button
-		android:label="@string/host_button"
-		android:id="@+id/host_button"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:text="Host a Party!!!"
-		android:onClick="onHostClicked"
-		android:layout_centerInParent="true">
-	</Button>
-	
-    </RelativeLayout>
-    
-<RelativeLayout 
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+
+    <ScrollView
+        android:scrollbars="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="fill_vertical">
+
+        <LinearLayout
+            android:id="@+id/listview"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:orientation="vertical">
+
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>
+
+<LinearLayout
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
     android:orientation="vertical"
-    android:layout_weight="1" > 
-        
-        <Button
-		android:label="@string/join_button"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:text="Join a Party!!!"
-		android:onClick="onJoinClicked"
-		android:id="@+id/join_button"
-		android:layout_centerInParent="true">
-	</Button>
-    
-</RelativeLayout>
+    android:layout_weight="6"
+    android:background="@android:color/holo_blue_light"
+    android:layout_marginTop="5dp">
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:label="@string/footer_layout"
+        android:background="@drawable/addfile"
+        android:layout_marginTop="10dp"
+        android:contentDescription="@string/add_song">
+    </ImageButton>
+
+</LinearLayout>
+
 </LinearLayout>
