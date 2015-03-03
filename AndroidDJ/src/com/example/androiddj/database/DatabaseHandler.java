@@ -36,7 +36,7 @@ public class DatabaseHandler extends SQLiteOpenHelper
 		db.execSQL(CREATE_SONGS_TABLE);
 	}
 	
-	public void onUpgrade(SQLiteDatabase db)
+	public void onUpgrade(SQLiteDatabase db,int oldVersion,int newVersion)
 	{
 		db.execSQL("DROP TABLE IF EXISTS " + TABLE_SONGS);
 		
