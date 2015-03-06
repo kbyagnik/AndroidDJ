@@ -55,14 +55,14 @@ public class StartView extends Activity
 	public void onHostClicked(View button)
 	{
 		Log.i(tag,"Host is clicked");
-		Intent i = new Intent(this,MainActivity.class);
+		Intent i = new Intent(this,HostView.class);
 		startActivity(i);
 	}
 	
 	public void onJoinClicked(View button)
 	{
 		Log.i(tag,"Join is clicked");
-		Intent i = new Intent(this,MainActivity.class);
+		Intent i = new Intent(this,HostView.class);
 		startActivity(i);
 	}
 }

@@ -9,9 +9,6 @@ import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-/**
- * Created by Vipin on 10-Feb-15.
- */
 public class CustomLayout extends RelativeLayout {
 
     TextView song;

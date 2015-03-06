@@ -24,6 +24,17 @@ public class Songs
 		_aging = 0;
 	}
 	
+	public Songs(int id,String name)
+	{
+		this._id = id;
+		this._name = name;
+		this._status = 0;
+		_upvotes = 0;
+		_downvotes = 0;
+		_aging = 0;
+	}
+
+	
 	public Songs(String name,int status)
 	{
 		this._name = name;

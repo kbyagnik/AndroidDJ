@@ -7,12 +7,14 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 public class DatabaseHandler extends SQLiteOpenHelper
 {
+	private SQLiteDatabase db;
 	private static final int DATABASE_VERSION = 1;
 	
-	private static final String DATABASE_NAME = "SongDatabase";
+	private static final String DATABASE_NAME = "SongDatabase.db";
 	
 	private static final String TABLE_SONGS = "songs";
 	
@@ -23,19 +25,35 @@ public class DatabaseHandler extends SQLiteOpenHelper
 	private static final String KEY_DOWNVOTES = "downvotes";
 	private static final String KEY_AGING = "aging";
 	
+	private final String tag = "DJ Debugging";
+	
 	public DatabaseHandler(Context context)
 	{
 		super(context,DATABASE_NAME,null,DATABASE_VERSION);
+		Log.i("Debugging","calling database handler constructor");
+		db = getWritableDatabase();
+		Log.i("Debugging","called database handler constructor");
 	}
 	
+	@Override
 	public void onCreate(SQLiteDatabase db)
 	{
+		Log.i("Debugging","database on create called");
 		String CREATE_SONGS_TABLE = "CREATE TABLE " + TABLE_SONGS + "("
-				+ KEY_ID + "INTEGER PRIMARY KEY," + KEY_NAME + " TEXT," + KEY_STATUS + " INTEGER," +  KEY_UPVOTES + 
+				+ KEY_ID + " INTEGER PRIMARY KEY," + KEY_NAME + " TEXT," + KEY_STATUS + " INTEGER," +  KEY_UPVOTES + 
 				" INTEGER," + KEY_DOWNVOTES + " INTEGER," + KEY_AGING + " INTEGER" + ")";
-		db.execSQL(CREATE_SONGS_TABLE);
+		Log.i("Debugging", CREATE_SONGS_TABLE);
+		try
+		{
+			db.execSQL(CREATE_SONGS_TABLE);
+		}
+		catch(Exception e)
+		{
+			Log.i("Debugging","Error in creating the database");
+		}
 	}
 	
+	@Override
 	public void onUpgrade(SQLiteDatabase db,int oldVersion,int newVersion)
 	{
 		db.execSQL("DROP TABLE IF EXISTS " + TABLE_SONGS);
@@ -56,7 +74,28 @@ public class DatabaseHandler extends SQLiteOpenHelper
 		values.put(KEY_DOWNVOTES, 0);
 		values.put(KEY_AGING,0);
 		
-		db.insert(TABLE_SONGS, null, values);
+		String query = "INSERT INTO " + TABLE_SONGS + " VALUES(" + Integer.toString(song.getID()) + ",'" + 
+		song.getName() + "'," + Integer.toString(song.getStatus()) + "," + Integer.toString(song.getUpvotes()) + "," + 
+		Integer.toString(song.getDownvotes()) + "," + Integer.toString(song.getAging()) + ")";
+		Log.i("Debugging", query);
+		try
+		{
+			int val = (int) db.insertOrThrow(TABLE_SONGS, null, values);
+		}
+		catch(Exception e)
+		{
+			Log.i("Debugging",e.getMessage());
+		}
+		/*try
+		{
+			db.execSQL(query);
+		}
+		catch(Exception e)
+		{
+			Log.i("Debugging", "Exceptoin " + e.getMessage());
+		}*/
+		int val = 1;
+		Log.i("Debugging","Insertion value is " + Integer.toString(val));
 		db.close();
 	}
 	
@@ -93,6 +132,7 @@ public class DatabaseHandler extends SQLiteOpenHelper
 			do
 			{
 				Songs song = new Songs();
+				Log.i("Debugging","adding song " + cursor.getString(1));
 				song.setID(Integer.parseInt(cursor.getString(0)));
 				song.setName(cursor.getString(1));
 				song.setStatus(Integer.parseInt(cursor.getString(2)));
@@ -115,6 +155,7 @@ public class DatabaseHandler extends SQLiteOpenHelper
 		values.put(KEY_UPVOTES, upvotes);
 		values.put(KEY_DOWNVOTES, downvotes);
 		values.put(KEY_AGING, aging);
+		values.put(KEY_STATUS,status);
 		
 		return db.update(TABLE_SONGS, values, KEY_ID + "=?",new String[] {Integer.toString(id)});
 	}
@@ -123,7 +164,9 @@ public class DatabaseHandler extends SQLiteOpenHelper
 	{
 		SQLiteDatabase db = this.getWritableDatabase();
 		
-		db.delete(TABLE_SONGS, KEY_ID + "=?", new String[] {Integer.toString(id)});
+		int temp = db.delete(TABLE_SONGS, KEY_ID + "=?", new String[] {Integer.toString(id)});
+		
+		Log.i(tag, "delete value for song " + Integer.toString(id) + " is " + Integer.toString(temp));
 		db.close();
 	}
 	
