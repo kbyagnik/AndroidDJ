@@ -1,2 +1,2 @@
-G:\tech\android\projects\AndroidDJ\app\build\intermediates\classes\debug
-G:\tech\android\projects\AndroidDJ\app\build\intermediates\pre-dexed\debug\support-v4-19.1.0-5e9d9f7e73c5e96cc208503fc0ed910805aab624.jar
+F:\BT\6th sem\CSL343-Computer Networks\Project\git\new\AndroidDJ\app\build\intermediates\classes\debug
+F:\BT\6th sem\CSL343-Computer Networks\Project\git\new\AndroidDJ\app\build\intermediates\pre-dexed\debug\support-v4-19.1.0-27b0d12314afbe2b3004959fbddd95dccc6f3ee0.jar

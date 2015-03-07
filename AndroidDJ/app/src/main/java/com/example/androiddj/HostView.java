@@ -7,28 +7,24 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
-
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.TimeUnit;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ImageButton;
+import android.widget.ListView;
+import android.widget.SeekBar;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.androiddj.database.DatabaseHandler;
 import com.example.androiddj.database.Songs;
 
-import android.app.Activity;
-import android.os.Bundle;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ImageButton;
-import android.widget.ListView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.SeekBar;
-import android.widget.TextView;
-import android.widget.Toast;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
 public class HostView extends Activity {
 	private String tag = "DJ Debugging";
@@ -43,7 +39,7 @@ public class HostView extends Activity {
     private double startTime = 0;
     private double finalTime = 0;
     private Handler myHandler = new Handler();;
-    private int forwardTime = 30000;
+    private int forwardTime = 5000;
     private int backwardTime = 5000;
     private SeekBar seekbar;
     private ImageButton playButton,pauseButton;
@@ -73,7 +69,11 @@ public class HostView extends Activity {
         playButton = (ImageButton)findViewById(R.id.imageButton1);
         pauseButton = (ImageButton)findViewById(R.id.imageButton2);
         seekbar.setClickable(true);
+        playButton.setEnabled(true);
         pauseButton.setEnabled(false);
+
+        pauseButton.setVisibility(View.INVISIBLE);
+        playButton.setVisibility(View.VISIBLE);
 
 //        seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 //            @Override
@@ -154,8 +154,8 @@ public class HostView extends Activity {
 
 
     public void play(View view){
-        Toast.makeText(getApplicationContext(), "Playing sound",
-                Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getApplicationContext(), "Playing sound",
+//                Toast.LENGTH_SHORT).show();
         String tag="";
         Log.i(tag,"usee");
         mediaPlayer.start();
@@ -168,13 +168,13 @@ public class HostView extends Activity {
             oneTimeOnly = 1;
         }
 
-        endTimeField.setText(String.format("%d min, %d sec",
+        endTimeField.setText(String.format("%02d:%02d",
                         TimeUnit.MILLISECONDS.toMinutes((long) finalTime),
                         TimeUnit.MILLISECONDS.toSeconds((long) finalTime) -
                                 TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.
                                         toMinutes((long) finalTime)))
         );
-        startTimeField.setText(String.format("%d min, %d sec",
+        startTimeField.setText(String.format("%02d:%02d",
                         TimeUnit.MILLISECONDS.toMinutes((long) startTime),
                         TimeUnit.MILLISECONDS.toSeconds((long) startTime) -
                                 TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.
@@ -184,13 +184,16 @@ public class HostView extends Activity {
         myHandler.postDelayed(UpdateSongTime,100);
         pauseButton.setEnabled(true);
         playButton.setEnabled(false);
+
+        pauseButton.setVisibility(View.VISIBLE);
+        playButton.setVisibility(View.INVISIBLE);
     }
 
 
     private Runnable UpdateSongTime = new Runnable() {
         public void run() {
             startTime = mediaPlayer.getCurrentPosition();
-            startTimeField.setText(String.format("%d min, %d sec",
+            startTimeField.setText(String.format("%02d:%02d",
                             TimeUnit.MILLISECONDS.toMinutes((long) startTime),
                             TimeUnit.MILLISECONDS.toSeconds((long) startTime) -
                                     TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.
@@ -228,13 +231,13 @@ public class HostView extends Activity {
                     oneTimeOnly = 1;
                 }
 
-                endTimeField.setText(String.format("%d min, %d sec",
+                endTimeField.setText(String.format("%02d:%02d",
                                 TimeUnit.MILLISECONDS.toMinutes((long) finalTime),
                                 TimeUnit.MILLISECONDS.toSeconds((long) finalTime) -
                                         TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.
                                                 toMinutes((long) finalTime)))
                 );
-                startTimeField.setText(String.format("%d min, %d sec",
+                startTimeField.setText(String.format("%02d:%02d",
                                 TimeUnit.MILLISECONDS.toMinutes((long) startTime),
                                 TimeUnit.MILLISECONDS.toSeconds((long) startTime) -
                                         TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.
@@ -249,12 +252,15 @@ public class HostView extends Activity {
     };
 
     public void pause(View view){
-        Toast.makeText(getApplicationContext(), "Pausing sound",
-                Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getApplicationContext(), "Pausing sound",
+//                Toast.LENGTH_SHORT).show();
 
         mediaPlayer.pause();
         pauseButton.setEnabled(false);
         playButton.setEnabled(true);
+
+        pauseButton.setVisibility(View.INVISIBLE);
+        playButton.setVisibility(View.VISIBLE);
     }
 
     public void forward(View view){
@@ -351,6 +357,19 @@ public class HostView extends Activity {
         	db.deleteSong(songs.get(i).getID());
         }
     }
-	
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event)
+    {
+        switch(keyCode)
+        {
+            case KeyEvent.KEYCODE_BACK:
+
+                moveTaskToBack(true);
+
+                return true;
+        }
+        return false;
+    }
 	
 }
