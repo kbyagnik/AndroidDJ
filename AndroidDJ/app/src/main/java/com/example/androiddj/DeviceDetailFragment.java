@@ -158,7 +158,8 @@ public class DeviceDetailFragment extends Fragment implements ConnectionInfoList
             progressDialog.dismiss();
         }
         this.info = info;
-        this.getView().setVisibility(View.VISIBLE);
+
+        // this.getView().setVisibility(View.VISIBLE);
 
         // The owner IP is now known.
         TextView view = (TextView) mContentView.findViewById(R.id.group_owner);

@@ -45,7 +45,10 @@ public class DeviceListFragment extends ListFragment implements PeerListListener
     private List<WifiP2pDevice> peers = new ArrayList<WifiP2pDevice>();
     ProgressDialog progressDialog = null;
     View mContentView = null;
+    private boolean visible = false ;
     private WifiP2pDevice device;
+
+    private String e_tag = "tag";
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -92,7 +95,20 @@ public class DeviceListFragment extends ListFragment implements PeerListListener
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
         WifiP2pDevice device = (WifiP2pDevice) getListAdapter().getItem(position);
-        ((DeviceActionListener) getActivity()).showDetails(device);
+        final DeviceDetailFragment fragment = (DeviceDetailFragment) getFragmentManager()
+                .findFragmentById(R.id.frag_detail);
+        if(visible) {
+            Log.i(e_tag,"visible") ;
+            fragment.getView().setVisibility(View.INVISIBLE);
+            visible=false;
+        }
+        else {
+            Log.i(e_tag,"not visible") ;
+            fragment.getView().setVisibility(View.VISIBLE);
+            ((DeviceActionListener) getActivity()).showDetails(device);
+            visible=true;
+        }
+
     }
 
     /**

@@ -57,6 +57,7 @@ public class WiFiDirectActivity extends Activity implements ChannelListener, Dev
     private String CALL_TYPE="call";
     private String HOST_NAME="host";
     private String hostName="";
+    private String call_type ="" ;
 
     private final IntentFilter intentFilter = new IntentFilter();
     private Channel channel;
@@ -121,7 +122,7 @@ public class WiFiDirectActivity extends Activity implements ChannelListener, Dev
     public void handleIntent()
     {
         Intent intent = getIntent();
-        String call_type = intent.getExtras().getString(CALL_TYPE);
+        call_type = intent.getExtras().getString(CALL_TYPE);
         hostName = intent.getExtras().getString(HOST_NAME);
 
         if(call_type.equals("Host"))
@@ -268,7 +269,7 @@ public class WiFiDirectActivity extends Activity implements ChannelListener, Dev
     public void showDetails(WifiP2pDevice device) {
         DeviceDetailFragment fragment = (DeviceDetailFragment) getFragmentManager()
                 .findFragmentById(R.id.frag_detail);
-        fragment.showDetails(device);
+            fragment.showDetails(device);
 
     }
 
