@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+    
+    <TableRow 
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:padding="5dp">
+    <TextView 
+        android:id="@+id/listViewItem"
+        android:text="@string/VotingTextView"/>
+    
+    </TableRow>
+    
+   <TableRow 
+        android:layout_height="1dp"
+        android:layout_width="wrap_content"
+        android:padding="5dp">
+    
+    <Button
+        android:id="@+id/upvote"
+        android:layout_width="wrap_content"
+        android:layout_height="40sp"
+        android:layout_column="0"
+        android:textSize="12sp"
+        android:onClick="upvoteSong"
+        android:text="@string/upvote" />
+    
+    <TextView 
+        android:id="@+id/upvoteCount"
+        android:layout_width="wrap_content"
+        android:layout_height="40sp"
+        android:layout_column="1"
+        android:textSize="12sp"/>
+    
+    <Button
+        android:id="@+id/downvote"
+        android:layout_width="fill_parent"
+        android:layout_height="40sp"
+        android:onClick="downvoteSong"
+        android:text="@string/downvote"
+        android:layout_column="2"
+        android:textSize="12sp"
+         />
+    <TextView 
+        android:id="@+id/downvoteCount"
+        android:layout_width="wrap_content"
+        android:layout_height="40sp"
+        android:layout_column="3"
+        android:textSize="12sp"/>
+    
+    </TableRow>
+    <TableRow 
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:padding="5dp">
+        <TextView 
+        android:id="@+id/votedByUser"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:textSize="16sp"
+        />
+    </TableRow>
+    
+  
+
+</TableLayout><!-- From: file:/G:/tech/android/projects/AndroidDJ/app/src/main/res/layout/listview_content.xml -->

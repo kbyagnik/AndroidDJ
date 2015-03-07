@@ -1,0 +1,2 @@
+G:\tech\android\projects\AndroidDJ\app\build\intermediates\classes\debug
+G:\tech\android\projects\AndroidDJ\app\build\intermediates\pre-dexed\debug\support-v4-19.1.0-5e9d9f7e73c5e96cc208503fc0ed910805aab624.jar

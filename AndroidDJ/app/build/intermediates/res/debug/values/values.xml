@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- From: file:/G:/tech/android/projects/AndroidDJ/app/src/main/res/values/color.xml -->
+    <eat-comment/>
+    <color name="GREEN">#00FF00</color>
+    <color name="RED">#FF0000</color>
+    <!-- From: file:/G:/tech/android/projects/AndroidDJ/app/src/main/res/values/dimens.xml -->
+    <eat-comment/>
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <!-- From: file:/G:/tech/android/projects/AndroidDJ/app/src/main/res/values/strings.xml -->
+    <eat-comment/>
+    <string name="VotingTextView">Song name</string>
+    <string name="action_settings">Settings</string>
+    <string name="app_name">AndroidDJ</string>
+    <string name="closed_party">Host a closed party</string>
+    <string name="downvote">Downvote song</string>
+    <string name="footer_layout">This is a layout for adding songs
+	     from local storage</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="host_button">Host a party</string>
+    <string name="inital_Time">0 min, 0 sec</string>
+    <string name="invitation_party">Host an invitation party</string>
+    <string name="join_button">Join a party</string>
+    <string name="open_party">Host an open party</string>
+    <string name="upvote">Upvote song</string>
+    <!-- From: file:/G:/tech/android/projects/AndroidDJ/app/src/main/res/values/styles.xml -->
+    <eat-comment/>
+    <style name="AppBaseTheme" parent="android:Theme.Light">
+        <!--
+            Theme customizations available in newer API levels can go in
+            res/values-vXX/styles.xml, while customizations related to
+            backward-compatibility can go here.
+        -->
+    </style>
+    <style name="AppTheme" parent="AppBaseTheme">
+        <!-- All customizations that are NOT specific to a particular API-level can go here. -->
+    </style>
+</resources>
