@@ -27,7 +27,6 @@ import android.net.wifi.p2p.WifiP2pManager;
 import android.net.wifi.p2p.WifiP2pManager.ActionListener;
 import android.net.wifi.p2p.WifiP2pManager.Channel;
 import android.net.wifi.p2p.WifiP2pManager.ChannelListener;
-import android.nfc.Tag;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.util.Log;
@@ -38,9 +37,6 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.example.android.wifidirect.DeviceListFragment.DeviceActionListener;
-
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 
 /**
  * An activity that uses WiFi Direct APIs to discover and connect with available
@@ -56,6 +52,7 @@ public class WiFiDirectActivity extends Activity implements ChannelListener, Dev
     private WifiP2pManager manager;
     private boolean isWifiP2pEnabled = false;
     private boolean retryChannel = false;
+    private String CALL_TYPE="call";
 
     private final IntentFilter intentFilter = new IntentFilter();
     private Channel channel;
@@ -114,6 +111,47 @@ public class WiFiDirectActivity extends Activity implements ChannelListener, Dev
         }
         if (fragmentDetails != null) {
             fragmentDetails.resetViews();
+        }
+    }
+
+    public void handleIntent()
+    {
+        Intent intent = getIntent();
+        String call_type = intent.getExtras().getString(CALL_TYPE);
+
+        if(call_type.equals("Host"))
+        {
+            manager.discoverPeers(channel, new WifiP2pManager.ActionListener() {
+
+                @Override
+                public void onSuccess() {
+                    Toast.makeText(WiFiDirectActivity.this, "Discovery Initiated",
+                            Toast.LENGTH_SHORT).show();
+                }
+
+                @Override
+                public void onFailure(int reasonCode) {
+                    Toast.makeText(WiFiDirectActivity.this, "Discovery Failed : " + reasonCode,
+                            Toast.LENGTH_LONG).show();
+                }
+            });
+        }
+        else if(call_type.equals("Client"))
+        {
+            manager.discoverPeers(channel, new WifiP2pManager.ActionListener() {
+
+                @Override
+                public void onSuccess() {
+                    Toast.makeText(WiFiDirectActivity.this, "Discovery Initiated",
+                            Toast.LENGTH_LONG).show();
+                }
+
+                @Override
+                public void onFailure(int reasonCode) {
+                    Toast.makeText(WiFiDirectActivity.this, "Discovery Failed : " + reasonCode,
+                            Toast.LENGTH_SHORT).show();
+                }
+            });
         }
     }
 
