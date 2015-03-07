@@ -127,6 +127,7 @@ public class DeviceListFragment extends ListFragment implements PeerListListener
                 TextView top = (TextView) v.findViewById(R.id.device_name);
                 TextView bottom = (TextView) v.findViewById(R.id.device_details);
                 if (top != null) {
+
                     top.setText(device.deviceName);
                 }
                 if (bottom != null) {
@@ -179,6 +180,7 @@ public class DeviceListFragment extends ListFragment implements PeerListListener
         if (progressDialog != null && progressDialog.isShowing()) {
             progressDialog.dismiss();
         }
+
         progressDialog = ProgressDialog.show(getActivity(), "Press back to cancel", "finding peers", true,
                 true, new DialogInterface.OnCancelListener() {
 

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="fill_parent"
     android:background="@android:color/holo_orange_light"
-    android:visibility="gone">
+    android:visibility="visible">
     <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:orientation="vertical"
@@ -32,6 +32,18 @@
                 android:layout_height="wrap_content"
                 android:text="@string/get_file_button"
                 android:visibility="gone" />
+
+            <!--<Button-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="Server"-->
+                <!--android:id="@+id/server"/>-->
+
+            <!--<Button-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="Client"-->
+                <!--android:id="@+id/client" />-->
         </LinearLayout>
         <TextView
             android:id="@+id/device_address"
@@ -68,4 +80,4 @@
         </TextView>
     </LinearLayout>
 </FrameLayout>
-<!-- From: file:/F:/BT/6th%20sem/CSL343-Computer%20Networks/Project/git/new/WiFiDirect/app/src/main/res/layout/device_detail.xml -->
+<!-- From: file:/home/master/AndroidstudioProjects/WifiDirect/app/src/main/res/layout/device_detail.xml -->

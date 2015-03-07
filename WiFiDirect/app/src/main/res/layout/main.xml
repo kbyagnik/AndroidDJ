@@ -9,7 +9,7 @@
         android:id="@+id/linearLayout1"
         android:layout_height="match_parent"
         android:orientation="vertical">
-        <fragment
+       <fragment
             class="com.example.android.wifidirect.DeviceListFragment"
             android:id="@+id/frag_list"
             android:layout_width="match_parent"
@@ -21,7 +21,8 @@
             android:id="@+id/frag_detail"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-            <!-- Preview: layout=@layout/device_detail -->
+            <!-- Preview: layout=@layout/device_detail-->
         </fragment>
     </LinearLayout>
+
 </LinearLayout>

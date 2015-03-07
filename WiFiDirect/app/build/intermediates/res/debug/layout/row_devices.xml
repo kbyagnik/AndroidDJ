@@ -10,7 +10,8 @@
         android:layout_width="wrap_content"
         android:layout_height="fill_parent"
         android:layout_marginRight="2dip"
-        android:src="@drawable/machine" />
+        android:src="@drawable/machine"
+        android:contentDescription="@string/machine" />
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="0dip"
@@ -30,4 +31,4 @@
             android:singleLine="true"
             android:ellipsize="marquee" />
     </LinearLayout>
-</LinearLayout><!-- From: file:/F:/BT/6th%20sem/CSL343-Computer%20Networks/Project/git/new/WiFiDirect/app/src/main/res/layout/row_devices.xml -->
+</LinearLayout><!-- From: file:/home/master/AndroidstudioProjects/WifiDirect/app/src/main/res/layout/row_devices.xml -->

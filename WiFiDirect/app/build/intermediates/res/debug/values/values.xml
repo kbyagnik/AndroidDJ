@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- From: file:/F:/BT/6th%20sem/CSL343-Computer%20Networks/Project/git/new/WiFiDirect/app/src/main/res/values/dimens.xml -->
+    <!-- From: file:/home/master/AndroidstudioProjects/WifiDirect/app/src/main/res/values/dimens.xml -->
     <eat-comment/>
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="phone_list_height">200dp</dimen>
     <dimen name="tablet_list_width">300dp</dimen>
-    <!-- From: file:/F:/BT/6th%20sem/CSL343-Computer%20Networks/Project/git/new/WiFiDirect/app/src/main/res/values/strings.xml -->
+    <!-- From: file:/home/master/AndroidstudioProjects/WifiDirect/app/src/main/res/values/strings.xml -->
     <eat-comment/>
     <string name="action_settings">Settings</string>
     <string name="app_name">WiFi Direct</string>
+    <string name="background">back</string>
     <string name="client_text">This device will act as a client. Click on Gallery button to pick a local(stored) file</string>
     <string name="connect_peer_button">Connect</string>
     <string name="disconnect_peer_button">Disconnect</string>
@@ -22,11 +23,12 @@
     <string name="hello_world">Hello world!</string>
     <string name="label_me">ME</string>
     <string name="label_peers">PEERS</string>
+    <string name="machine">machine</string>
     <string name="no">no</string>
     <string name="p2p_off_warning">Enable P2P from action bar button above or system settings</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="yes">yes</string>
-    <!-- From: file:/F:/BT/6th%20sem/CSL343-Computer%20Networks/Project/git/new/WiFiDirect/app/src/main/res/values/styles.xml -->
+    <!-- From: file:/home/master/AndroidstudioProjects/WifiDirect/app/src/main/res/values/styles.xml -->
     <eat-comment/>
     <style name="AppBaseTheme" parent="android:Theme.Light">
         <!--

@@ -17,6 +17,7 @@
 package com.example.android.wifidirect;
 
 import android.app.Activity;
+import android.app.Fragment;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -35,8 +36,10 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
-
+import com.example.android.wifidirect.DeviceListFragment;
 import com.example.android.wifidirect.DeviceListFragment.DeviceActionListener;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
 /**
  * An activity that uses WiFi Direct APIs to discover and connect with available
@@ -48,11 +51,12 @@ import com.example.android.wifidirect.DeviceListFragment.DeviceActionListener;
 public class WiFiDirectActivity extends Activity implements ChannelListener, DeviceActionListener {
 
     public static final String TAG = "wifidirectdemo";
-
     private WifiP2pManager manager;
     private boolean isWifiP2pEnabled = false;
     private boolean retryChannel = false;
     private String CALL_TYPE="call";
+    private String HOST_NAME="host";
+    private String hostName="";
 
     private final IntentFilter intentFilter = new IntentFilter();
     private Channel channel;
@@ -79,9 +83,7 @@ public class WiFiDirectActivity extends Activity implements ChannelListener, Dev
 
         manager = (WifiP2pManager) getSystemService(Context.WIFI_P2P_SERVICE);
         channel = manager.initialize(this, getMainLooper(), null);
-
     }
-
 
     /** register the BroadcastReceiver with the intent values to be matched */
     @Override
@@ -89,6 +91,8 @@ public class WiFiDirectActivity extends Activity implements ChannelListener, Dev
         super.onResume();
         receiver = new WiFiDirectBroadcastReceiver(manager, channel, this);
         registerReceiver(receiver, intentFilter);
+
+        handleIntent();
     }
 
     @Override
@@ -118,9 +122,15 @@ public class WiFiDirectActivity extends Activity implements ChannelListener, Dev
     {
         Intent intent = getIntent();
         String call_type = intent.getExtras().getString(CALL_TYPE);
+        hostName = intent.getExtras().getString(HOST_NAME);
 
         if(call_type.equals("Host"))
         {
+            setDeviceName("AndroidDJParty_" + hostName);
+//            final DeviceListFragment fragment = (DeviceListFragment) getFragmentManager()
+//                    .findFragmentById(R.id.frag_list);
+//            fragment.onInitiateDiscovery();
+
             manager.discoverPeers(channel, new WifiP2pManager.ActionListener() {
 
                 @Override
@@ -138,6 +148,10 @@ public class WiFiDirectActivity extends Activity implements ChannelListener, Dev
         }
         else if(call_type.equals("Client"))
         {
+            setDeviceName(hostName);
+//            final DeviceListFragment fragment = (DeviceListFragment) getFragmentManager()
+//                    .findFragmentById(R.id.frag_list);
+//            fragment.onInitiateDiscovery();
             manager.discoverPeers(channel, new WifiP2pManager.ActionListener() {
 
                 @Override
@@ -153,6 +167,45 @@ public class WiFiDirectActivity extends Activity implements ChannelListener, Dev
                 }
             });
         }
+    }
+
+    private void setDeviceName(String devName) {
+        try {
+            Class[] paramTypes = new Class[3];
+            paramTypes[0] = Channel.class;
+            paramTypes[1] = String.class;
+            paramTypes[2] = ActionListener.class;
+            Method setDeviceName = manager.getClass().getMethod(
+                    "setDeviceName", paramTypes);
+            setDeviceName.setAccessible(true);
+
+            Object arglist[] = new Object[3];
+            arglist[0] = channel;
+            arglist[1] = devName;
+            arglist[2] = new ActionListener() {
+
+                @Override
+                public void onSuccess() {
+                    Log.i(TAG,"setDeviceName succeeded");
+                }
+
+                @Override
+                public void onFailure(int reason) {
+                    Log.i(TAG,"setDeviceName failed");
+                }
+            };
+            setDeviceName.invoke(manager, arglist);
+
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        }
+
     }
 
     @Override
@@ -188,9 +241,9 @@ public class WiFiDirectActivity extends Activity implements ChannelListener, Dev
                             Toast.LENGTH_SHORT).show();
                     return true;
                 }
-                final DeviceListFragment fragment = (DeviceListFragment) getFragmentManager()
-                        .findFragmentById(R.id.frag_list);
-                fragment.onInitiateDiscovery();
+//                final DeviceListFragment fragment = (DeviceListFragment) getFragmentManager()
+//                        .findFragmentById(R.id.frag_list);
+//                fragment.onInitiateDiscovery();
                 manager.discoverPeers(channel, new WifiP2pManager.ActionListener() {
 
                     @Override

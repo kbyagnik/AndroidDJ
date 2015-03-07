@@ -4,7 +4,8 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingTop="3dp">
+    android:paddingTop="3dp"
+    android:id="@+id/deviceLayout">
 
     <TextView
         android:layout_width="fill_parent"
@@ -67,7 +68,7 @@
     <ListView
         android:id="@id/android:list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
         android:layout_weight="1"
         android:drawSelectorOnTop="false" />
 
@@ -78,4 +79,4 @@
         android:layout_height="match_parent"
         android:text="@string/empty_message" />
 </LinearLayout>
-<!-- From: file:/F:/BT/6th%20sem/CSL343-Computer%20Networks/Project/git/new/WiFiDirect/app/src/main/res/layout/device_list.xml -->
+<!-- From: file:/home/master/AndroidstudioProjects/WifiDirect/app/src/main/res/layout/device_list.xml -->
