@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">tointeg</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello_world">Now Playing:</string>
+    <string name="inital_Time">0 min, 0 sec</string>
+
+</resources>
+
