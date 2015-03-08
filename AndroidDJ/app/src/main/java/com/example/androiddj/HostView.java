@@ -1,10 +1,13 @@
 package com.example.androiddj;
 
 import android.app.Activity;
+import android.content.Context;
 import android.media.MediaPlayer;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.FileObserver;
 import android.os.Handler;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -22,23 +25,36 @@ import android.widget.Toast;
 import com.example.androiddj.database.DatabaseHandler;
 import com.example.androiddj.database.Songs;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.ServerSocket;
+import java.net.Socket;
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
 public class HostView extends Activity {
-	private String tag = "DJ Debugging";
+	private static String tag = "DJ Debugging";
 	ListView list;
-	ListViewAdapterHost adapter;
+    private boolean downloading=false;
+	private ListViewAdapterHost adapter;
 	int pos = -1;
+    public String folder;
+    private int plist_size=0;
     private ArrayList<Songs> songs;
-    DatabaseHandler db;
+    private DatabaseHandler db;
+    private FileObserver plistObserver;
 
     public TextView startTimeField,endTimeField;
     private MediaPlayer mediaPlayer;
     private double startTime = 0;
     private double finalTime = 0;
-    private Handler myHandler = new Handler();;
+    private Handler myHandler;
+    private Handler downloadHandler;
     private int forwardTime = 5000;
     private int backwardTime = 5000;
     private SeekBar seekbar;
@@ -50,24 +66,38 @@ public class HostView extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 
+        Log.i(tag, "Going to call oncreate");
+        super.onCreate(savedInstanceState);
+        Log.i(tag, "calling setcontent view");
+        setContentView(R.layout.activity_main);
+        myHandler = new Handler();
+        downloadHandler = new Handler();
 
-		Log.i(tag,"Going to call oncreate");
-		super.onCreate(savedInstanceState);
-		Log.i(tag,"calling setcontent view");
-		setContentView(R.layout.activity_main);
-		Log.i(tag,"Going to create list_file");
-		db = new DatabaseHandler(this);
-		//addSongs(db);
-		Log.i(tag, "Going to add song");
-        ArrayList<String> songnames=init_phone_music_grid();
+        folder = Environment.getExternalStorageDirectory() + "/AndroidDJ-Playlist/";
+        File dirs = new File(folder);
+
+        if (!dirs.exists())
+            dirs.mkdirs();
+
+        Log.i(tag, "Going to create list_file");
+        db = new DatabaseHandler(this);
+        //addSongs(db);
+        Log.i(tag, "Going to add song");
+        db.deleteAllSongs();
+
+        ArrayList<String> songnames = updatePlaylist();
         db.addAllSongs(songnames);
-		Log.i(tag,"Going to create list");
-		songs = db.getAllSongs();
-        startTimeField =(TextView)findViewById(R.id.textView1);
-        endTimeField =(TextView)findViewById(R.id.textView2);
-        seekbar = (SeekBar)findViewById(R.id.seekBar1);
-        playButton = (ImageButton)findViewById(R.id.imageButton1);
-        pauseButton = (ImageButton)findViewById(R.id.imageButton2);
+
+        Log.i(tag, "Going to create list");
+
+        songs = db.getAllSongs();
+        plist_size = songs.size();
+
+        startTimeField = (TextView) findViewById(R.id.textView1);
+        endTimeField = (TextView) findViewById(R.id.textView2);
+        seekbar = (SeekBar) findViewById(R.id.seekBar1);
+        playButton = (ImageButton) findViewById(R.id.imageButton1);
+        pauseButton = (ImageButton) findViewById(R.id.imageButton2);
         seekbar.setClickable(true);
         playButton.setEnabled(true);
         pauseButton.setEnabled(false);
@@ -75,27 +105,27 @@ public class HostView extends Activity {
         pauseButton.setVisibility(View.INVISIBLE);
         playButton.setVisibility(View.VISIBLE);
 
-//        seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-//            @Override
-//            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-//                if(mediaPlayer!=null && b)
-//                    mediaPlayer.seekTo(i*1000);
-//            }
-////
-//            @Override
-//            public void onStartTrackingTouch(SeekBar seekBar) {
-//
-//            }
-//
-//            @Override
-//            public void onStopTrackingTouch(SeekBar seekBar) {
-//
-//            }
-//        });
 
-        String loc= Environment.getExternalStorageDirectory()+"/AndroidDJ-Playlist/";
-        File file = new File(loc+songs.get(0).getName());
-        Uri uri= Uri.fromFile(file);
+        plistObserver = new FileObserver(folder) {
+            @Override
+            public void onEvent(int event, String song_name) {
+                Log.d(tag, "Change in playlist");
+
+                if (event == FileObserver.DELETE) {
+                    db.deleteSongByName(song_name);
+
+                    songs = db.getAllSongs();
+                    adapter.notifyDataSetChanged();
+                }
+            }
+        };
+
+
+        // Check if folder is empty only play if songs.size()>0
+
+        File file = new File(folder + songs.get(0).getName());
+        Uri uri = Uri.fromFile(file);
+
         mediaPlayer = MediaPlayer.create(this,uri);
 //        seekbar.setMax(mediaPlayer.getDuration());
 		Log.i(tag, "Song name : " + songs.get(0).getName());
@@ -105,6 +135,7 @@ public class HostView extends Activity {
         list.setAdapter(adapter);
         Log.i(tag,"Adapter set");
         Log.i(tag,"Defining on click listener");
+
         list.setOnItemClickListener(new OnItemClickListener() {
         	@Override
 			public void onItemClick(AdapterView<?> parent, View view,
@@ -122,6 +153,30 @@ public class HostView extends Activity {
 				adapter.notifyDataSetChanged();
 			}
 		});
+
+        Runnable downloadFile = new Runnable() {
+            @Override
+            public void run() {
+                if(!downloading)
+                {
+                    Log.d(tag, "Starting Download..........");
+                    try {
+                        FileServerAsyncTask file = new FileServerAsyncTask(HostView.this);
+                        file.execute();
+                    }catch (IOException e)
+                    {
+                        Log.e(tag, e.getMessage());
+                    }
+                }
+
+//                Log.d(tag, "handler attached....");
+                downloadHandler.postDelayed(this,5000);
+            }
+        };
+
+        Thread download = new Thread(downloadFile);
+        download.start();
+
 		Log.i(tag,"Going to call create list view");
 		Log.i(tag,"Finished create list view");
 
@@ -129,25 +184,31 @@ public class HostView extends Activity {
 	}
 
 
-    public ArrayList<String> init_phone_music_grid()
+    public ArrayList<String> updatePlaylist()
     {
         String tag="Music_add";
-        File song = new File(Environment.getExternalStorageDirectory()+"/AndroidDJ-Playlist/") ;
+        File song = new File(folder) ;
         if (!song.isDirectory())
-            Log.i(tag,"Not a directory") ;
-        //Log.i(tag,Environment.getExternalStorageDirectory()+"/AndroidDJ-Playlist/check this");
+            Log.i(tag,"Not a directory");
 
         File[] listOfFiles = song.listFiles();
+
         if (listOfFiles !=null)
             Log.i(tag,String.valueOf(listOfFiles.length)) ;
+
         ArrayList<String> name = new ArrayList();
+        Log.d(tag,"Adding songs");
+
         for (int i = 0; i < listOfFiles.length; i++) {
             if (listOfFiles[i].isFile()) {
                 name.add(listOfFiles[i].getName()) ;
             } else if (listOfFiles[i].isDirectory()) {
-                //System.out.println("Directory " + listOfFiles[i].getName());
+                ;//System.out.println("Directory " + listOfFiles[i].getName());
             }
         }
+
+        Log.d(tag, "Complete") ;
+
         return name;
     }
 
@@ -166,6 +227,25 @@ public class HostView extends Activity {
         if(oneTimeOnly == 0){
             seekbar.setMax((int) finalTime);
             oneTimeOnly = 1;
+
+            seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+                @Override
+                public void onProgressChanged(SeekBar seekBar, int progressValue, boolean fromUser) {
+                    Toast.makeText(getApplicationContext(),"Changing seekbar progress",Toast.LENGTH_SHORT);
+                    if(fromUser)
+                        mediaPlayer.seekTo(progressValue);
+                }
+
+                @Override
+                public void onStartTrackingTouch(SeekBar seekBar) {
+
+                }
+
+                @Override
+                public void onStopTrackingTouch(SeekBar seekBar) {
+
+                }
+            });
         }
 
         endTimeField.setText(String.format("%02d:%02d",
@@ -180,6 +260,7 @@ public class HostView extends Activity {
                                 TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.
                                         toMinutes((long) startTime)))
         );
+
         seekbar.setProgress((int)startTime);
         myHandler.postDelayed(UpdateSongTime,100);
         pauseButton.setEnabled(true);
@@ -202,7 +283,7 @@ public class HostView extends Activity {
 
             seekbar.setProgress((int)startTime);
             //Log.i("Media PLayer:::",startTimeField.getText().toString()+" "+endTimeField.getText().toString());
-            if (startTimeField.getText().toString().equals(endTimeField.getText().toString()))
+            if (startTimeField.getText().toString().equals(endTimeField.getText().toString()) && songs.size()>index)
             {
                 index=index+1;
                 Log.i("Media PLayer:::",String.valueOf(index));
@@ -219,10 +300,9 @@ public class HostView extends Activity {
 
                 Toast.makeText(getApplicationContext(), "Playing "+songs.get(index).getName()+"song",
                         Toast.LENGTH_SHORT).show();
-                String tag="";
+
                 Log.i(tag,"usee");
                 mediaPlayer.start();
-
 
                 finalTime = mediaPlayer.getDuration();
                 startTime = mediaPlayer.getCurrentPosition();
@@ -311,28 +391,21 @@ public class HostView extends Activity {
 		return super.onOptionsItemSelected(item);
 	}
 	
-	private void addSongs()
+	private void addSong(String name)
 	{
-		for(int i=0;i<10;i++)
-		{
-			Log.i(tag, "adding songs in database");
-			db.addSong(new Songs(i + 1,"Song " + Integer.toString(i + 1)));
-		}
-		
-		/*ArrayList<String> songs = new ArrayList<String>();
-		for(int i=0;i<10;i++)
-		{
-			songs.add("Song "+Integer.toString(i+1));
-		}
-		return songs;*/
+        Songs s = new Songs(++plist_size,name);
+		db.addSong(s);
+        songs.add(s);
+        Log.d(tag,"Song added : "+s);
+        adapter.notifyDataSetChanged();
 	}
 	
 	@Override
     public void onRestart() {
         super.onRestart();
         Log.i(tag, "Activity is restarted");
-        songs = db.getAllSongs();
-        adapter.notifyDataSetChanged();
+//        songs = db.getAllSongs();
+//        adapter.notifyDataSetChanged();
     }
 	
 	
@@ -340,22 +413,16 @@ public class HostView extends Activity {
     public void onStop() {
         super.onStop();
         Log.i(tag, "Activity is stopped");
-        int size = songs.size();
-        for(int i=0;i<size;i++)
-        {
-        	db.deleteSong(songs.get(i).getID());
-        }
+//        songs.clear();
+        db.deleteAllSongs();
     }
 	
 	@Override
     public void onDestroy() {
         super.onDestroy();
         Log.i(tag, "Activity is destroyed");
-        int size = songs.size();
-        for(int i=0;i<size;i++)
-        {
-        	db.deleteSong(songs.get(i).getID());
-        }
+//        songs.clear();
+        db.deleteAllSongs();
     }
 
     @Override
@@ -371,5 +438,105 @@ public class HostView extends Activity {
         }
         return false;
     }
-	
+
+    private class FileServerAsyncTask extends AsyncTask<Void, Void, String> {
+
+        private Context context;
+        private TextView statusText;
+        private int port = 8988;
+        private ServerSocket serverSocket;
+
+        /**
+         * @param context
+         */
+        public FileServerAsyncTask(Context context) throws IOException {
+            this.context = context;
+            serverSocket = new ServerSocket(port);
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+            try {
+                Log.d(WiFiDirectActivity.TAG, "Server: Socket opened");
+
+                downloading = true;
+                Log.d(tag, "Downloading started: " + downloading);
+
+                Socket client = serverSocket.accept();
+                String recieved_fname = "";
+                Log.d(WiFiDirectActivity.TAG, "Server: connection done");
+
+                InputStream inputstream = client.getInputStream();
+                InputStreamReader isr = new InputStreamReader(inputstream);
+                BufferedReader br = new BufferedReader(isr);
+                Log.d(WiFiDirectActivity.TAG, "recieving file");
+                recieved_fname = br.readLine();
+
+                Log.d(WiFiDirectActivity.TAG, "recieved file name" + " " + recieved_fname);
+                String filename=System.currentTimeMillis()+ recieved_fname;
+                final File f = new File(folder + filename);
+                f.createNewFile();
+
+                Log.d(WiFiDirectActivity.TAG, "server: copying files " + f.toString());
+
+                copyFile(inputstream, new FileOutputStream(f));
+                serverSocket.close();
+                Log.d(WiFiDirectActivity.TAG, "recieved file written " + f.getAbsolutePath());
+
+                return filename;
+            } catch (IOException e) {
+                Log.e(WiFiDirectActivity.TAG, e.getMessage());
+                downloading = false;
+                Log.d(tag, "Downloading Error: " + downloading);
+                return null;
+            }
+        }
+
+        /*
+         * (non-Javadoc)
+         * @see android.os.AsyncTask#onPostExecute(java.lang.Object)
+         */
+        @Override
+        protected void onPostExecute(String result) {
+            if (result != null) {
+//                statusText.setText("File copied - " + result);
+//                Intent intent = new Intent();
+//                intent.setAction(Intent.ACTION_VIEW);
+//                intent.setDataAndType(Uri.parse("file://" + result), "audio/*");
+//                context.startActivity(intent);
+                addSong(result);
+                downloading=false;
+                Log.d(tag, "Downloading Completed");
+            }
+
+        }
+
+        /*
+         * (non-Javadoc)
+         * @see android.os.AsyncTask#onPreExecute()
+         */
+//        @Override
+//        protected void onPreExecute() {
+//            statusText.setText("Opening a server socket");
+//        }
+
+    }
+
+    public static boolean copyFile(InputStream inputStream, OutputStream out) {
+        byte buf[] = new byte[1024];
+        int len;
+        try {
+            while ((len = inputStream.read(buf)) != -1) {
+                out.write(buf, 0, len);
+            }
+            out.close();
+            inputStream.close();
+        } catch (IOException e) {
+            Log.d(WiFiDirectActivity.TAG, "In copy: "+e.toString());
+            return false;
+        }
+        return true;
+    }
+
+
 }

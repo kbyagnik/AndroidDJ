@@ -1,13 +1,13 @@
 package com.example.androiddj.database;
 
-import java.util.ArrayList;
-
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
+
+import java.util.ArrayList;
 
 public class  DatabaseHandler extends SQLiteOpenHelper
 {
@@ -71,10 +71,6 @@ public class  DatabaseHandler extends SQLiteOpenHelper
             i++;
         }
     }
-
-
-
-
 
 	//adding new song
 	public void addSong(Songs song)
@@ -160,6 +156,17 @@ public class  DatabaseHandler extends SQLiteOpenHelper
 		
 		return songs;
 	}
+
+    public void deleteSongByName(String name)
+    {
+        int id;
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        int temp = db.delete(TABLE_SONGS, KEY_NAME + "=?", new String[] {name});
+
+        Log.i(tag, "delete value for song " + name + " is " + Integer.toString(temp));
+        db.close();
+    }
 	
 	//Updating a song
 	public int updateSong(int id,int status,int upvotes,int downvotes,int aging)
@@ -184,7 +191,16 @@ public class  DatabaseHandler extends SQLiteOpenHelper
 		Log.i(tag, "delete value for song " + Integer.toString(id) + " is " + Integer.toString(temp));
 		db.close();
 	}
-	
+
+    public void deleteAllSongs()
+    {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        db.execSQL("DELETE FROM " + TABLE_SONGS);
+
+        Log.i(tag, "All songs deleted(Database cleared).");
+        db.close();
+    }
 	public int getSongsCount()
 	{
 		SQLiteDatabase db = this.getReadableDatabase();

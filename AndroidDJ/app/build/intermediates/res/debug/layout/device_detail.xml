@@ -26,12 +26,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/disconnect_peer_button" />
-            <Button
-                android:id="@+id/btn_start_client"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/get_file_button"
-                android:visibility="gone" />
+            <!--<Button-->
+                <!--android:id="@+id/btn_start_client"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="@string/get_file_button"-->
+                <!--android:visibility="gone" />-->
 
             <!--<Button-->
                 <!--android:layout_width="wrap_content"-->
@@ -80,4 +80,4 @@
         </TextView>
     </LinearLayout>
 </FrameLayout>
-<!-- From: file:/home/master/Documents/GitHub/Network_Project/AndroidDJ/app/src/main/res/layout/device_detail.xml -->
+<!-- From: file:/F:/BT/6th%20sem/CSL343-Computer%20Networks/Project/git/new/AndroidDJ/app/src/main/res/layout/device_detail.xml -->

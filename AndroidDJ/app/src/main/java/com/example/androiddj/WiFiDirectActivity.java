@@ -30,6 +30,7 @@ import android.net.wifi.p2p.WifiP2pManager.ChannelListener;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -122,8 +123,12 @@ public class WiFiDirectActivity extends Activity implements ChannelListener, Dev
     public void handleIntent()
     {
         Intent intent = getIntent();
+        DeviceListFragment fragmentList = (DeviceListFragment) getFragmentManager()
+                .findFragmentById(R.id.frag_list);
+
         call_type = intent.getExtras().getString(CALL_TYPE);
         hostName = intent.getExtras().getString(HOST_NAME);
+        fragmentList.setHostType(call_type);
 
         if(call_type.equals("Host"))
         {
@@ -360,6 +365,19 @@ public class WiFiDirectActivity extends Activity implements ChannelListener, Dev
                 });
             }
         }
+    }
 
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event)
+    {
+        switch(keyCode)
+        {
+            case KeyEvent.KEYCODE_BACK:
+
+                moveTaskToBack(true);
+
+                return true;
+        }
+        return false;
     }
 }

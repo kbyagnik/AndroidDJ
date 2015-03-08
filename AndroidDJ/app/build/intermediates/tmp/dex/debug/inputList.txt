@@ -1,2 +1,2 @@
-/home/master/Documents/GitHub/Network_Project/AndroidDJ/app/build/intermediates/classes/debug
-/home/master/Documents/GitHub/Network_Project/AndroidDJ/app/build/intermediates/pre-dexed/debug/support-v4-19.1.0-5ab5bbb3844d6c72109d7acdf4c48c80a5c728cc.jar
+F:\BT\6th sem\CSL343-Computer Networks\Project\git\new\AndroidDJ\app\build\intermediates\classes\debug
+F:\BT\6th sem\CSL343-Computer Networks\Project\git\new\AndroidDJ\app\build\intermediates\pre-dexed\debug\support-v4-19.1.0-27b0d12314afbe2b3004959fbddd95dccc6f3ee0.jar

@@ -20,6 +20,7 @@ import android.app.ListFragment;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.net.wifi.p2p.WifiP2pConfig;
 import android.net.wifi.p2p.WifiP2pDevice;
 import android.net.wifi.p2p.WifiP2pDeviceList;
@@ -47,7 +48,7 @@ public class DeviceListFragment extends ListFragment implements PeerListListener
     View mContentView = null;
     private boolean visible = false ;
     private WifiP2pDevice device;
-
+    private String hostType="";
     private String e_tag = "tag";
 
     @Override
@@ -60,6 +61,22 @@ public class DeviceListFragment extends ListFragment implements PeerListListener
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mContentView = inflater.inflate(R.layout.device_list, null);
+
+        mContentView.findViewById(R.id.start_party).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(hostType.equals("Client"))
+                {
+                   Intent intent = new Intent(getActivity(),ClientView.class);
+                   startActivity(intent);
+                }
+                else if(hostType.equals("Host"))
+                {
+                    Intent intent = new Intent(getActivity(),HostView.class);
+                    startActivity(intent);
+                }
+            }
+        });
         return mContentView;
     }
 
@@ -87,6 +104,11 @@ public class DeviceListFragment extends ListFragment implements PeerListListener
                 return "Unknown";
 
         }
+    }
+
+    public void setHostType(String type)
+    {
+        hostType = type;
     }
 
     /**
@@ -181,7 +203,10 @@ public class DeviceListFragment extends ListFragment implements PeerListListener
             Log.d(WiFiDirectActivity.TAG, "No devices found");
             return;
         }
-
+        else if(getDevice()!=null && device.status == WifiP2pDevice.CONNECTED)
+        {
+            mContentView.findViewById(R.id.start_party).setVisibility(View.VISIBLE);
+        }
     }
 
     public void clearPeers() {
