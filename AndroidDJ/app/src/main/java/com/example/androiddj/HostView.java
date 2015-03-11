@@ -43,6 +43,8 @@ public class HostView extends Activity {
     private boolean downloading=false;
 	private ListViewAdapterHost adapter;
 	int pos = -1;
+    boolean songsadded = false;
+    private ArrayList<String> song_names;
     public String folder;
     private int plist_size=0;
     private ArrayList<Songs> songs;
@@ -85,10 +87,14 @@ public class HostView extends Activity {
         Log.i(tag, "Going to add song");
         db.deleteAllSongs();
 
-        ArrayList<String> songnames = updatePlaylist();
-        db.addAllSongs(songnames);
+        if(!songsadded){
+            song_names = updatePlaylist();
+            songsadded = true;
+        }
 
-        Log.i(tag, "Going to create list");
+        db.addAllSongs(song_names);
+
+        Log.i(tag, "Going to create list: db size - "+String.valueOf(db.getSongsCount()));
 
         songs = db.getAllSongs();
         plist_size = songs.size();
@@ -109,17 +115,20 @@ public class HostView extends Activity {
         plistObserver = new FileObserver(folder) {
             @Override
             public void onEvent(int event, String song_name) {
-                Log.d(tag, "Change in playlist");
-
                 if (event == FileObserver.DELETE) {
-                    db.deleteSongByName(song_name);
-
-                    songs = db.getAllSongs();
-                    adapter.notifyDataSetChanged();
+                    Log.d(tag, "Song deleted: "+song_name);
+//                    db.deleteSongByName(song_name);
+//                    songs = db.getAllSongs();
+//                    plist_size=songs.size();
+//                    adapter.notifyDataSetChanged();
+                }
+                else if(event == FileObserver.CREATE) {
+                    Log.d(tag, "Song created: "+song_name);
                 }
             }
         };
 
+        plistObserver.startWatching();
 
         // Check if folder is empty only play if songs.size()>0
 
@@ -283,19 +292,21 @@ public class HostView extends Activity {
 
             seekbar.setProgress((int)startTime);
             //Log.i("Media PLayer:::",startTimeField.getText().toString()+" "+endTimeField.getText().toString());
-            if (startTimeField.getText().toString().equals(endTimeField.getText().toString()) && songs.size()>index)
-            {
-                index=index+1;
-                Log.i("Media PLayer:::",String.valueOf(index));
 
-                songs=db.getAllSongs();
+            if (startTimeField.getText().toString().equals(endTimeField.getText().toString()) && songs.size()>0)
+            {
+//                songs=db.getAllSongs();
+//                index=index+1;
+                db.deleteSong(songs.get(index).getID());
+                songs.remove(index);
+                adapter.notifyDataSetChanged();
+
+                Log.i(tag,"Media PLayer list index - "+String.valueOf(index)+" songs size - " + String.valueOf(songs.size()));
                 String loc=Environment.getExternalStorageDirectory()+"/AndroidDJ-Playlist/";
                 File file = new File(loc+songs.get(index).getName());
                 Uri uri= Uri.fromFile(file);
 
                 Log.i("Media PLayer:::",uri.toString());
-                //MediaPlayer mediaPlayer = new MediaPlayer();
-                //mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
                 mediaPlayer = MediaPlayer.create(getApplicationContext(), uri);
 
                 Toast.makeText(getApplicationContext(), "Playing "+songs.get(index).getName()+"song",
@@ -334,7 +345,6 @@ public class HostView extends Activity {
     public void pause(View view){
 //        Toast.makeText(getApplicationContext(), "Pausing sound",
 //                Toast.LENGTH_SHORT).show();
-
         mediaPlayer.pause();
         pauseButton.setEnabled(false);
         playButton.setEnabled(true);
@@ -396,6 +406,7 @@ public class HostView extends Activity {
         Songs s = new Songs(++plist_size,name);
 		db.addSong(s);
         songs.add(s);
+        plist_size++;
         Log.d(tag,"Song added : "+s);
         adapter.notifyDataSetChanged();
 	}
@@ -414,15 +425,15 @@ public class HostView extends Activity {
         super.onStop();
         Log.i(tag, "Activity is stopped");
 //        songs.clear();
-        db.deleteAllSongs();
+//        db.deleteAllSongs();
     }
 	
 	@Override
     public void onDestroy() {
         super.onDestroy();
-        Log.i(tag, "Activity is destroyed");
 //        songs.clear();
-        db.deleteAllSongs();
+//        db.deleteAllSongs();
+        Log.i(tag, "Activity is destroyed:"+ String.valueOf(db.getSongsCount())+" "+String.valueOf(songs.size()));
     }
 
     @Override
@@ -442,7 +453,6 @@ public class HostView extends Activity {
     private class FileServerAsyncTask extends AsyncTask<Void, Void, String> {
 
         private Context context;
-        private TextView statusText;
         private int port = 8988;
         private ServerSocket serverSocket;
 

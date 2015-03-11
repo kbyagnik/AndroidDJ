@@ -84,6 +84,7 @@ private int pos;
 final String tag = "DJ Debugging";
 final HostView host;
 final DatabaseHandler db;
+private ArrayList<Integer> songsVotes;
  
 public ListViewAdapterHost(List<Songs> StringList, Context ctx,int position,DatabaseHandler db) {
     super(ctx, R.layout.listview_content, StringList);
@@ -93,6 +94,7 @@ public ListViewAdapterHost(List<Songs> StringList, Context ctx,int position,Data
     this.context = ctx;
     this.host = (HostView) ctx;
     this.db = db;
+    songsVotes = new ArrayList<Integer>();
 }
  
 public View getView(final int position, View convertView, ViewGroup parent) {
@@ -123,11 +125,25 @@ public View getView(final int position, View convertView, ViewGroup parent) {
         upvotes.setText(Integer.toString(p.getUpvotes()));
         downvotes.setText(Integer.toString(p.getDownvotes()));
         Log.i(tag,Integer.toString(position) + "    " + Integer.toString(pos));
-        Button upvote = (Button)convertView.findViewById(R.id.upvote);
-        Button downvote = (Button)convertView.findViewById(R.id.downvote);
+        final Button upvote = (Button)convertView.findViewById(R.id.upvote);
+        final Button downvote = (Button)convertView.findViewById(R.id.downvote);
         final TextView vote = (TextView)convertView.findViewById(R.id.votedByUser);
         if(pos == position)
         {
+            boolean found = false;
+            for(int i=0;i<songsVotes.size();i++)
+            {
+                Log.i(tag,"songsVotes contains " + Integer.toString(songsVotes.get(i)) + " and id is " + Integer.toString(id));
+                if(songsVotes.get(i) == id)
+                {
+                    found = true;
+                    break;
+                }
+            }
+            upvote.setVisibility(View.VISIBLE);
+            downvote.setVisibility(View.VISIBLE);
+            upvote.setEnabled(!found);
+            downvote.setEnabled(!found);
         	upvote.setVisibility(View.VISIBLE);
         	downvote.setVisibility(View.VISIBLE);
         	upvotes.setVisibility(View.VISIBLE);
@@ -155,10 +171,13 @@ public View getView(final int position, View convertView, ViewGroup parent) {
 			public void onClick(View v) {
 				vote.setText("Upvoted");
 				Log.i(tag, "inside on click");
-				Songs song = db.getSong(id);
+                upvote.setEnabled(false);
+                downvote.setEnabled(false);
+                Songs song = db.getSong(id);
 				Log.i(tag, "Got song with id " + Integer.toString(id) + " and name " + song.getName() + " upvotes " + song.getUpvotes());
 				int upvotesCount = song.getUpvotes();
 				song.setUpvotes(upvotesCount + 1);
+                songsVotes.add(new Integer(id));
 				Log.i(tag, "upvotes incremented");
 				db.updateSong(id, song.getStatus(),song.getUpvotes(),song.getDownvotes(),song.getAging());
 				vote.setVisibility(View.VISIBLE);
@@ -175,7 +194,10 @@ public View getView(final int position, View convertView, ViewGroup parent) {
 			public void onClick(View v) {
 				vote.setText("Downvoted");
 				Songs song = db.getSong(id);
-				int downvotesCount = song.getDownvotes();
+                upvote.setEnabled(false);
+                downvote.setEnabled(false);
+                songsVotes.add(new Integer(id));
+                int downvotesCount = song.getDownvotes();
 				song.setDownvotes(downvotesCount + 1);
 				db.updateSong(id, song.getStatus(),song.getUpvotes(),song.getDownvotes(),song.getAging());
 				vote.setVisibility(View.VISIBLE);

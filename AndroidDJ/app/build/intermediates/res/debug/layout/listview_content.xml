@@ -5,7 +5,7 @@
     
     <TableRow 
         android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:padding="5dp">
     <TextView 
         android:id="@+id/listViewItem"
@@ -15,9 +15,15 @@
     
    <TableRow 
         android:layout_height="1dp"
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:padding="5dp">
-    
+
+       <LinearLayout
+           android:layout_height="wrap_content"
+           android:layout_width="match_parent"
+           android:orientation="horizontal">
+
+
     <Button
         android:id="@+id/upvote"
         android:layout_width="wrap_content"
@@ -36,7 +42,7 @@
     
     <Button
         android:id="@+id/downvote"
-        android:layout_width="fill_parent"
+        android:layout_width="wrap_content"
         android:layout_height="40sp"
         android:onClick="downvoteSong"
         android:text="@string/downvote"
@@ -49,7 +55,8 @@
         android:layout_height="40sp"
         android:layout_column="3"
         android:textSize="12sp"/>
-    
+   </LinearLayout>
+
     </TableRow>
     <TableRow 
         android:layout_height="wrap_content"
@@ -59,11 +66,12 @@
         android:id="@+id/votedByUser"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
+        android:layout_gravity="left"
+        android:layout_margin="10sp"
         android:textSize="16sp"
         />
     </TableRow>
     
   
 
-</TableLayout><!-- From: file:/F:/BT/6th%20sem/CSL343-Computer%20Networks/Project/git/new/AndroidDJ/app/src/main/res/layout/listview_content.xml -->
+</TableLayout><!-- From: file:/C:/Users/ankit/workspace/AndroidWorkspace/AndroidProject/AndroidDJ/app/src/main/res/layout/listview_content.xml -->

@@ -122,14 +122,25 @@ public View getView(final int position, View convertView, ViewGroup parent) {
 	        upvotes.setText(Integer.toString(p.getUpvotes()));
 	        downvotes.setText(Integer.toString(p.getDownvotes()));
 	        Log.i(tag,Integer.toString(position) + "    " + Integer.toString(pos));
-	        Button upvote = (Button)convertView.findViewById(R.id.upvote);
-	        Button downvote = (Button)convertView.findViewById(R.id.downvote);
+	        final Button upvote = (Button)convertView.findViewById(R.id.upvote);
+	        final Button downvote = (Button)convertView.findViewById(R.id.downvote);
 	        final TextView vote = (TextView)convertView.findViewById(R.id.votedByUser);
 	        if(pos == position)
 	        {
+                boolean found = false;
+                for(int i=0;i<songsVotes.size();i++)
+                {
+                    if(songsVotes.get(i) == id)
+                    {
+                        found = true;
+                        break;
+                    }
+                }
 	        	upvote.setVisibility(View.VISIBLE);
 	        	downvote.setVisibility(View.VISIBLE);
-	        	upvotes.setVisibility(View.VISIBLE);
+                upvote.setEnabled(!found);
+                downvote.setEnabled(!found);
+                upvotes.setVisibility(View.VISIBLE);
 	        	downvotes.setVisibility(View.VISIBLE);
 	        	if(vote.getText().length() == 0)
 	        	{
@@ -157,7 +168,8 @@ public View getView(final int position, View convertView, ViewGroup parent) {
 					songsVotes.add(new Integer(id));
 					Log.i(tag, "Got song with id " + Integer.toString(id));
 					int upvotesCount = p.getUpvotes();
-					
+                    upvote.setEnabled(false);
+                    downvote.setEnabled(false);
 					//send json string to host with upvote request for the song
 					
 					Log.i(tag, "Incrementing upvotes by sending upvote request to host");
@@ -178,9 +190,10 @@ public View getView(final int position, View convertView, ViewGroup parent) {
 				public void onClick(View v) {
 					vote.setText("Downvoted");
 					/*Songs song = db.getSong(id);*/
-					
+                    upvote.setEnabled(false);
+                    downvote.setEnabled(false);
 					//send json string to host with downvote request for the song
-					
+					songsVotes.add(new Integer(id));
 					int downvotesCount = p.getDownvotes();
 					//song.setDownvotes(downvotesCount + 1);
 					/*db.updateSong(id, song.getStatus(),song.getUpvotes(),song.getDownvotes(),song.getAging());*/

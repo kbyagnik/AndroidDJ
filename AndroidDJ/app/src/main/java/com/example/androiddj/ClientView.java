@@ -134,7 +134,7 @@ public class ClientView extends Activity {
 		ArrayList<Songs> songs = new ArrayList<Songs>();
 		for(int i=0;i<10;i++)
 		{
-			songs.add(new Songs(i+1,"Song " + Integer.toString(i + 1)));
+			songs.add(new Songs(i+1,"Song fbjnbsdhjsnbdhfbsdgfhbsdhfbsahfbahbfabnahnbawajnbf af hf afjsndfjkj" + Integer.toString(i + 1)));
     }
 		
 		return songs;
