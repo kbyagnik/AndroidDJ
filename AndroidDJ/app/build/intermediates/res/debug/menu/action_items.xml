@@ -13,4 +13,4 @@
         android:title="@string/discover_peers_button"
         android:showAsAction="ifRoom|withText" />
 </menu>
-<!-- From: file:/C:/Users/ankit/workspace/AndroidWorkspace/AndroidProject/AndroidDJ/app/src/main/res/menu/action_items.xml -->
+<!-- From: file:/E:/AndroidDJ/app/src/main/res/menu/action_items.xml -->

@@ -96,13 +96,7 @@ public ListViewAdapterHost(List<Songs> StringList, Context ctx,int position,Data
     this.db = db;
     songsVotes = new ArrayList<Integer>();
 }
-
-    public void setList(ArrayList<Songs> songs)
-    {
-        this.StringList = songs;
-    }
-
-
+ 
 public View getView(final int position, View convertView, ViewGroup parent) {
      Log.i(tag, "Inside get view function");
     // First let's verify the convertView is not null
