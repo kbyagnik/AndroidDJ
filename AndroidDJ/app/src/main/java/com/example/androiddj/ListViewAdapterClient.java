@@ -1,6 +1,7 @@
 package com.example.androiddj;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import com.example.androiddj.database.DatabaseHandler;
@@ -84,9 +85,11 @@ private int pos;
 final String tag = "DJ Debugging";
 final ClientView client;
 final DatabaseHandler db;
-ArrayList<Integer> songsVotes;
- 
-public ListViewAdapterClient(List<Songs> StringList, Context ctx,int position,DatabaseHandler db) {
+private HashSet<Integer> songsUpvoted;
+private HashSet<Integer> songsDownvoted;
+
+
+    public ListViewAdapterClient(List<Songs> StringList, Context ctx,int position,DatabaseHandler db) {
     super(ctx, R.layout.listview_content, StringList);
     Log.i(tag, "Inside list view adapter constructor");
     pos = position;
@@ -94,7 +97,9 @@ public ListViewAdapterClient(List<Songs> StringList, Context ctx,int position,Da
     this.context = ctx;
     this.client = (ClientView) ctx;
     this.db = db;
-    songsVotes = new ArrayList<Integer>();
+    songsUpvoted = new HashSet<Integer>();
+    songsDownvoted = new HashSet<Integer>();
+
 }
  
 public View getView(final int position, View convertView, ViewGroup parent) {
@@ -127,29 +132,24 @@ public View getView(final int position, View convertView, ViewGroup parent) {
 	        final TextView vote = (TextView)convertView.findViewById(R.id.votedByUser);
 	        if(pos == position)
 	        {
-                boolean found = false;
-                for(int i=0;i<songsVotes.size();i++)
-                {
-                    if(songsVotes.get(i) == id)
-                    {
-                        found = true;
-                        break;
-                    }
-                }
-	        	upvote.setVisibility(View.VISIBLE);
-	        	downvote.setVisibility(View.VISIBLE);
-                upvote.setEnabled(!found);
-                downvote.setEnabled(!found);
+                boolean upvoted = songsUpvoted.contains(id);
+                boolean downvoted = songsDownvoted.contains(id);
+                upvote.setVisibility(View.VISIBLE);
+                downvote.setVisibility(View.VISIBLE);
+                upvote.setEnabled(!(upvoted || downvoted));
+                downvote.setEnabled(!(upvoted || downvoted));
                 upvotes.setVisibility(View.VISIBLE);
 	        	downvotes.setVisibility(View.VISIBLE);
-	        	if(vote.getText().length() == 0)
-	        	{
-	            	vote.setVisibility(View.GONE);
-	        	}
-	        	else
-	        	{
-	            	vote.setVisibility(View.VISIBLE);
-	        	}
+	        	if(upvoted)
+                {
+                    vote.setText("Upvoted");
+                    vote.setTextColor(context.getResources().getColor(R.color.GREEN));
+                }
+                else if(downvoted)
+                {
+                    vote.setText("Downvoted");
+                    vote.setTextColor(context.getResources().getColor(R.color.RED));
+                }
 	        }
 	        else
 	        {
@@ -165,10 +165,10 @@ public View getView(final int position, View convertView, ViewGroup parent) {
 				public void onClick(View v) {
 					vote.setText("Upvoted");
 					Log.i(tag, "inside on click");
-					songsVotes.add(new Integer(id));
 					Log.i(tag, "Got song with id " + Integer.toString(id));
 					int upvotesCount = p.getUpvotes();
                     upvote.setEnabled(false);
+                    songsUpvoted.add(new Integer(id));
                     downvote.setEnabled(false);
 					//send json string to host with upvote request for the song
 					
@@ -193,9 +193,9 @@ public View getView(final int position, View convertView, ViewGroup parent) {
                     upvote.setEnabled(false);
                     downvote.setEnabled(false);
 					//send json string to host with downvote request for the song
-					songsVotes.add(new Integer(id));
 					int downvotesCount = p.getDownvotes();
-					//song.setDownvotes(downvotesCount + 1);
+                    songsDownvoted.add(new Integer(id));
+                    //song.setDownvotes(downvotesCount + 1);
 					/*db.updateSong(id, song.getStatus(),song.getUpvotes(),song.getDownvotes(),song.getAging());*/
 					vote.setVisibility(View.VISIBLE);
 					downvotes.setText(Integer.toString(downvotesCount + 1));

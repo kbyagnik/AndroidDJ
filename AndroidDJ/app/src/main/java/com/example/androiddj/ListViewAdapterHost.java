@@ -1,6 +1,7 @@
 package com.example.androiddj;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import com.example.androiddj.database.DatabaseHandler;
@@ -84,8 +85,10 @@ private int pos;
 final String tag = "DJ Debugging";
 final HostView host;
 final DatabaseHandler db;
-private ArrayList<Integer> songsVotes;
- 
+private HashSet<Integer> songsUpvoted;
+private HashSet<Integer> songsDownvoted;
+
+
 public ListViewAdapterHost(List<Songs> StringList, Context ctx,int position,DatabaseHandler db) {
     super(ctx, R.layout.listview_content, StringList);
     Log.i(tag, "Inside list view adapter constructor");
@@ -94,9 +97,17 @@ public ListViewAdapterHost(List<Songs> StringList, Context ctx,int position,Data
     this.context = ctx;
     this.host = (HostView) ctx;
     this.db = db;
-    songsVotes = new ArrayList<Integer>();
+    songsUpvoted = new HashSet<Integer>();
+    songsDownvoted = new HashSet<Integer>();
+
 }
- 
+
+    public void setList(ArrayList<Songs> songs)
+    {
+        this.StringList = songs;
+    }
+
+
 public View getView(final int position, View convertView, ViewGroup parent) {
      Log.i(tag, "Inside get view function");
     // First let's verify the convertView is not null
@@ -130,32 +141,26 @@ public View getView(final int position, View convertView, ViewGroup parent) {
         final TextView vote = (TextView)convertView.findViewById(R.id.votedByUser);
         if(pos == position)
         {
-            boolean found = false;
-            for(int i=0;i<songsVotes.size();i++)
-            {
-                Log.i(tag,"songsVotes contains " + Integer.toString(songsVotes.get(i)) + " and id is " + Integer.toString(id));
-                if(songsVotes.get(i) == id)
-                {
-                    found = true;
-                    break;
-                }
-            }
+            boolean upvoted = songsUpvoted.contains(id);
+            boolean downvoted = songsDownvoted.contains(id);
             upvote.setVisibility(View.VISIBLE);
             downvote.setVisibility(View.VISIBLE);
-            upvote.setEnabled(!found);
-            downvote.setEnabled(!found);
+            upvote.setEnabled(!(upvoted || downvoted));
+            downvote.setEnabled(!(upvoted || downvoted));
         	upvote.setVisibility(View.VISIBLE);
         	downvote.setVisibility(View.VISIBLE);
         	upvotes.setVisibility(View.VISIBLE);
         	downvotes.setVisibility(View.VISIBLE);
-        	if(vote.getText().length() == 0)
-        	{
-            	vote.setVisibility(View.GONE);
-        	}
-        	else
-        	{
-            	vote.setVisibility(View.VISIBLE);
-        	}
+            if(upvoted)
+            {
+                vote.setText("Upvoted");
+                vote.setTextColor(context.getResources().getColor(R.color.GREEN));
+            }
+            else if(downvoted)
+            {
+                vote.setText("Downvoted");
+                vote.setTextColor(context.getResources().getColor(R.color.RED));
+            }
         }
         else
         {
@@ -177,7 +182,7 @@ public View getView(final int position, View convertView, ViewGroup parent) {
 				Log.i(tag, "Got song with id " + Integer.toString(id) + " and name " + song.getName() + " upvotes " + song.getUpvotes());
 				int upvotesCount = song.getUpvotes();
 				song.setUpvotes(upvotesCount + 1);
-                songsVotes.add(new Integer(id));
+                songsUpvoted.add(new Integer(id));
 				Log.i(tag, "upvotes incremented");
 				db.updateSong(id, song.getStatus(),song.getUpvotes(),song.getDownvotes(),song.getAging());
 				vote.setVisibility(View.VISIBLE);
@@ -196,7 +201,7 @@ public View getView(final int position, View convertView, ViewGroup parent) {
 				Songs song = db.getSong(id);
                 upvote.setEnabled(false);
                 downvote.setEnabled(false);
-                songsVotes.add(new Integer(id));
+                songsDownvoted.add(new Integer(id));
                 int downvotesCount = song.getDownvotes();
 				song.setDownvotes(downvotesCount + 1);
 				db.updateSong(id, song.getStatus(),song.getUpvotes(),song.getDownvotes(),song.getAging());
