@@ -154,11 +154,13 @@ public View getView(final int position, View convertView, ViewGroup parent) {
             if(upvoted)
             {
                 vote.setText("Upvoted");
+                vote.setVisibility(View.VISIBLE);
                 vote.setTextColor(context.getResources().getColor(R.color.GREEN));
             }
             else if(downvoted)
             {
                 vote.setText("Downvoted");
+                vote.setVisibility(View.VISIBLE);
                 vote.setTextColor(context.getResources().getColor(R.color.RED));
             }
         }
