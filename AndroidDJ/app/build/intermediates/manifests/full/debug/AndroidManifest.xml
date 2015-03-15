@@ -28,9 +28,13 @@
         android:icon="@drawable/dj"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
+<<<<<<< HEAD
         <activity
             android:name="com.example.androiddj.StartView"
             android:screenOrientation="portrait" >
+=======
+        <activity android:name="com.example.androiddj.StartView" >
+>>>>>>> d659045139ab3ef91b3c77c0ffaeb89c9db7bc51
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

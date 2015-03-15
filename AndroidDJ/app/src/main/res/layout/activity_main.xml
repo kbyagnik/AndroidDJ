@@ -2,6 +2,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+<<<<<<< HEAD
+=======
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+>>>>>>> d659045139ab3ef91b3c77c0ffaeb89c9db7bc51
     tools:context="com.example.androiddj.HostView">
 
 
@@ -13,17 +20,24 @@
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
+<<<<<<< HEAD
             android:paddingBottom="@dimen/activity_vertical_margin"
             android:paddingLeft="@dimen/activity_horizontal_margin"
             android:paddingRight="@dimen/activity_horizontal_margin"
             android:paddingTop="@dimen/activity_vertical_margin"
+=======
+>>>>>>> d659045139ab3ef91b3c77c0ffaeb89c9db7bc51
             android:layout_weight="1">
 
             <ListView
                 android:id="@+id/listview"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
+<<<<<<< HEAD
                 android:scrollbars="vertical"></ListView>
+=======
+                android:scrollbars="vertical"/>
+>>>>>>> d659045139ab3ef91b3c77c0ffaeb89c9db7bc51
 
         </LinearLayout>
 
@@ -37,9 +51,12 @@
         <RelativeLayout
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
+<<<<<<< HEAD
             android:paddingBottom="8dp"
             android:paddingLeft="@dimen/activity_horizontal_margin"
             android:paddingRight="@dimen/activity_horizontal_margin"
+=======
+>>>>>>> d659045139ab3ef91b3c77c0ffaeb89c9db7bc51
             android:layout_weight="5"
             android:label="@string/footer_layout">
 
@@ -50,10 +67,17 @@
                 android:label="@string/footer_layout">
 
                 <TextView
+<<<<<<< HEAD
                     android:id="@+id/textView1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_above="@+id/imageButton4"
+=======
+                    android:id="@+id/start_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_above="@+id/rewind"
+>>>>>>> d659045139ab3ef91b3c77c0ffaeb89c9db7bc51
                     android:layout_alignParentLeft="true"
                     android:text="@string/inital_Time"
                     android:textAppearance="?android:attr/textAppearanceSmall"
@@ -63,6 +87,7 @@
                     android:id="@+id/seekBar1"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
+<<<<<<< HEAD
                     android:layout_above="@+id/imageButton2"
                     android:layout_toRightOf="@+id/textView1"
                     android:layout_toLeftOf="@+id/textView2"/>
@@ -72,6 +97,17 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_above="@+id/imageButton3"
+=======
+                    android:layout_above="@+id/pause"
+                    android:layout_toRightOf="@+id/start_time"
+                    android:layout_toLeftOf="@+id/end_time"/>
+
+                <TextView
+                    android:id="@+id/end_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_above="@+id/forward"
+>>>>>>> d659045139ab3ef91b3c77c0ffaeb89c9db7bc51
                     android:layout_alignParentRight="true"
                     android:text="@string/inital_Time"
                     android:textAppearance="?android:attr/textAppearanceSmall"
@@ -79,7 +115,11 @@
 
 
                 <ImageButton
+<<<<<<< HEAD
                     android:id="@+id/imageButton3"
+=======
+                    android:id="@+id/forward"
+>>>>>>> d659045139ab3ef91b3c77c0ffaeb89c9db7bc51
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
@@ -89,7 +129,11 @@
                     android:src="@android:drawable/ic_media_ff" />
 
                 <ImageButton
+<<<<<<< HEAD
                     android:id="@+id/imageButton4"
+=======
+                    android:id="@+id/rewind"
+>>>>>>> d659045139ab3ef91b3c77c0ffaeb89c9db7bc51
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
@@ -99,7 +143,11 @@
                     android:src="@android:drawable/ic_media_rew" />
 
                 <ImageButton
+<<<<<<< HEAD
                     android:id="@+id/imageButton1"
+=======
+                    android:id="@+id/play"
+>>>>>>> d659045139ab3ef91b3c77c0ffaeb89c9db7bc51
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
@@ -108,7 +156,11 @@
                     android:src="@android:drawable/ic_media_play" />
 
                 <ImageButton
+<<<<<<< HEAD
                     android:id="@+id/imageButton2"
+=======
+                    android:id="@+id/pause"
+>>>>>>> d659045139ab3ef91b3c77c0ffaeb89c9db7bc51
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
@@ -127,6 +179,7 @@
 
                 <Button
                     android:id="@+id/add_file"
+<<<<<<< HEAD
                     android:enabled="false"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -142,6 +195,24 @@
                     <!--android:layout_marginLeft="100dp"-->
                     <!--android:layout_marginTop="@dimen/activity_horizontal_margin"-->
                     <!--android:text="Leave" />-->
+=======
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                    android:layout_marginTop="@dimen/activity_horizontal_margin"
+                    android:background="@android:drawable/ic_input_add"
+                    android:contentDescription="@string/addsong" />
+
+                <Button
+                    android:id="@+id/leave_party"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignLeft="@+id/add_file"
+                    android:layout_marginLeft="100dp"
+                    android:layout_marginTop="@dimen/activity_horizontal_margin"
+                    android:text="Leave" />
+>>>>>>> d659045139ab3ef91b3c77c0ffaeb89c9db7bc51
 
             </RelativeLayout>
 

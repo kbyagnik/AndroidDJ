@@ -71,7 +71,10 @@
         android:textSize="16sp"
         />
     </TableRow>
+<<<<<<< HEAD
     
+=======
+>>>>>>> d659045139ab3ef91b3c77c0ffaeb89c9db7bc51
   
 
 </TableLayout>

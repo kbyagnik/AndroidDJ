@@ -7,7 +7,10 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.OpenableColumns;
 import android.util.Log;
+<<<<<<< HEAD
 import android.view.KeyEvent;
+=======
+>>>>>>> d659045139ab3ef91b3c77c0ffaeb89c9db7bc51
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -63,7 +66,10 @@ public class ClientView extends Activity {
 			}
 		});
 
+<<<<<<< HEAD
         findViewById(R.id.add_file).setEnabled(true);
+=======
+>>>>>>> d659045139ab3ef91b3c77c0ffaeb89c9db7bc51
         findViewById(R.id.add_file).setOnClickListener(
                 new View.OnClickListener() {
 
@@ -108,7 +114,10 @@ public class ClientView extends Activity {
             serviceIntent.putExtra(FileTransferService.EXTRAS_GROUP_OWNER_ADDRESS,
                     DeviceDetailFragment.info.groupOwnerAddress.getHostAddress());
             serviceIntent.putExtra(FileTransferService.EXTRAS_GROUP_OWNER_PORT, 8988);
+<<<<<<< HEAD
             Toast.makeText(this,cursor.getString(nameIndex)+" send to Host",Toast.LENGTH_SHORT).show();
+=======
+>>>>>>> d659045139ab3ef91b3c77c0ffaeb89c9db7bc51
             startService(serviceIntent);
         }
     }
@@ -129,10 +138,13 @@ public class ClientView extends Activity {
 		if (id == R.id.action_settings) {
 			return true;
 		}
+<<<<<<< HEAD
         else if(id==R.id.leave)
         {
             finish();
         }
+=======
+>>>>>>> d659045139ab3ef91b3c77c0ffaeb89c9db7bc51
 		return super.onOptionsItemSelected(item);
 	}
 	
@@ -141,7 +153,11 @@ public class ClientView extends Activity {
 		ArrayList<Songs> songs = new ArrayList<Songs>();
 		for(int i=0;i<10;i++)
 		{
+<<<<<<< HEAD
 			songs.add(new Songs(i+1,"Song " + Integer.toString(i + 1)));
+=======
+			songs.add(new Songs(i+1,"Song fbjnbsdhjsnbdhfbsdgfhbsdhfbsahfbahbfabnahnbawajnbf af hf afjsndfjkj" + Integer.toString(i + 1)));
+>>>>>>> d659045139ab3ef91b3c77c0ffaeb89c9db7bc51
     }
 		
 		return songs;
@@ -171,6 +187,7 @@ public class ClientView extends Activity {
         songs.clear();
     }
 
+<<<<<<< HEAD
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event)
     {
@@ -184,5 +201,20 @@ public class ClientView extends Activity {
         }
         return false;
     }
+=======
+//    @Override
+//    public boolean onKeyDown(int keyCode, KeyEvent event)
+//    {
+//        switch(keyCode)
+//        {
+//            case KeyEvent.KEYCODE_BACK:
+//
+//                moveTaskToBack(true);
+//
+//                return true;
+//        }
+//        return false;
+//    }
+>>>>>>> d659045139ab3ef91b3c77c0ffaeb89c9db7bc51
 	
 }

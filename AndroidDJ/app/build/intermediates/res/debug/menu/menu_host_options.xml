@@ -4,4 +4,8 @@
     <item android:id="@+id/action_settings" android:title="@string/action_settings"
         android:orderInCategory="100" android:showAsAction="never" />
 </menu>
+<<<<<<< HEAD
 <!-- From: file:/home/daffy/git/Network/AndroidDJ/app/src/main/res/menu/menu_host_options.xml -->
+=======
+<!-- From: file:/E:/AndroidDJ/app/src/main/res/menu/menu_host_options.xml -->
+>>>>>>> d659045139ab3ef91b3c77c0ffaeb89c9db7bc51

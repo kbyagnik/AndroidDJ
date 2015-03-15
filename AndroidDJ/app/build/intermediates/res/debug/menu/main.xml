@@ -7,9 +7,15 @@
         android:orderInCategory="100"
         android:showAsAction="never"
         android:title="@string/action_settings"/>
+<<<<<<< HEAD
     <item
         android:id="@+id/leave"
         android:title="Leave Party"/>
 
 </menu>
 <!-- From: file:/home/daffy/git/Network/AndroidDJ/app/src/main/res/menu/main.xml -->
+=======
+
+</menu>
+<!-- From: file:/E:/AndroidDJ/app/src/main/res/menu/main.xml -->
+>>>>>>> d659045139ab3ef91b3c77c0ffaeb89c9db7bc51

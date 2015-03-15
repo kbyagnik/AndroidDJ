@@ -3,4 +3,8 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+<<<<<<< HEAD
 </RelativeLayout><!-- From: file:/home/daffy/git/Network/AndroidDJ/app/src/main/res/layout/list_item_layout.xml -->
+=======
+</RelativeLayout><!-- From: file:/E:/AndroidDJ/app/src/main/res/layout/list_item_layout.xml -->
+>>>>>>> d659045139ab3ef91b3c77c0ffaeb89c9db7bc51

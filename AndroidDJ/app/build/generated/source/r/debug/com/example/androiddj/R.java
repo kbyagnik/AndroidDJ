@@ -32,6 +32,7 @@ public final class R {
         public static final int tripledots=0x7f020008;
     }
     public static final class id {
+<<<<<<< HEAD
         public static final int action_settings=0x7f090029;
         public static final int add_file=0x7f09000a;
         public static final int atn_direct_discover=0x7f090028;
@@ -75,6 +76,51 @@ public final class R {
         public static final int upvote=0x7f090017;
         public static final int upvoteCount=0x7f090018;
         public static final int votedByUser=0x7f09001b;
+=======
+        public static final int action_settings=0x7f09002a;
+        public static final int add_file=0x7f09000a;
+        public static final int atn_direct_discover=0x7f090029;
+        public static final int atn_direct_enable=0x7f090028;
+        public static final int btn_connect=0x7f09000c;
+        public static final int btn_disconnect=0x7f09000d;
+        public static final int client_layout=0x7f090009;
+        public static final int closed_button=0x7f090024;
+        public static final int deviceLayout=0x7f090012;
+        public static final int device_address=0x7f09000e;
+        public static final int device_details=0x7f090021;
+        public static final int device_info=0x7f09000f;
+        public static final int device_name=0x7f090020;
+        public static final int downvote=0x7f09001a;
+        public static final int downvoteCount=0x7f09001b;
+        public static final int end_time=0x7f090006;
+        public static final int forward=0x7f090007;
+        public static final int frag_detail=0x7f09001f;
+        public static final int frag_list=0x7f09001e;
+        public static final int group_ip=0x7f090011;
+        public static final int group_owner=0x7f090010;
+        public static final int host_layout=0x7f090001;
+        public static final int hosting=0x7f090022;
+        public static final int icon=0x7f090013;
+        public static final int invitation_button=0x7f090025;
+        public static final int join_button=0x7f090026;
+        public static final int leave_party=0x7f09000b;
+        public static final int linearLayout1=0x7f09001d;
+        public static final int listViewItem=0x7f090017;
+        public static final int listview=0x7f090000;
+        public static final int my_name=0x7f090014;
+        public static final int my_status=0x7f090015;
+        public static final int open_button=0x7f090023;
+        public static final int pause=0x7f090005;
+        public static final int play=0x7f090008;
+        public static final int rewind=0x7f090003;
+        public static final int seekBar1=0x7f090004;
+        public static final int start_party=0x7f090016;
+        public static final int start_time=0x7f090002;
+        public static final int textView=0x7f090027;
+        public static final int upvote=0x7f090018;
+        public static final int upvoteCount=0x7f090019;
+        public static final int votedByUser=0x7f09001c;
+>>>>>>> d659045139ab3ef91b3c77c0ffaeb89c9db7bc51
     }
     public static final class layout {
         public static final int activity_main=0x7f030000;
@@ -95,7 +141,11 @@ public final class R {
     public static final class string {
         public static final int VotingTextView=0x7f060000;
         public static final int action_settings=0x7f060001;
+<<<<<<< HEAD
         public static final int add_song=0x7f060002;
+=======
+        public static final int addsong=0x7f060002;
+>>>>>>> d659045139ab3ef91b3c77c0ffaeb89c9db7bc51
         public static final int app_name=0x7f060003;
         public static final int background=0x7f060004;
         public static final int client_text=0x7f060005;

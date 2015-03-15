@@ -7,8 +7,11 @@
         android:orderInCategory="100"
         android:showAsAction="never"
         android:title="@string/action_settings"/>
+<<<<<<< HEAD
     <item
         android:id="@+id/leave"
         android:title="Leave Party"/>
+=======
+>>>>>>> d659045139ab3ef91b3c77c0ffaeb89c9db7bc51
 
 </menu>

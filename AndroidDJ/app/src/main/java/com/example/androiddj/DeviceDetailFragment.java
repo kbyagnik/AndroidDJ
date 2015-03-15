@@ -116,7 +116,10 @@ public class DeviceDetailFragment extends Fragment implements ConnectionInfoList
 //            mContentView.findViewById(R.id.btn_start_client).setVisibility(View.VISIBLE);
 //            ((TextView) mContentView.findViewById(R.id.status_text)).setText(getResources()
 //                    .getString(R.string.client_text));
+<<<<<<< HEAD
             Log.d(WiFiDirectActivity.TAG,"Group Formed");
+=======
+>>>>>>> d659045139ab3ef91b3c77c0ffaeb89c9db7bc51
         }
 
         // hide the connect button
@@ -150,7 +153,11 @@ public class DeviceDetailFragment extends Fragment implements ConnectionInfoList
         view = (TextView) mContentView.findViewById(R.id.group_owner);
         view.setText(R.string.empty);
 //        view = (TextView) mContentView.findViewById(R.id.status_text);
+<<<<<<< HEAD
 //        view.setText(R.string.empty);
+=======
+        view.setText(R.string.empty);
+>>>>>>> d659045139ab3ef91b3c77c0ffaeb89c9db7bc51
 //        mContentView.findViewById(R.id.btn_start_client).setVisibility(View.GONE);
         this.getView().setVisibility(View.GONE);
     }

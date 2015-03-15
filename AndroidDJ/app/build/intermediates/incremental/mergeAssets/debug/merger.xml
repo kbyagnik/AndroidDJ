@@ -1,2 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
+<<<<<<< HEAD
 <merger version="3"><dataSet config="main"><source path="/home/daffy/git/Network/AndroidDJ/app/src/main/assets"/></dataSet><dataSet config="debug"><source path="/home/daffy/git/Network/AndroidDJ/app/src/debug/assets"/></dataSet></merger>
+=======
+<merger version="3"><dataSet config="main"><source path="E:\AndroidDJ\app\src\main\assets"/></dataSet><dataSet config="debug"><source path="E:\AndroidDJ\app\src\debug\assets"/></dataSet></merger>
+>>>>>>> d659045139ab3ef91b3c77c0ffaeb89c9db7bc51

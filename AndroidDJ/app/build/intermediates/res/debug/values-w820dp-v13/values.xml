@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+<<<<<<< HEAD
     <!-- From: file:/home/daffy/git/Network/AndroidDJ/app/src/main/res/values-w820dp/dimens.xml -->
+=======
+    <!-- From: file:/E:/AndroidDJ/app/src/main/res/values-w820dp/dimens.xml -->
+>>>>>>> d659045139ab3ef91b3c77c0ffaeb89c9db7bc51
     <eat-comment/>
     <dimen name="activity_horizontal_margin">64dp</dimen>
 </resources>

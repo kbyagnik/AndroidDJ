@@ -1,2 +1,7 @@
+<<<<<<< HEAD
 F:\BT\6th sem\CSL343-Computer Networks\Project\git\csl343-project-ca61677dfc3a\AndroidDJ\app\build\intermediates\classes\debug
 F:\BT\6th sem\CSL343-Computer Networks\Project\git\csl343-project-ca61677dfc3a\AndroidDJ\app\build\intermediates\pre-dexed\debug\support-v4-19.1.0-27b0d12314afbe2b3004959fbddd95dccc6f3ee0.jar
+=======
+F:\BT\6th sem\CSL343-Computer Networks\Project\git\new\AndroidDJ\app\build\intermediates\classes\debug
+F:\BT\6th sem\CSL343-Computer Networks\Project\git\new\AndroidDJ\app\build\intermediates\pre-dexed\debug\support-v4-19.1.0-27b0d12314afbe2b3004959fbddd95dccc6f3ee0.jar
+>>>>>>> d659045139ab3ef91b3c77c0ffaeb89c9db7bc51

@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+<<<<<<< HEAD
 
+=======
+>>>>>>> d659045139ab3ef91b3c77c0ffaeb89c9db7bc51
     <string name="app_name">AndroidDJ</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
@@ -32,6 +35,10 @@
     <string name="machine">machine</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="background">back</string>
+<<<<<<< HEAD
     <string name="add_song">Add Song</string>
+=======
+    <string name="addsong">add</string>
+>>>>>>> d659045139ab3ef91b3c77c0ffaeb89c9db7bc51
 
 </resources>

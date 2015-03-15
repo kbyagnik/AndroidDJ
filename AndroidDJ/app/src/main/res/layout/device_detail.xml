@@ -4,7 +4,11 @@
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="fill_parent"
+<<<<<<< HEAD
     android:background="@android:color/holo_orange_light"
+=======
+    android:background="@android:color/darker_gray"
+>>>>>>> d659045139ab3ef91b3c77c0ffaeb89c9db7bc51
     android:visibility="visible">
     <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"

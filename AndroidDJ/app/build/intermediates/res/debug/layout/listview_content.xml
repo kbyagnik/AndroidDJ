@@ -71,7 +71,13 @@
         android:textSize="16sp"
         />
     </TableRow>
+<<<<<<< HEAD
     
   
 
 </TableLayout><!-- From: file:/home/daffy/git/Network/AndroidDJ/app/src/main/res/layout/listview_content.xml -->
+=======
+  
+
+</TableLayout><!-- From: file:/E:/AndroidDJ/app/src/main/res/layout/listview_content.xml -->
+>>>>>>> d659045139ab3ef91b3c77c0ffaeb89c9db7bc51

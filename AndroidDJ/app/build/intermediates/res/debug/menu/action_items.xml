@@ -13,4 +13,8 @@
         android:title="@string/discover_peers_button"
         android:showAsAction="ifRoom|withText" />
 </menu>
+<<<<<<< HEAD
 <!-- From: file:/home/daffy/git/Network/AndroidDJ/app/src/main/res/menu/action_items.xml -->
+=======
+<!-- From: file:/E:/AndroidDJ/app/src/main/res/menu/action_items.xml -->
+>>>>>>> d659045139ab3ef91b3c77c0ffaeb89c9db7bc51

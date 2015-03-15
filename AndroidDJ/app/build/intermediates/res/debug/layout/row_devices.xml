@@ -31,4 +31,8 @@
             android:singleLine="true"
             android:ellipsize="marquee" />
     </LinearLayout>
+<<<<<<< HEAD
 </LinearLayout><!-- From: file:/home/daffy/git/Network/AndroidDJ/app/src/main/res/layout/row_devices.xml -->
+=======
+</LinearLayout><!-- From: file:/E:/AndroidDJ/app/src/main/res/layout/row_devices.xml -->
+>>>>>>> d659045139ab3ef91b3c77c0ffaeb89c9db7bc51

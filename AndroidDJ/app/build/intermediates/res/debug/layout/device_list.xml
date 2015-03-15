@@ -86,4 +86,8 @@
         android:layout_height="match_parent"
         android:text="@string/empty_message" />
 </LinearLayout>
+<<<<<<< HEAD
 <!-- From: file:/home/daffy/git/Network/AndroidDJ/app/src/main/res/layout/device_list.xml -->
+=======
+<!-- From: file:/E:/AndroidDJ/app/src/main/res/layout/device_list.xml -->
+>>>>>>> d659045139ab3ef91b3c77c0ffaeb89c9db7bc51
