@@ -201,7 +201,43 @@ public class ClientView extends Activity {
         }
         return false;
     }
+	
 =======
+public String getPlaylist(){
+        int port = 0;
+        ServerSocket serverSocket=null;
+        try {
+             serverSocket=new ServerSocket(port);
+        } catch (IOException e) {
+            e.printStackTrace();
+            Log.i(tag, "Socket not opened on port"+Integer.toString(port));
+        }
+        try {
+            Log.d(WiFiDirectActivity.TAG, "Server-Socket opened for playlist transfer");
+
+            Socket client = serverSocket.accept();
+            Log.d(WiFiDirectActivity.TAG, "connection done");
+
+            InputStream inputstream = client.getInputStream();
+            InputStreamReader isr = new InputStreamReader(inputstream);
+            BufferedReader br = new BufferedReader(isr);
+            Log.d(WiFiDirectActivity.TAG, "recieving playlist");
+            String playlist = br.readLine();
+            Log.d(WiFiDirectActivity.TAG, "recieved Playlist");
+            serverSocket.close();
+
+            return playlist;
+        } catch (IOException e) {
+            Log.e(WiFiDirectActivity.TAG, e.getMessage());
+            boolean downloading = false;
+            Log.d(tag, "Downloading Error: " + downloading);
+            return null;
+        }
+    }
+    public void updateList(){
+        String db=getPlaylist();
+        //UpdateListView
+    }
 //    @Override
 //    public boolean onKeyDown(int keyCode, KeyEvent event)
 //    {
