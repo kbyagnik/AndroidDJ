@@ -1,9 +1,12 @@
 package com.example.androiddj;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.net.DhcpInfo;
 import android.net.Uri;
+import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.provider.OpenableColumns;
 import android.util.Log;
@@ -18,6 +21,13 @@ import android.widget.Toast;
 import com.example.androiddj.database.DatabaseHandler;
 import com.example.androiddj.database.Songs;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.InetAddress;
+import java.net.ServerSocket;
+import java.net.Socket;
 import java.util.ArrayList;
 
 public class ClientView extends Activity {
@@ -162,6 +172,64 @@ public class ClientView extends Activity {
         super.onDestroy();
         Log.i(tag, "Activity is destroyed");
         songs.clear();
+    }
+
+    public String getPlaylist(){
+        int port = 0;
+        ServerSocket serverSocket=null;
+        try {
+            serverSocket=new ServerSocket();
+        } catch (IOException e) {
+            e.printStackTrace();
+            Log.i(tag, "Socket not opened on port"+Integer.toString(port));
+        }
+        try {
+            Log.d(WiFiDirectActivity.TAG, "Server-Socket opened for playlist transfer");
+
+            Socket client = serverSocket.accept();
+            Log.d(WiFiDirectActivity.TAG, "connection done");
+
+            InputStream inputstream = client.getInputStream();
+            InputStreamReader isr = new InputStreamReader(inputstream);
+            BufferedReader br = new BufferedReader(isr);
+            Log.d(WiFiDirectActivity.TAG, "recieving playlist");
+            String playlist = br.readLine();
+            Log.d(WiFiDirectActivity.TAG, "recieved Playlist");
+            serverSocket.close();
+
+            return playlist;
+        } catch (IOException e) {
+            Log.e(WiFiDirectActivity.TAG, e.getMessage());
+            boolean downloading = false;
+            Log.d(tag, "Downloading Error: " + downloading);
+            return null;
+        }
+    }
+
+    public void updateList(){
+        String db=getPlaylist();
+        Log.i(tag,db);
+        //UpdateListView
+    }
+
+    public InetAddress getBroadcastAddress() {
+        try {
+            WifiManager wifi = (WifiManager)getSystemService(Context.WIFI_SERVICE);
+            DhcpInfo dhcp = wifi.getDhcpInfo();
+            // handle null somehow
+
+            int broadcast = (dhcp.ipAddress & dhcp.netmask) | ~dhcp.netmask;
+            byte[] quads = new byte[4];
+            for (int k = 0; k < 4; k++)
+                quads[k] = (byte) ((broadcast >> k * 8) & 0xFF);
+            return InetAddress.getByAddress(quads);
+        }
+        catch (IOException e)
+        {
+            Log.i("Error",e.getMessage());
+            return null;
+        }
+
     }
 
 //    @Override

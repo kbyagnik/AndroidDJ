@@ -49,9 +49,9 @@ public class  DatabaseHandler extends SQLiteOpenHelper
 		}
 		catch(Exception e)
 		{
-			Log.i("Debugging","Error in creating the database");
+			Log.i("Debugging","Error in creating the table");
 		}
-        db.close();
+//        db.close();
 	}
 	
 	@Override
@@ -68,8 +68,7 @@ public class  DatabaseHandler extends SQLiteOpenHelper
         int i=0;
         for (String s: songs)
         {
-            addSong(new Songs(i+1, s));
-            i++;
+            addSong(new Songs(++i, s));
         }
     }
 
