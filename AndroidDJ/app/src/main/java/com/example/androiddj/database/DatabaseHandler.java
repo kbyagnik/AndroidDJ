@@ -196,6 +196,37 @@ public class  DatabaseHandler extends SQLiteOpenHelper
 
     }
 
+    public ArrayList<Songs> getAllSongsSorted(int id)
+    {
+        ArrayList<Songs> songs = new ArrayList<Songs>();
+
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_SONGS + " WHERE " + KEY_ID + "<>" + Integer.toString(id) + " ORDER BY " + KEY_UPVOTES + "-" + KEY_DOWNVOTES + " DESC",null);
+
+        if(cursor.moveToFirst())
+        {
+            do {
+                Songs song = new Songs();
+                Log.i(tag,"adding song in sorted list " + cursor.getString(1));
+                song.setID(Integer.parseInt(cursor.getString(0)));
+                song.setName(cursor.getString(1));
+                song.setStatus(Integer.parseInt(cursor.getString(2)));
+                song.setUpvotes(Integer.parseInt(cursor.getString(3)));
+                song.setDownvotes(Integer.parseInt(cursor.getString(4)));
+                song.setAging(Integer.parseInt(cursor.getString(5)));
+                songs.add(song);
+            }while(cursor.moveToNext());
+        }
+
+        db.close();
+
+        cursor.close();
+
+        return songs;
+
+    }
+
     public void deleteSongByName(String name)
     {
         int id;

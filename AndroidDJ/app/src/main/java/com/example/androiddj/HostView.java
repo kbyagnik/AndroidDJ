@@ -410,10 +410,20 @@ public class HostView extends Activity {
 
     public void sortList()
     {
-        songs = db.getAllSongsSorted();
+        ArrayList<Songs> tempSongs = new ArrayList<Songs>();
+        if(songs.size() != 0) {
+            tempSongs.add(songs.get(0));
+            tempSongs.addAll(db.getAllSongsSorted(songs.get(0).getID()));
+            songs = tempSongs;
+        }
+        else
+        {
+            songs = db.getAllSongsSorted();
+        }
         adapter.setList(songs);
         adapter.notifyDataSetChanged();
     }
+
     private void addSong(String name) {
         Songs s = new Songs(++plist_size, name);
         db.addSong(s);
