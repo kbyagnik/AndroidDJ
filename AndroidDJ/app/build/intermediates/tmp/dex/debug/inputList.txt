@@ -1,2 +1,2 @@
-C:\Users\ankit\workspace\AndroidWorkspace\AndroidProject\csl343-project\AndroidDJ\app\build\intermediates\classes\debug
-C:\Users\ankit\workspace\AndroidWorkspace\AndroidProject\csl343-project\AndroidDJ\app\build\intermediates\pre-dexed\debug\support-v4-19.1.0-be220b38eb335326b6406b05fa5b60644c539549.jar
+I:\csl343-project-5224de1ece5e\AndroidDJ\app\build\intermediates\classes\debug
+I:\csl343-project-5224de1ece5e\AndroidDJ\app\build\intermediates\pre-dexed\debug\support-v4-19.1.0-27b0d12314afbe2b3004959fbddd95dccc6f3ee0.jar

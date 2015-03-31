@@ -133,6 +133,18 @@
                     android:contentDescription="@string/addsong" />
 
                 <Button
+                    android:id="@+id/record_mic"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                    android:layout_marginTop="@dimen/activity_horizontal_margin"
+                    android:background="@drawable/record_logo"
+                    android:contentDescription="@string/addsong" />
+
+
+
+                <Button
                     android:id="@+id/leave_party"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -148,4 +160,4 @@
     </LinearLayout>
 
 </RelativeLayout>
-<!-- From: file:/C:/Users/ankit/workspace/AndroidWorkspace/AndroidProject/csl343-project/AndroidDJ/app/src/main/res/layout/activity_main.xml -->
+<!-- From: file:/I:/csl343-project-5224de1ece5e/AndroidDJ/app/src/main/res/layout/activity_main.xml -->

@@ -37,6 +37,75 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.security.InvalidParameterException;
+
+import java.net.InetAddress;
+import java.net.DatagramSocket;
+import java.net.DatagramPacket;
+import java.net.SocketException;
+import java.net.UnknownHostException;
+
+import android.app.Activity;
+import android.media.AudioFormat;
+import android.media.AudioManager;
+import android.media.AudioRecord;
+import android.media.AudioTrack;
+import android.media.MediaRecorder;
+import android.os.Bundle;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
+import android.util.Log;
+
+
+
+
+//
+import android.app.Activity;
+import android.content.Context;
+import android.media.MediaPlayer;
+import android.net.Uri;
+import android.os.AsyncTask;
+import android.os.Bundle;
+import android.os.Environment;
+import android.os.FileObserver;
+import android.os.Handler;
+import android.util.Log;
+import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ImageButton;
+import android.widget.ListView;
+import android.widget.SeekBar;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.example.androiddj.database.DatabaseHandler;
+import com.example.androiddj.database.Songs;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
+import java.net.*;
+
+
+
 public class HostView extends Activity {
     private static String tag = "DJ Debugging";
     ListView list;
@@ -66,6 +135,24 @@ public class HostView extends Activity {
     public static int oneTimeOnly = 0;
     int index = 0;
 
+
+    AudioRecord recorder;
+    // private AudioInputStream audioInputStream;
+    // static AudioInputStream ais;
+
+
+
+
+    ///////////
+
+    private AudioTrack speaker;
+    private AudioRecord audiorecord;
+    //Audio Configuration.
+    private int sampleRate = 44100;      //How much will be ideal?
+    private int channelConfig = AudioFormat.CHANNEL_CONFIGURATION_MONO;
+    private int audioFormat = AudioFormat.ENCODING_PCM_16BIT;
+    int MinBufSize;
+    static AudioFormat format;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -485,6 +572,7 @@ public class HostView extends Activity {
         private Context context;
         private int port = 8988;
         private ServerSocket serverSocket;
+        private DatagramSocket dataServer;
 
         /**
          * @param context
@@ -492,6 +580,7 @@ public class HostView extends Activity {
         public FileServerAsyncTask(Context context) throws IOException {
             this.context = context;
             serverSocket = new ServerSocket(port);
+            dataServer = new DatagramSocket(port);
         }
 
         @Override
@@ -503,27 +592,141 @@ public class HostView extends Activity {
                 Log.d(tag, "Downloading started: " + downloading);
 
                 Socket client = serverSocket.accept();
+
                 String recieved_fname = "";
                 Log.d(WiFiDirectActivity.TAG, "Server: connection done");
 
                 InputStream inputstream = client.getInputStream();
                 InputStreamReader isr = new InputStreamReader(inputstream);
+
                 BufferedReader br = new BufferedReader(isr);
                 Log.d(WiFiDirectActivity.TAG, "recieving file");
                 recieved_fname = br.readLine();
+                if(recieved_fname.equals("MICROPHONE_androiddj_start"))
+                {
+                    // detecting as a microphone so we stream it live
+                    // if detected data is "MICROPHONE_androiddj_end" then we are done
+                    //--------------
+
+
+                    Log.d(WiFiDirectActivity.TAG, "microphone android dj");
+                    recieved_fname+=".wav";
+
+
+
+
+//return null;
+
+
+
+                }
+                //else
 
                 Log.d(WiFiDirectActivity.TAG, "recieved file name" + " " + recieved_fname);
-                String filename=append(recieved_fname,String.valueOf(System.currentTimeMillis()));
+                String filename = System.currentTimeMillis() + recieved_fname;
                 final File f = new File(folder + filename);
                 f.createNewFile();
 
                 Log.d(WiFiDirectActivity.TAG, "server: copying files " + f.toString());
 
-                copyFile(inputstream, new FileOutputStream(f));
+                if(recieved_fname.equals("MICROPHONE_androiddj_start.wav"))
+                {
+
+                    Log.d("yahan file name for mic seen", "recieved file name" + " " + recieved_fname);
+
+                    ///////////////////
+
+
+
+                    //      recorder = findAudioRecord();
+//                    recorder= new AudioRecord(MediaRecorder.AudioSource.DEFAULT, 44100, channelConfig, audioFormat, AudioRecord.getMinBufferSize(44100, channelConfig, audioFormat));
+
+//recorder= new AudioRecord(44100, AudioFormat.CHANNEL_IN_MONO, AudioFormat.ENCODING_PCM_16BIT;)
+//                    MinBufSize= recorder.getMinBufferSize(
+                    //                          44100,
+                    //                        AudioFormat.CHANNEL_IN_MONO,
+                    //                      AudioFormat.ENCODING_PCM_16BIT);
+                    //  recorder = new AudioRecord(MediaRecorder.AudioSource.MIC,sampleRate,channelConfig,audioFormat,minBufSize);
+                    Log.d("VS", "Recorder initialized");
+                    //         byte[] buffer = new byte[MinBufSize];
+
+                    //recorder.OutputFormat.THREE_GPP;
+                    //recorder.release();
+                    //       recorder.startRecording();
+//------------
+                    MinBufSize=1024*3;
+
+                    speaker = new AudioTrack(AudioManager.STREAM_VOICE_CALL,sampleRate,AudioFormat.CHANNEL_OUT_STEREO,audioFormat,MinBufSize,AudioTrack.MODE_STREAM);
+                    //  speaker.setPlaybackRate(10100);
+                    // speaker.play();
+                    //
+
+                    ////////////
+                    /////////////
+                    /////////////
+                    byte[] receiveData = new byte[3*1024];
+
+                    String data = "";
+
+                    //   int minBufSize = AudioRecord.getMinBufferSize(sampleRate, channelConfig, audioFormat);
+
+                    // speaker = new AudioTrack(AudioManager.STREAM_MUSIC,sampleRate,AudioFormat.CHANNEL_OUT_STEREO,audioFormat,MinBufSize,AudioTrack.MODE_STREAM);
+                    speaker = new AudioTrack(AudioManager.STREAM_VOICE_CALL,sampleRate,AudioFormat.CHANNEL_OUT_STEREO,audioFormat,MinBufSize,AudioTrack.MODE_STREAM);
+
+                    speaker.setPlaybackRate(22100);
+                    speaker.play();
+
+                    while(!data.equals("end"))
+                    {
+
+                        Log.d("in while loop", "in while loop" + " " + recieved_fname);
+
+
+                        DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
+                        Log.i("VR", "Socket Created");
+                        dataServer.receive(receivePacket);
+                        //  out.write(receivePacket.getData(), 0, receiveData.length);
+                        Log.i("copy file aa raha ","yoyo");
+                        String sentence = new String( receivePacket.getData().toString());
+
+                        System.out.println("RECEIVED: " + sentence);
+                        data = receivePacket.getData().toString();
+                        receiveData = receivePacket.getData();
+                        speaker.write(receiveData, 0, receiveData.length);
+                        // speaker.write(buffer, 0, MinBufSize);
+                        Log.d("VR", "Writing buffer content to speaker");
+                        ///AudioTrack(AudioManager.STREAM_MUSIC,sampleRate,channelConfig,audioFormat,minBufSize,AudioTrack.MODE_STREAM);
+
+                    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+                    /////////////////////
+                    /////////////
+                    //////////////
+                    //////////////
+                    /////////////
+
+
+                    // copy(dataServer,new FileOutputStream(f));
+                }else {
+                    copyFile(inputstream, new FileOutputStream(f));
+                }
                 serverSocket.close();
                 Log.d(WiFiDirectActivity.TAG, "recieved file written " + f.getAbsolutePath());
 
                 return filename;
+
             } catch (IOException e) {
                 Log.e(WiFiDirectActivity.TAG, e.getMessage());
                 downloading = false;

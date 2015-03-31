@@ -133,6 +133,18 @@
                     android:contentDescription="@string/addsong" />
 
                 <Button
+                    android:id="@+id/record_mic"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                    android:layout_marginTop="@dimen/activity_horizontal_margin"
+                    android:background="@drawable/record_logo"
+                    android:contentDescription="@string/addsong" />
+
+
+
+                <Button
                     android:id="@+id/leave_party"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
