@@ -16,60 +16,6 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
-/*class ListViewAdapter1
-{
-	final List<Songs> songs;
-	final ListView list;
-	final Context context;
-	
-	public ListViewAdapter1(ArrayList<Songs> songs,ListView list,Context context)
-	{		
-        this.songs = songs;
-        this.list = list;
-        this.context = context;
-		CreateListView();
-	}
-	
-	public void CreateListView()
-    {
-		for(int i=0;i<10;i++)
-		{
-			((View) songs).getParent().add("Song"+Integer.toString(i));
-		}
-		final int indexChanged[] = new int[1];
-		final String initialValue[] = new String[1];
-		indexChanged[0] = -1;
-		initialValue[0] = "";
-         list.setAdapter(new ArrayAdapter<Songs>(context, android.R.layout.simple_list_item_1,songs));
-         list.setOnItemClickListener(new OnItemClickListener()
-           {
-                @Override
-                public void onItemClick(AdapterView<?> parent, final View view, final int position,long id)
-                {
-                    //args2 is the listViews Selected index
-                	if(indexChanged[0] != -1)
-                	{
-                		songs.set(indexChanged[0], initialValue[0]);
-                	}
-                	indexChanged[0] = position;
-                	initialValue[0] = songs.get(position);
-                	//songs.set(position, songs.get(position) + " is selected");
-                	view.animate().setDuration(200).alpha(0).withEndAction(new Runnable() {
-                      @Override
-                      public void run() {
-                        songs.set(position, songs.get(position) + " is selected");
-                        ArrayAdapter adapter = (ArrayAdapter) list.getAdapter();
-                        adapter.notifyDataSetChanged();
-                        view.setAlpha(1);
-                      }
-                    });
-                }
-           });
-    }
-	
-}
-*/
-
 public class ListViewAdapterHost extends ArrayAdapter<Songs> {
 
     private List<Songs> StringList;

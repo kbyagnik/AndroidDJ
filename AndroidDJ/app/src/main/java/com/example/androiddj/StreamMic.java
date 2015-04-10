@@ -1,15 +1,5 @@
 package com.example.androiddj;
 
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.PrintWriter;
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
-import java.net.InetAddress;
-import java.net.InetSocketAddress;
-import java.net.Socket;
-import java.net.UnknownHostException;
-
 import android.app.Activity;
 import android.media.AudioFormat;
 import android.media.AudioManager;
@@ -21,8 +11,17 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import java.net.*;
-public class Stream_mic extends Activity {
+
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.PrintWriter;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
+import java.net.InetSocketAddress;
+import java.net.Socket;
+import java.net.UnknownHostException;
+public class StreamMic extends Activity {
     private static final int SOCKET_TIMEOUT = 5000;
     private Button startButton,stopButton;
     private MediaRecorder myAudioRecorder;
@@ -165,38 +164,7 @@ public class Stream_mic extends Activity {
 
                     Log.d("VS", "Recorder initialized");
                     //
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                    //
-
-
-
-
-
-
-
-
-
-
-                    //      recorder = findAudioRecord();
+//                          recorder = findAudioRecord();
                     recorder= new AudioRecord(MediaRecorder.AudioSource.DEFAULT, 44100, channelConfig, audioFormat, AudioRecord.getMinBufferSize(44100, channelConfig, audioFormat));
 
 //recorder= new AudioRecord(44100, AudioFormat.CHANNEL_IN_MONO, AudioFormat.ENCODING_PCM_16BIT;)

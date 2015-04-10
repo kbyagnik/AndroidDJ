@@ -2,72 +2,10 @@ package com.example.androiddj;
 
 import android.app.Activity;
 import android.content.Context;
-import android.media.MediaPlayer;
-import android.net.Uri;
-import android.os.AsyncTask;
-import android.os.Bundle;
-import android.os.Environment;
-import android.os.FileObserver;
-import android.os.Handler;
-import android.util.Log;
-import android.view.KeyEvent;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ImageButton;
-import android.widget.ListView;
-import android.widget.SeekBar;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import com.example.androiddj.database.DatabaseHandler;
-import com.example.androiddj.database.Songs;
-
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.net.ServerSocket;
-import java.net.Socket;
-import java.util.ArrayList;
-import java.util.concurrent.TimeUnit;
-
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.security.InvalidParameterException;
-
-import java.net.InetAddress;
-import java.net.DatagramSocket;
-import java.net.DatagramPacket;
-import java.net.SocketException;
-import java.net.UnknownHostException;
-
-import android.app.Activity;
+import android.content.Intent;
 import android.media.AudioFormat;
 import android.media.AudioManager;
-import android.media.AudioRecord;
 import android.media.AudioTrack;
-import android.media.MediaRecorder;
-import android.os.Bundle;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.Button;
-import android.util.Log;
-
-
-
-
-//
-import android.app.Activity;
-import android.content.Context;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -94,15 +32,17 @@ import com.example.androiddj.database.Songs;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
-import java.net.*;
 
 
 
@@ -114,7 +54,7 @@ public class HostView extends Activity {
     int pos = -1;
     private ArrayList<String> song_names;
     boolean flag = true;
-    private Handler customHandler;
+    private Handler playlistHandler;
     public String folder;
     private int plist_size = 0;
     private ArrayList<Songs> songs;
@@ -126,7 +66,7 @@ public class HostView extends Activity {
     private MediaPlayer mediaPlayer;
     private double startTime = 0;
     private double finalTime = 0;
-    private Handler myHandler;
+    private Handler mediaHandler;
     private Handler downloadHandler;
     private int forwardTime = 5000;
     private int backwardTime = 5000;
@@ -136,23 +76,15 @@ public class HostView extends Activity {
     int index = 0;
 
 
-    AudioRecord recorder;
-    // private AudioInputStream audioInputStream;
-    // static AudioInputStream ais;
-
-
-
-
-    ///////////
-
+//    AudioRecord recorder;
     private AudioTrack speaker;
-    private AudioRecord audiorecord;
+//    private AudioRecord audiorecord;
     //Audio Configuration.
     private int sampleRate = 44100;      //How much will be ideal?
     private int channelConfig = AudioFormat.CHANNEL_CONFIGURATION_MONO;
     private int audioFormat = AudioFormat.ENCODING_PCM_16BIT;
     int MinBufSize;
-    static AudioFormat format;
+//    static AudioFormat format;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -161,9 +93,9 @@ public class HostView extends Activity {
         super.onCreate(savedInstanceState);
         Log.i(tag, "calling setcontent view");
         setContentView(R.layout.activity_main);
-        myHandler = new Handler();
+        mediaHandler = new Handler();
         downloadHandler = new Handler();
-        customHandler = new Handler();
+        playlistHandler = new Handler();
 //        customHandler.postDelayed(updateSongsList, 0);
         folder = Environment.getExternalStorageDirectory() + "/AndroidDJ-Playlist/";
         File dirs = new File(folder);
@@ -185,11 +117,11 @@ public class HostView extends Activity {
 
         songs = db.getAllSongs();
         plist_size = songs.size();
-        startTimeField = (TextView) findViewById(R.id.textView1);
-        endTimeField = (TextView) findViewById(R.id.textView2);
-        seekbar = (SeekBar) findViewById(R.id.seekBar1);
-        playButton = (ImageButton) findViewById(R.id.imageButton1);
-        pauseButton = (ImageButton) findViewById(R.id.imageButton2);
+        startTimeField = (TextView) findViewById(R.id.startTime);
+        endTimeField = (TextView) findViewById(R.id.endTime);
+        seekbar = (SeekBar) findViewById(R.id.seekBar);
+        playButton = (ImageButton) findViewById(R.id.play);
+        pauseButton = (ImageButton) findViewById(R.id.pause);
         seekbar.setClickable(true);
         playButton.setEnabled(true);
         pauseButton.setEnabled(false);
@@ -266,6 +198,18 @@ public class HostView extends Activity {
 
         Thread download = new Thread(downloadFile);
         download.start();
+
+        Runnable playlist = new Runnable() {
+            @Override
+            public void run() {
+                sendPlaylist();
+                Log.d(tag, "Sending Playlist....");
+                playlistHandler.postDelayed(this, 5500);
+            }
+        };
+
+        Thread playlistSend = new Thread(playlist);
+        playlistSend.start();
 
         Log.i(tag, "Going to call create list view");
         Log.i(tag, "Finished create list view");
@@ -354,7 +298,7 @@ public class HostView extends Activity {
             );
 
             seekbar.setProgress((int) startTime);
-            myHandler.postDelayed(UpdateSongTime, 100);
+            mediaHandler.postDelayed(UpdateSongTime, 100);
             pauseButton.setEnabled(true);
             playButton.setEnabled(false);
 
@@ -371,6 +315,8 @@ public class HostView extends Activity {
         public void run() {
             if (mediaPlayer.isPlaying()) {
                 startTime = mediaPlayer.getCurrentPosition();
+                seekbar.setProgress((int) startTime);
+
                 startTimeField.setText(String.format("%02d:%02d",
                                 TimeUnit.MILLISECONDS.toMinutes((long) startTime),
                                 TimeUnit.MILLISECONDS.toSeconds((long) startTime) -
@@ -378,7 +324,6 @@ public class HostView extends Activity {
                                                 toMinutes((long) startTime)))
                 );
 
-                seekbar.setProgress((int) startTime);
                 //Log.i("Media PLayer:::",startTimeField.getText().toString()+" "+endTimeField.getText().toString());
 
                 if (startTimeField.getText().toString().equals(endTimeField.getText().toString())) {
@@ -408,6 +353,8 @@ public class HostView extends Activity {
 
                         finalTime = mediaPlayer.getDuration();
                         startTime = mediaPlayer.getCurrentPosition();
+                        oneTimeOnly=0;
+
                         if (oneTimeOnly == 0) {
                             seekbar.setMax((int) finalTime);
                             oneTimeOnly = 1;
@@ -434,7 +381,7 @@ public class HostView extends Activity {
             }
 
             if (mediaPlayer.isPlaying())
-                myHandler.postDelayed(this, 100);
+                mediaHandler.postDelayed(this, 100);
         }
     };
 
@@ -553,8 +500,6 @@ public class HostView extends Activity {
         Log.i(tag, "Activity is destroyed:" + String.valueOf(db.getSongsCount()) + " " + String.valueOf(songs.size()));
     }
 
-
-
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         switch (keyCode) {
@@ -567,10 +512,67 @@ public class HostView extends Activity {
         return false;
     }
 
+    public void sendPlaylist() {
+
+        // json playlist to send
+        String playlist = "Playlist comes here";
+        ArrayList<String> address = getIp();
+        for(String addr:address)
+        {
+            Intent serviceIntent = new Intent(this, PlaylistTransferService.class);
+            Log.d(tag,addr);
+            serviceIntent.setAction(PlaylistTransferService.ACTION_SEND_FILE);
+            serviceIntent.putExtra(PlaylistTransferService.EXTRAS_PLAYLIST, playlist);
+            serviceIntent.putExtra(PlaylistTransferService.EXTRAS_CLIENT_ADDRESS, addr);
+            serviceIntent.putExtra(PlaylistTransferService.EXTRAS_CLIENT_PORT, 8122);
+            startService(serviceIntent);
+        }
+
+    }
+
+    public ArrayList<String> getIp() {
+        BufferedReader br = null;
+        ArrayList<String> clientIP=new ArrayList<String>();
+
+        try {
+
+            br = new BufferedReader(new FileReader("/proc/net/arp"));
+            String line;
+            int i=1;
+            while ((line = br.readLine()) != null) {
+                Log.d(tag,line);
+                String[] splitted = line.split(" +");
+                if (splitted != null && splitted.length >= 4) {
+                    // Basic sanity check
+                    String device = splitted[5];
+                    if (device.matches(".*p2p-p2p0.*")){
+                        String mac = splitted[3];
+                        if (mac.matches("..:..:..:..:..:..")) {
+                            String ip=splitted[0];
+                            Log.d(tag,"Address "+String.valueOf(i)+" - "+ip);
+                            i++;
+                            clientIP.add(ip);
+                        }
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                br.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return clientIP;
+    }
+
     private class FileServerAsyncTask extends AsyncTask<Void, Void, String> {
 
         private Context context;
-        private int port = 8988;
+        private int serverPort = 8988;
+        private int dataPort = 8989;
         private ServerSocket serverSocket;
         private DatagramSocket dataServer;
 
@@ -579,8 +581,7 @@ public class HostView extends Activity {
          */
         public FileServerAsyncTask(Context context) throws IOException {
             this.context = context;
-            serverSocket = new ServerSocket(port);
-            dataServer = new DatagramSocket(port);
+            serverSocket = new ServerSocket(serverPort);
         }
 
         @Override
@@ -612,15 +613,7 @@ public class HostView extends Activity {
                     Log.d(WiFiDirectActivity.TAG, "microphone android dj");
                     recieved_fname+=".wav";
 
-
-
-
-//return null;
-
-
-
                 }
-                //else
 
                 Log.d(WiFiDirectActivity.TAG, "recieved file name" + " " + recieved_fname);
                 String filename = System.currentTimeMillis() + recieved_fname;
@@ -631,12 +624,8 @@ public class HostView extends Activity {
 
                 if(recieved_fname.equals("MICROPHONE_androiddj_start.wav"))
                 {
-
-                    Log.d("yahan file name for mic seen", "recieved file name" + " " + recieved_fname);
-
-                    ///////////////////
-
-
+                    pause(findViewById(R.id.pause));
+                    Log.d(tag, "recieved file name" + " " + recieved_fname);
 
                     //      recorder = findAudioRecord();
 //                    recorder= new AudioRecord(MediaRecorder.AudioSource.DEFAULT, 44100, channelConfig, audioFormat, AudioRecord.getMinBufferSize(44100, channelConfig, audioFormat));
@@ -653,7 +642,6 @@ public class HostView extends Activity {
                     //recorder.OutputFormat.THREE_GPP;
                     //recorder.release();
                     //       recorder.startRecording();
-//------------
                     MinBufSize=1024*3;
 
                     speaker = new AudioTrack(AudioManager.STREAM_VOICE_CALL,sampleRate,AudioFormat.CHANNEL_OUT_STEREO,audioFormat,MinBufSize,AudioTrack.MODE_STREAM);
@@ -661,9 +649,6 @@ public class HostView extends Activity {
                     // speaker.play();
                     //
 
-                    ////////////
-                    /////////////
-                    /////////////
                     byte[] receiveData = new byte[3*1024];
 
                     String data = "";
@@ -675,6 +660,7 @@ public class HostView extends Activity {
 
                     speaker.setPlaybackRate(22100);
                     speaker.play();
+                    dataServer = new DatagramSocket(dataPort);
 
                     while(!data.equals("end"))
                     {
@@ -699,26 +685,10 @@ public class HostView extends Activity {
 
                     }
 
+                    dataServer.close();
 
+                    play(findViewById(R.id.play));
 
-
-
-
-
-
-
-
-
-
-
-                    /////////////////////
-                    /////////////
-                    //////////////
-                    //////////////
-                    /////////////
-
-
-                    // copy(dataServer,new FileOutputStream(f));
                 }else {
                     copyFile(inputstream, new FileOutputStream(f));
                 }
@@ -781,26 +751,26 @@ public class HostView extends Activity {
         return true;
     }
 
-    private Runnable updateSongsList = new Runnable() {
-        public void run() {
-            try {
-
-                try {
-                    Log.i("PeriodicThread", "Periodic update called with thread name: " + Thread.currentThread().getName());
-                } catch (Exception e) {
-                    Log.i("PeriodicThread", e.getMessage());
-                }
-                songs = db.getAllSongsSorted();
-                for (int i = 0; i < songs.size(); i++) {
-                    Log.i(tag, "Song at " + Integer.toString(i) + " upvotes:" + Integer.toString(songs.get(i).getUpvotes()));
-                }
-//                adapter.setList(songs);
-                adapter.notifyDataSetChanged();
-                customHandler.postDelayed(this, updateTime);
-            } catch (Exception e) {
-                Log.i("PeriodicThread", e.getMessage());
-            }
-        }
-    };
+//    private Runnable updateSongsList = new Runnable() {
+//        public void run() {
+//            try {
+//
+//                try {
+//                    Log.i("PeriodicThread", "Periodic update called with thread name: " + Thread.currentThread().getName());
+//                } catch (Exception e) {
+//                    Log.i("PeriodicThread", e.getMessage());
+//                }
+//                songs = db.getAllSongsSorted();
+//                for (int i = 0; i < songs.size(); i++) {
+//                    Log.i(tag, "Song at " + Integer.toString(i) + " upvotes:" + Integer.toString(songs.get(i).getUpvotes()));
+//                }
+////                adapter.setList(songs);
+//                adapter.notifyDataSetChanged();
+//                customHandler.postDelayed(this, updateTime);
+//            } catch (Exception e) {
+//                Log.i("PeriodicThread", e.getMessage());
+//            }
+//        }
+//    };
 
 }

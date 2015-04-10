@@ -29,6 +29,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.androiddj.DeviceListFragment.DeviceActionListener;
 
@@ -114,8 +115,7 @@ public class DeviceDetailFragment extends Fragment implements ConnectionInfoList
             // The other device acts as the client. In this case, we enable the
             // get file button.
 //            mContentView.findViewById(R.id.btn_start_client).setVisibility(View.VISIBLE);
-            ((TextView) mContentView.findViewById(R.id.status_text)).setText(getResources()
-                    .getString(R.string.client_text));
+            Toast.makeText(getActivity(),"Connected to Party",Toast.LENGTH_SHORT).show();
         }
 
         // hide the connect button
@@ -148,8 +148,8 @@ public class DeviceDetailFragment extends Fragment implements ConnectionInfoList
         view.setText(R.string.empty);
         view = (TextView) mContentView.findViewById(R.id.group_owner);
         view.setText(R.string.empty);
-        view = (TextView) mContentView.findViewById(R.id.status_text);
-        view.setText(R.string.empty);
+//        view = (TextView) mContentView.findViewById(R.id.status_text);
+//        view.setText(R.string.empty);
 //        mContentView.findViewById(R.id.btn_start_client).setVisibility(View.GONE);
         this.getView().setVisibility(View.GONE);
     }

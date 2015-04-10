@@ -47,28 +47,28 @@
                 android:label="@string/footer_layout">
 
                 <TextView
-                    android:id="@+id/textView1"
+                    android:id="@+id/startTime"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_above="@+id/imageButton4"
+                    android:layout_above="@+id/rewind"
                     android:layout_alignParentLeft="true"
                     android:text="@string/inital_Time"
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:layout_marginBottom="10dp" />
 
                 <SeekBar
-                    android:id="@+id/seekBar1"
+                    android:id="@+id/seekBar"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:layout_above="@+id/imageButton2"
-                    android:layout_toRightOf="@+id/textView1"
-                    android:layout_toLeftOf="@+id/textView2"/>
+                    android:layout_above="@+id/pause"
+                    android:layout_toRightOf="@+id/startTime"
+                    android:layout_toLeftOf="@+id/endTime"/>
 
                 <TextView
-                    android:id="@+id/textView2"
+                    android:id="@+id/endTime"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_above="@+id/imageButton3"
+                    android:layout_above="@+id/forward"
                     android:layout_alignParentRight="true"
                     android:text="@string/inital_Time"
                     android:textAppearance="?android:attr/textAppearanceSmall"
@@ -76,7 +76,7 @@
 
 
                 <ImageButton
-                    android:id="@+id/imageButton3"
+                    android:id="@+id/forward"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
@@ -86,7 +86,7 @@
                     android:src="@android:drawable/ic_media_ff" />
 
                 <ImageButton
-                    android:id="@+id/imageButton4"
+                    android:id="@+id/rewind"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
@@ -96,7 +96,7 @@
                     android:src="@android:drawable/ic_media_rew" />
 
                 <ImageButton
-                    android:id="@+id/imageButton1"
+                    android:id="@+id/play"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
@@ -105,7 +105,7 @@
                     android:src="@android:drawable/ic_media_play" />
 
                 <ImageButton
-                    android:id="@+id/imageButton2"
+                    android:id="@+id/pause"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
@@ -140,7 +140,7 @@
                     android:layout_marginLeft="@dimen/activity_horizontal_margin"
                     android:layout_marginTop="@dimen/activity_horizontal_margin"
                     android:background="@drawable/record_logo"
-                    android:contentDescription="@string/addsong" />
+                    android:contentDescription="record" />
 
 
 

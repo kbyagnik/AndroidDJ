@@ -28,7 +28,8 @@
         android:icon="@drawable/dj"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
-        <activity android:name=".StartView" >
+        <activity android:name=".StartView"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -51,9 +52,17 @@
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".StreamMic"
+            android:label="Streaming"
+            android:screenOrientation="portrait" >
+        </activity>
+
         <activity
             android:name=".WiFiDirectActivity"
             android:label="WiFi Direct"
+            android:screenOrientation="portrait"
             android:launchMode="singleTask" >
         </activity>
 
@@ -61,6 +70,11 @@
         <service
             android:name=".FileTransferService"
             android:enabled="true" />
+
+        <service
+            android:name=".PlaylistTransferService"
+            android:enabled="true" />
+
     </application>
 
 </manifest>

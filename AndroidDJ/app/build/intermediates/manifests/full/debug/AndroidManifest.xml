@@ -28,7 +28,9 @@
         android:icon="@drawable/dj"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
-        <activity android:name="com.example.androiddj.StartView" >
+        <activity
+            android:name="com.example.androiddj.StartView"
+            android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -52,14 +54,23 @@
             </intent-filter>
         </activity>
         <activity
+            android:name="com.example.androiddj.StreamMic"
+            android:label="Streaming"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
             android:name="com.example.androiddj.WiFiDirectActivity"
             android:label="WiFi Direct"
-            android:launchMode="singleTask" >
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" >
         </activity>
 
         <!-- Used for transferring files  after a successful connection -->
         <service
             android:name="com.example.androiddj.FileTransferService"
+            android:enabled="true" />
+        <service
+            android:name="com.example.androiddj.PlaylistTransferService"
             android:enabled="true" />
     </application>
 

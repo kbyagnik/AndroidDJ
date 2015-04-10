@@ -4,10 +4,10 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
-import android.net.DhcpInfo;
 import android.net.Uri;
-import android.net.wifi.WifiManager;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.OpenableColumns;
 import android.util.Log;
 import android.view.Menu;
@@ -25,7 +25,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -35,6 +34,8 @@ public class ClientView extends Activity {
 	ListView list;
 	ListViewAdapterClient adapter;
 	final int pos = -1;
+    private boolean downloading = false;
+    private Handler downloadHandler;
     private ArrayList<Songs> songs;
     private View layout = null;
     protected static final int CHOOSE_FILE_RESULT_CODE = 20;
@@ -85,6 +86,42 @@ public class ClientView extends Activity {
                         startActivityForResult(intent, CHOOSE_FILE_RESULT_CODE);
                     }
                 });
+
+        findViewById(R.id.record_mic).setOnClickListener(
+                new View.OnClickListener() {
+
+                    @Override
+                    public void onClick(View v) {
+                        // Allow user to pick an audio from File-Manager or other
+                        // registered apps
+                        Intent intent = new Intent(ClientView.this,StreamMic.class);
+                        Log.d(WiFiDirectActivity.TAG, "Start record_mic");
+                        startActivity(intent);
+                    }
+                });
+
+        downloadHandler = new Handler();
+
+        Runnable downloadFile = new Runnable() {
+            @Override
+            public void run() {
+                if (!downloading) {
+                    Log.d(tag, "Starting Download Playlist..........");
+                    try {
+                        PlaylistTransfer p = new PlaylistTransfer(getApplicationContext());
+                        p.execute();
+                    } catch (IOException e) {
+                        Log.e(tag, e.getMessage());
+                    }
+                }
+
+//                Log.d(tag, "handler attached....");
+                downloadHandler.postDelayed(this, 500);
+            }
+        };
+
+        Thread download = new Thread(downloadFile);
+        download.start();
 
 		Log.i(tag,"Going to call create list view");
 		Log.i(tag,"Finished create list view");
@@ -144,7 +181,7 @@ public class ClientView extends Activity {
 		ArrayList<Songs> songs = new ArrayList<Songs>();
 		for(int i=0;i<10;i++)
 		{
-			songs.add(new Songs(i+1,"Song fbjnbsdhjsnbdhfbsdgfhbsdhfbsahfbahbfabnahnbawajnbf af hf afjsndfjkj" + Integer.toString(i + 1)));
+			songs.add(new Songs(i+1,"Song " + Integer.toString(i + 1)));
     }
 		
 		return songs;
@@ -175,31 +212,31 @@ public class ClientView extends Activity {
     }
 
     public String getPlaylist(){
-        int port = 0;
+        int port = 8122;
         ServerSocket serverSocket=null;
         try {
-            serverSocket=new ServerSocket();
+            serverSocket=new ServerSocket(port);
         } catch (IOException e) {
             e.printStackTrace();
             Log.i(tag, "Socket not opened on port"+Integer.toString(port));
         }
         try {
-            Log.d(WiFiDirectActivity.TAG, "Server-Socket opened for playlist transfer");
+            Log.d(tag, "Server-Socket opened for playlist transfer");
 
+            downloading=true;
             Socket client = serverSocket.accept();
-            Log.d(WiFiDirectActivity.TAG, "connection done");
+            Log.d(tag, "connection done");
 
             InputStream inputstream = client.getInputStream();
             InputStreamReader isr = new InputStreamReader(inputstream);
             BufferedReader br = new BufferedReader(isr);
-            Log.d(WiFiDirectActivity.TAG, "recieving playlist");
+            Log.d(tag, "recieving playlist");
             String playlist = br.readLine();
-            Log.d(WiFiDirectActivity.TAG, "recieved Playlist");
+            Log.d(tag, "recieved Playlist "+playlist);
             serverSocket.close();
-
             return playlist;
         } catch (IOException e) {
-            Log.e(WiFiDirectActivity.TAG, e.getMessage());
+            Log.e(tag, e.getMessage());
             boolean downloading = false;
             Log.d(tag, "Downloading Error: " + downloading);
             return null;
@@ -210,26 +247,6 @@ public class ClientView extends Activity {
         String db=getPlaylist();
         Log.i(tag,db);
         //UpdateListView
-    }
-
-    public InetAddress getBroadcastAddress() {
-        try {
-            WifiManager wifi = (WifiManager)getSystemService(Context.WIFI_SERVICE);
-            DhcpInfo dhcp = wifi.getDhcpInfo();
-            // handle null somehow
-
-            int broadcast = (dhcp.ipAddress & dhcp.netmask) | ~dhcp.netmask;
-            byte[] quads = new byte[4];
-            for (int k = 0; k < 4; k++)
-                quads[k] = (byte) ((broadcast >> k * 8) & 0xFF);
-            return InetAddress.getByAddress(quads);
-        }
-        catch (IOException e)
-        {
-            Log.i("Error",e.getMessage());
-            return null;
-        }
-
     }
 
 //    @Override
@@ -245,5 +262,40 @@ public class ClientView extends Activity {
 //        }
 //        return false;
 //    }
-	
+
+private class PlaylistTransfer extends AsyncTask<Void, Void, String> {
+
+    private Context context;
+
+    /**
+     * @param context
+     */
+    public PlaylistTransfer(Context context) throws IOException {
+        this.context = context;
+    }
+
+    @Override
+    protected String doInBackground(Void... params) {
+
+        String playlist = getPlaylist();
+        return playlist;
+    }
+
+    /*
+     * (non-Javadoc)
+     * @see android.os.AsyncTask#onPostExecute(java.lang.Object)
+     */
+    @Override
+    protected void onPostExecute(String result) {
+        if (result != null) {
+            downloading = false;
+
+            // function to parse json result
+
+            Log.d(tag, "Downloading Completed");
+        }
+
+    }
+
+}
 }
