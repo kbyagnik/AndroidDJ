@@ -204,7 +204,7 @@ public class HostView extends Activity {
             public void run() {
                 sendPlaylist();
                 Log.d(tag, "Sending Playlist....");
-                playlistHandler.postDelayed(this, 5500);
+//                playlistHandler.postDelayed(this, 5500);
             }
         };
 
@@ -572,7 +572,7 @@ public class HostView extends Activity {
 
         private Context context;
         private int serverPort = 8988;
-        private int dataPort = 8989;
+        private int dataPort = 8988;
         private ServerSocket serverSocket;
         private DatagramSocket dataServer;
 
@@ -582,6 +582,7 @@ public class HostView extends Activity {
         public FileServerAsyncTask(Context context) throws IOException {
             this.context = context;
             serverSocket = new ServerSocket(serverPort);
+            dataServer = new DatagramSocket(dataPort);
         }
 
         @Override
@@ -624,7 +625,7 @@ public class HostView extends Activity {
 
                 if(recieved_fname.equals("MICROPHONE_androiddj_start.wav"))
                 {
-                    pause(findViewById(R.id.pause));
+                    //pause(findViewById(R.id.pause));
                     Log.d(tag, "recieved file name" + " " + recieved_fname);
 
                     //      recorder = findAudioRecord();
@@ -660,7 +661,7 @@ public class HostView extends Activity {
 
                     speaker.setPlaybackRate(22100);
                     speaker.play();
-                    dataServer = new DatagramSocket(dataPort);
+
 
                     while(!data.equals("end"))
                     {
@@ -687,7 +688,7 @@ public class HostView extends Activity {
 
                     dataServer.close();
 
-                    play(findViewById(R.id.play));
+                 //   play(findViewById(R.id.play));
 
                 }else {
                     copyFile(inputstream, new FileOutputStream(f));

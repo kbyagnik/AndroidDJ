@@ -164,7 +164,38 @@ public class StreamMic extends Activity {
 
                     Log.d("VS", "Recorder initialized");
                     //
-//                          recorder = findAudioRecord();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                    //
+
+
+
+
+
+
+
+
+
+
+                    //      recorder = findAudioRecord();
                     recorder= new AudioRecord(MediaRecorder.AudioSource.DEFAULT, 44100, channelConfig, audioFormat, AudioRecord.getMinBufferSize(44100, channelConfig, audioFormat));
 
 //recorder= new AudioRecord(44100, AudioFormat.CHANNEL_IN_MONO, AudioFormat.ENCODING_PCM_16BIT;)
