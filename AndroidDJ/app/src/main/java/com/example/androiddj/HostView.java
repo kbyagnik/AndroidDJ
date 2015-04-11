@@ -29,6 +29,9 @@ import android.widget.Toast;
 import com.example.androiddj.database.DatabaseHandler;
 import com.example.androiddj.database.Songs;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -204,7 +207,7 @@ public class HostView extends Activity {
             public void run() {
                 sendPlaylist();
                 Log.d(tag, "Sending Playlist....");
-//                playlistHandler.postDelayed(this, 5500);
+               playlistHandler.postDelayed(this, 5500);
             }
         };
 
@@ -512,10 +515,31 @@ public class HostView extends Activity {
         return false;
     }
 
+    public JSONArray arrayToJSON()
+    {
+        JSONArray jsonArray = new JSONArray();
+        for(Songs s:songs) {
+            JSONObject jsonobject = new JSONObject();
+            try {
+                jsonobject.put("id",s.getID());
+                jsonobject.put("name",s.getName());
+                jsonobject.put("upvotes",s.getUpvotes());
+                jsonobject.put("downvotes",s.getDownvotes());
+                jsonArray.put(jsonobject);
+            }
+            catch(Exception e)
+            {
+                Log.i(tag,e.getMessage());
+            }
+        }
+        return jsonArray;
+    }
+
     public void sendPlaylist() {
 
         // json playlist to send
-        String playlist = "Playlist comes here";
+        Log.i("playlist",arrayToJSON().toString());
+        String playlist = arrayToJSON().toString();
         ArrayList<String> address = getIp();
         for(String addr:address)
         {

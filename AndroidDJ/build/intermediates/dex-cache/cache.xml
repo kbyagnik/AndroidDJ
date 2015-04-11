@@ -2,11 +2,11 @@
 <items version="2" >
 
     <item
-        jar="C:\Users\samsung\Desktop\adt-bundle-windows-x86_64-20131030\sdk\extras\android\m2repository\com\android\support\support-v4\19.1.0\support-v4-19.1.0.jar"
+        jar="E:\Android\sdk\extras\android\m2repository\com\android\support\support-v4\19.1.0\support-v4-19.1.0.jar"
         jumboMode="false"
         revision="21.1.2"
         sha1="85f201b380937e61a9dce6ca90ccf6872abbfb67">
-        <dex dex="C:\Users\samsung\Desktop\master\AndroidDJ\app\build\intermediates\pre-dexed\debug\support-v4-19.1.0-3b9adb9c59a5e6fc9ba5ef991a49ca090e84a845.jar" />
+        <dex dex="C:\Users\ankit\workspace\AndroidWorkspace\android\AndroidDJ\AndroidDJ\app\build\intermediates\pre-dexed\debug\support-v4-19.1.0-be220b38eb335326b6406b05fa5b60644c539549.jar" />
     </item>
 
 </items>

@@ -218,4 +218,21 @@ public void setPosition(int position)
 {
 	pos = position;
 }
+
+    public void setList(ArrayList<Songs> songs)
+    {
+        StringList.clear();
+        StringList.addAll(songs);
+        Log.i(tag,"a" + Integer.toString(songs.size()) + "b");
+        Log.i(tag,"a" + Integer.toString(StringList.size()) + "b");
+        try {
+            Log.i(tag, songs.get(9).getName());
+        }
+        catch(Exception e)
+        {
+            Log.i(tag,e.toString());
+        }
+        notifyDataSetChanged();
+    }
+
 }

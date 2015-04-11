@@ -21,6 +21,9 @@ import android.widget.Toast;
 import com.example.androiddj.database.DatabaseHandler;
 import com.example.androiddj.database.Songs;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -287,9 +290,50 @@ private class PlaylistTransfer extends AsyncTask<Void, Void, String> {
      */
     @Override
     protected void onPostExecute(String result) {
+        Log.i("playlist1",result);
         if (result != null) {
             downloading = false;
+            try {
+                ArrayList<Songs> songsArray = new ArrayList<Songs>();
+                JSONArray jsonArray = new JSONArray(result);
+                Log.i("playlist",Integer.toString(jsonArray.length()));
+                JSONObject jsonObject = new JSONObject();
+                Log.i("playlist","going to enter for loop");
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    jsonObject = jsonArray.getJSONObject(i);
+                    Log.i("playlist",jsonObject.toString());
+                    Log.i("playlist","inside for loop " + Integer.toString(i));
+                    Log.i("playlist","a" + Integer.toString(jsonArray.length()) + "b");
+//                    Log.i("playlist",jsonObject.toString());
+                    Songs newSong = new Songs();
+                    Log.i("playlist","new song created");
+                    newSong.setID(jsonObject.getInt("id"));
+                    Log.i("playlist","1");
+                    // Log.i("playlist",jsonObject.getString("id"));
+                    Log.i("playlist","2");
 
+                    newSong.setName(jsonObject.getString("name"));
+                    Log.i("playlist","3");
+
+                    newSong.setUpvotes(jsonObject.getInt("upvotes"));
+                    newSong.setDownvotes(jsonObject.getInt("downvotes"));
+                    Log.i("playlist","4");
+
+                    songsArray.add(newSong);
+                    Log.i("playlist","5");
+
+                }
+                songs = songsArray;
+                Log.i("playlist","1" + Integer.toString(songs.size()) + "2");
+
+                adapter.setList(songs);
+                Log.i("playlist","1" + Integer.toString(songs.size()) + "2");
+                adapter.notifyDataSetChanged();
+            }
+            catch(Exception e)
+            {
+                Log.i("playlist",e.toString());
+            }
             // function to parse json result
 
             Log.d(tag, "Downloading Completed");
