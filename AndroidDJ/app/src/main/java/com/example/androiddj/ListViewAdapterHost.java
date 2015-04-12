@@ -42,7 +42,8 @@ public class ListViewAdapterHost extends ArrayAdapter<Songs> {
     }
 
     public void setList(ArrayList<Songs> song) {
-        StringList = song;
+        StringList.clear();
+        StringList.addAll(song);
         notifyDataSetChanged();
     }
 
@@ -60,6 +61,7 @@ public class ListViewAdapterHost extends ArrayAdapter<Songs> {
         Songs p = null;
         try {
             name = (TextView) convertView.findViewById(R.id.listViewItem);
+            Log.d(tag,"size of adapter: "+this.getCount()+" size of list: "+StringList.size());
             p = StringList.get(position);
             p = db.getSong(p.getID());
         } catch (Exception e) {
