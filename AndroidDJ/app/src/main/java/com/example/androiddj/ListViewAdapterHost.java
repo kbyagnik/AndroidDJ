@@ -126,7 +126,15 @@ public class ListViewAdapterHost extends ArrayAdapter<Songs> {
                 Log.i(tag, "upvotes shown");
                 vote.setTextColor(context.getResources().getColor(R.color.GREEN));
 
+                upvote.setVisibility(View.GONE);
+                downvote.setVisibility(View.GONE);
+                upvotes.setVisibility(View.GONE);
+                downvotes.setVisibility(View.GONE);
+                vote.setVisibility(View.GONE);
+
                 host.sortList();
+
+
             }
         });
 
@@ -146,7 +154,17 @@ public class ListViewAdapterHost extends ArrayAdapter<Songs> {
                 downvotes.setText(Integer.toString(song.getDownvotes()));
                 vote.setTextColor(context.getResources().getColor(R.color.RED));
 
+
+                upvote.setVisibility(View.GONE);
+                downvote.setVisibility(View.GONE);
+                upvotes.setVisibility(View.GONE);
+                downvotes.setVisibility(View.GONE);
+                vote.setVisibility(View.GONE);
+
                 host.sortList();
+
+
+
             }
         });
 

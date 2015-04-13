@@ -242,19 +242,49 @@ public class  DatabaseHandler extends SQLiteOpenHelper
 	public int updateSong(int id,int status,int upvotes,int downvotes,int aging)
 	{
 		SQLiteDatabase db = this.getWritableDatabase();
-		
+
 		ContentValues values = new ContentValues();
 		values.put(KEY_UPVOTES, upvotes);
 		values.put(KEY_DOWNVOTES, downvotes);
 		values.put(KEY_AGING, aging);
 		values.put(KEY_STATUS,status);
-		
+
 		int updateVal = db.update(TABLE_SONGS, values, KEY_ID + "=?",new String[] {Integer.toString(id)});
 
         db.close();
 
         return updateVal;
 	}
+
+
+    public int updateSongUp(int id, int upvotes)
+    {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(KEY_UPVOTES, upvotes);
+
+        int updateVal = db.update(TABLE_SONGS, values, KEY_ID + "=?",new String[] {Integer.toString(id)});
+
+        db.close();
+
+        return updateVal;
+    }
+
+
+    public int updateSongDown(int id, int downvotes)
+    {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(KEY_DOWNVOTES, downvotes);
+
+        int updateVal = db.update(TABLE_SONGS, values, KEY_ID + "=?",new String[] {Integer.toString(id)});
+
+        db.close();
+
+        return updateVal;
+    }
 	
 	public void deleteSong(int id)
 	{

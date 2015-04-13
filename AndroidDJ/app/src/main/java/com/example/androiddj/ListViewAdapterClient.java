@@ -1,5 +1,14 @@
 package com.example.androiddj;
 
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.PrintWriter;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
+import java.net.InetSocketAddress;
+import java.net.Socket;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -10,6 +19,11 @@ import com.example.androiddj.database.Songs;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface.OnClickListener;
+import android.media.AudioFormat;
+import android.media.AudioManager;
+import android.media.AudioRecord;
+import android.media.AudioTrack;
+import android.media.MediaRecorder;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,59 +36,8 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
-/*class ListViewAdapter1
-{
-	final List<Songs> songs;
-	final ListView list;
-	final Context context;
-	
-	public ListViewAdapter1(ArrayList<Songs> songs,ListView list,Context context)
-	{		
-        this.songs = songs;
-        this.list = list;
-        this.context = context;
-		CreateListView();
-	}
-	
-	public void CreateListView()
-    {
-		for(int i=0;i<10;i++)
-		{
-			((View) songs).getParent().add("Song"+Integer.toString(i));
-		}
-		final int indexChanged[] = new int[1];
-		final String initialValue[] = new String[1];
-		indexChanged[0] = -1;
-		initialValue[0] = "";
-         list.setAdapter(new ArrayAdapter<Songs>(context, android.R.layout.simple_list_item_1,songs));
-         list.setOnItemClickListener(new OnItemClickListener()
-           {
-                @Override
-                public void onItemClick(AdapterView<?> parent, final View view, final int position,long id)
-                {
-                    //args2 is the listViews Selected index
-                	if(indexChanged[0] != -1)
-                	{
-                		songs.set(indexChanged[0], initialValue[0]);
-                	}
-                	indexChanged[0] = position;
-                	initialValue[0] = songs.get(position);
-                	//songs.set(position, songs.get(position) + " is selected");
-                	view.animate().setDuration(200).alpha(0).withEndAction(new Runnable() {
-                      @Override
-                      public void run() {
-                        songs.set(position, songs.get(position) + " is selected");
-                        ArrayAdapter adapter = (ArrayAdapter) list.getAdapter();
-                        adapter.notifyDataSetChanged();
-                        view.setAlpha(1);
-                      }
-                    });
-                }
-           });
-    }
-	
-}
-*/
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class ListViewAdapterClient extends ArrayAdapter<Songs>
 {
@@ -183,7 +146,40 @@ public View getView(final int position, View convertView, ViewGroup parent) {
 					upvotes.setText(Integer.toString(upvotesCount + 1));
 					Log.i(tag, "upvotes shown");
 					vote.setTextColor(context.getResources().getColor(R.color.GREEN));
-				}
+
+
+
+
+
+
+                    upvote.setVisibility(View.GONE);
+                    downvote.setVisibility(View.GONE);
+                    upvotes.setVisibility(View.GONE);
+                    downvotes.setVisibility(View.GONE);
+                    vote.setVisibility(View.GONE);
+
+
+                    //JSONArray jsonArray = new JSONArray();
+                    JSONObject jsonobject = new JSONObject();
+                    try {
+                        jsonobject.put("id", p.getID());
+                        jsonobject.put("name", p.getName());
+                        jsonobject.put("upvotes", p.getUpvotes());
+                        jsonobject.put("downvotes", p.getDownvotes());
+                        jsonobject.put("type","upvote");
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                    Log.i(tag, jsonobject.toString());
+
+                    streamVotes(jsonobject.toString());
+
+
+
+
+
+                }
 			});
 	        
 	        downvote.setOnClickListener(new View.OnClickListener() {
@@ -202,16 +198,78 @@ public View getView(final int position, View convertView, ViewGroup parent) {
 					vote.setVisibility(View.VISIBLE);
 					downvotes.setText(Integer.toString(downvotesCount + 1));
 					vote.setTextColor(context.getResources().getColor(R.color.RED));
+
+
+                    upvote.setVisibility(View.GONE);
+                    downvote.setVisibility(View.GONE);
+                    upvotes.setVisibility(View.GONE);
+                    downvotes.setVisibility(View.GONE);
+                    vote.setVisibility(View.GONE);
+
+
+                    //JSONArray jsonArray = new JSONArray();
+                    JSONObject jsonobject = new JSONObject();
+                    try {
+                        jsonobject.put("id", p.getID());
+                        jsonobject.put("name", p.getName());
+                        jsonobject.put("upvotes", p.getUpvotes());
+                        jsonobject.put("downvotes", p.getDownvotes());
+                        jsonobject.put("type","downvote");
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                    Log.i(tag, jsonobject.toString());
+
+                    streamVotes(jsonobject.toString());
+
+
+
+
 				}
 			});
-	
-	        /*for(int i=0;i<10;i++)
-			{
-				StringList.add("Song"+Integer.toString(i));
-			}*/
 	     
         }
     return convertView;
+}
+
+public void streamVotes(final String votes){
+
+
+
+    Thread streamThread = new Thread(new Runnable() {
+
+        @Override
+        public void run() {
+            int port = 8111;
+            final int SOCKET_TIMEOUT = 5000;
+            try {
+                Socket clientSocket = new Socket();
+                clientSocket.bind(null);
+                clientSocket.connect((new InetSocketAddress((DeviceDetailFragment.info.groupOwnerAddress.getHostAddress()),port)), SOCKET_TIMEOUT);
+                Log.d(tag, "Client socket - " + clientSocket.isConnected());
+                OutputStream out_stream = clientSocket.getOutputStream();
+                PrintWriter pw = new PrintWriter(out_stream);
+                // sent that microphone data has now ended
+                Log.d("Streaming", "vote sending " + votes);
+                //pw.println("vote_send");
+                //pw.flush();
+                pw.println(votes);
+                pw.flush();
+                clientSocket.close();
+
+            } catch(UnknownHostException e) {
+                Log.e("VS", "UnknownHostException");
+            } catch (IOException e) {
+                e.printStackTrace();
+                Log.e("VS", "IOException");
+            }
+        }
+
+    });
+    streamThread.start();
+
+
 }
 
 public void setPosition(int position)

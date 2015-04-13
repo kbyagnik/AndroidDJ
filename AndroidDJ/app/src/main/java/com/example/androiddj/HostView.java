@@ -54,6 +54,8 @@ public class HostView extends Activity {
     private static String tag = "DJ Debugging";
     ListView list;
     private boolean downloading = false;
+    private boolean getVotes = false;
+
     private ListViewAdapterHost adapter;
     int pos = -1;
     private ArrayList<String> song_names;
@@ -197,6 +199,48 @@ public class HostView extends Activity {
         Thread download = new Thread(downloadFile);
         download.start();
 
+        Runnable voteRunnable = new Runnable() {
+            @Override
+            public void run() {
+                int port = 8111;
+
+                try{
+                    Log.d(tag,"create serversocket");
+                    ServerSocket votesServer = new ServerSocket();
+                    votesServer.setReuseAddress(true);
+                    votesServer.bind(new InetSocketAddress(port));
+                    Log.d(tag,"Reuse address "+votesServer.getReuseAddress());
+
+                    while(true)
+                    {
+                        try {
+                            Log.d(tag,"create client");
+                            Log.d(tag,"accept client on "+votesServer.getReuseAddress());
+                            Socket client = votesServer.accept();
+                            Log.d(tag, "Starting Download from........."+client.getInetAddress().toString());
+                            GetVotes voteTask = new GetVotes(HostView.this);
+                            Log.d(tag,"start asyctask");
+                            voteTask.execute(new Socket[]{client});
+
+                        }catch (IOException ex)
+                        {
+                            ex.printStackTrace();
+                            break;
+                        }
+                    }
+                }
+                catch (IOException ex)
+                {
+                    Log.d(tag,ex.getMessage());
+                }
+
+//                Log.d(tag, "handler attached....");
+            }
+        };
+
+        Thread votesThread = new Thread(voteRunnable);
+        votesThread.start();
+
         Runnable playlist = new Runnable() {
             @Override
             public void run() {
@@ -329,11 +373,10 @@ public class HostView extends Activity {
 //                index=index+1;
                     db.deleteSong(songs.get(index).getID());
                     songs.remove(index);
-//                    adapter.setList(songs);
-                    adapter.notifyDataSetChanged();
+                    adapter.setList(songs);
 //                    adapter.notifyDataSetChanged();
 
-                    Log.i(tag,"adapter size: "+String.valueOf(adapter.getCount()));
+                    Log.i("adapter","adapter size: "+adapter.getCount()+" Song size :"+songs.size());
 
                     if (songs.size() > 0) {
                         Log.i(tag, "Media PLayer list index - " + String.valueOf(index) + " songs size - " + String.valueOf(songs.size()));
@@ -733,5 +776,95 @@ public class HostView extends Activity {
         }
         return true;
     }
+
+    public String getUpvotes(Socket client) {
+//        int port = 8111;
+//        ServerSocket votesServerSocket = null;
+//        try {
+//            votesServerSocket = new ServerSocket(port);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//            Log.i(tag, "Socket not opened on port" + Integer.toString(port));
+//        }
+        try {
+//            Log.d(tag, "Server-Socket opened for upvotes transfer");
+//
+//            getVotes = true;
+//            Socket client = votesServerSocket.accept();
+//            Log.d(tag, "connection done");
+
+            InputStream inputstream = client.getInputStream();
+            InputStreamReader isr = new InputStreamReader(inputstream);
+            BufferedReader br = new BufferedReader(isr);
+            Log.d(tag, "recieving upvotes");
+            String votesJSON = br.readLine();
+            Log.d(tag, "recieved upvotes " + votesJSON);
+            client.close();
+            //votesServerSocket.close();
+            return votesJSON;
+        } catch (IOException e) {
+            Log.e(tag, e.getMessage());
+            getVotes = false;
+            Log.d(tag, "Downloading Error: " + getVotes);
+            return null;
+        }
+    }
+
+
+
+    private class GetVotes extends AsyncTask<Socket, Void, String> {
+
+        private Context context;
+
+        /**
+         * @param context
+         */
+        public GetVotes(Context context) throws IOException {
+            this.context = context;
+        }
+
+        @Override
+        protected String doInBackground(Socket... params) {
+
+            String votesJSON = getUpvotes(params[0]);
+            return votesJSON;
+        }
+        @Override
+        protected void onPostExecute(String result) {
+            Log.i("votes_received", result);
+            if (result != null) {
+                getVotes = false;
+                try {
+                    JSONObject jsonObject = new JSONObject(result);
+
+                    if (jsonObject.getString("type").equals("upvote")) {
+                        int id = jsonObject.getInt("id");
+                        Songs song = db.getSong(id);
+                        song.setUpvotes(song.getUpvotes() + 1);
+
+                        db.updateSongUp(id, song.getUpvotes()) ;
+                        sortList();
+                        adapter.notifyDataSetChanged();
+                    } else {
+                        int id = jsonObject.getInt("id");
+                        Songs song = db.getSong(id);
+                        song.setDownvotes(song.getDownvotes() + 1);
+                        db.updateSongDown(id, song.getDownvotes()) ;
+                        sortList();
+                        adapter.notifyDataSetChanged();
+                    }
+
+                    Log.d(tag, "Upvote updating Completed");
+                } catch (Exception e) {
+                    Log.d("Voting update error", "Entered catch exception");
+                    e.printStackTrace();
+                }
+
+            }
+
+        }
+
+    }
+
 
 }
