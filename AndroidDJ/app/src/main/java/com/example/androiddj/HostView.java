@@ -1,6 +1,7 @@
 package com.example.androiddj;
 
 import android.app.Activity;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.media.AudioFormat;
@@ -34,6 +35,7 @@ import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
@@ -199,6 +201,48 @@ public class HostView extends Activity {
 
         Thread download = new Thread(downloadFile);
         download.start();
+		
+		Runnable sendFile = new Runnable() {
+            @Override
+            public void run() {
+                int port = 8986;
+
+                try{
+                    Log.d(tag,"create serversocket");
+                    ServerSocket fileServer = new ServerSocket();
+                    fileServer.setReuseAddress(true);
+                    fileServer.bind(new InetSocketAddress(port));
+                    Log.d(tag,"Reuse address "+fileServer.getReuseAddress());
+
+                    while(true)
+                    {
+                        try {
+                            Log.d(tag,"create client");
+                            Log.d(tag,"accept client on "+fileServer.getReuseAddress());
+                            Socket client = fileServer.accept();
+                            Log.d(tag, "Starting Download from........."+client.getInetAddress().toString());
+                            FileServerAsyncTask file = new FileServerAsyncTask(HostView.this);
+                            Log.d(tag,"start asyctask");
+                            file.execute(new Socket[]{client});
+
+                        }catch (IOException ex)
+                        {
+                            ex.printStackTrace();
+                            break;
+                        }
+                    }
+                }
+                catch (IOException ex)
+                {
+                    Log.d(tag,ex.getMessage());
+                }
+
+//                Log.d(tag, "handler attached....");
+            }
+        };
+
+        Thread send = new Thread(sendFile);
+        send.start();
 
         Runnable micRunnable = new Runnable() {
             @Override
@@ -822,12 +866,27 @@ public class HostView extends Activity {
 
                 BufferedReader br = new BufferedReader(isr);
                 recieved_fname = br.readLine();
-                Log.d("MicUsing5", "receiving file "+recieved_fname);
+                Log.d("fileName", "receiving file "+recieved_fname);
 
-//                if(recieved_fname.equals("MICROPHONE_androiddj_start"))
-//                {
-//                    ;
-//                }else {
+
+               if(recieved_fname.startsWith("SEND_SONG")){
+                    Log.d(WiFiDirectActivity.TAG, "recieved file name" + " " + recieved_fname);
+                    String songName=recieved_fname.substring(10);
+                    Uri fileUri=Uri.fromFile(new File(folder+"/"+songName));
+                    ContentResolver cr = context.getContentResolver();
+                    InputStream is = null;
+                    try {
+                        is = cr.openInputStream(Uri.parse(String.valueOf(fileUri)));
+                    } catch (FileNotFoundException e) {
+                        Log.d(WiFiDirectActivity.TAG, e.toString());
+                    }
+                    DeviceDetailFragment.copyFile(is, client.getOutputStream());
+                    client.close();
+                    return "SENT";
+
+                }
+
+				else {
                 Log.d(WiFiDirectActivity.TAG, "recieved file name" + " " + recieved_fname);
                 String filename = append(recieved_fname,String.valueOf(System.currentTimeMillis()));
                 final File f = new File(folder + filename);
@@ -838,9 +897,10 @@ public class HostView extends Activity {
                 client.close();
 //                    dataServer.close();
                 Log.d(tag,"client socket closed");
-//                }
-
                 return filename;
+
+                }
+
 
             } catch (IOException e) {
                 Log.e(WiFiDirectActivity.TAG, e.getMessage());

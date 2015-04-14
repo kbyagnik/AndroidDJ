@@ -19,6 +19,7 @@ import com.example.androiddj.database.Songs;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface.OnClickListener;
+import android.content.Intent;
 import android.media.AudioFormat;
 import android.media.AudioManager;
 import android.media.AudioRecord;
@@ -193,6 +194,7 @@ public View getView(final int position, View convertView, ViewGroup parent) {
 					//send json string to host with downvote request for the song
 					int downvotesCount = p.getDownvotes();
                     songsDownvoted.add(new Integer(id));
+//                    receiveSong("SEND_SONG_"+p.getName());
                     //song.setDownvotes(downvotesCount + 1);
 					/*db.updateSong(id, song.getStatus(),song.getUpvotes(),song.getDownvotes(),song.getAging());*/
 					vote.setVisibility(View.VISIBLE);
@@ -292,5 +294,19 @@ public void setPosition(int position)
         }
         notifyDataSetChanged();
     }
+    public void receiveSong(String songName){
+//        Log.d(WiFiDirectActivity.TAG, "Intent----------- " + uri);
+        Intent serviceIntent = new Intent(getContext(), SongTransferService.class);
+        serviceIntent.setAction(SongTransferService.ACTION_SEND_FILE);
+  //      serviceIntent.putExtra(FileTransferService.EXTRAS_FILE_PATH, uri.toString());
+        serviceIntent.putExtra(SongTransferService.EXTRAS_SONG_NAME,songName);
+        serviceIntent.putExtra(SongTransferService.EXTRAS_GROUP_OWNER_ADDRESS,
+                DeviceDetailFragment.info.groupOwnerAddress.getHostAddress());
+        serviceIntent.putExtra(SongTransferService.EXTRAS_GROUP_OWNER_PORT, 8986);
+        getContext().startService(serviceIntent);
+
+    }
+
+
 
 }

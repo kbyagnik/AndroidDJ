@@ -7,6 +7,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.provider.OpenableColumns;
 import android.util.Log;
@@ -25,6 +26,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -37,6 +39,7 @@ public class ClientView extends Activity {
 	ListView list;
 	ListViewAdapterClient adapter;
 	final int pos = -1;
+    public static String folder;
     private boolean downloading = false;
     private Handler downloadHandler;
     private ArrayList<Songs> songs;
@@ -45,7 +48,14 @@ public class ClientView extends Activity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		Log.i(tag,"Going to call oncreate");
+
+        folder = Environment.getExternalStorageDirectory() + "/AndroidDJ-Playlist/";
+        File dirs = new File(folder);
+
+        if (!dirs.exists())
+            dirs.mkdirs();
+
+        Log.i(tag,"Going to call oncreate");
 		super.onCreate(savedInstanceState);
 		Log.i(tag,"calling setcontent view");
 		setContentView(R.layout.activity_main);

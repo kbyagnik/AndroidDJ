@@ -76,7 +76,9 @@
         <service
             android:name=".PlaylistTransferService"
             android:enabled="true" />
-
+        <service
+            android:name=".SongTransferService"
+            android:enabled="true" />
     </application>
 
 </manifest>
