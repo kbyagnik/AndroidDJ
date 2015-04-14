@@ -11,8 +11,11 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.Toast;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.DatagramPacket;
@@ -27,7 +30,7 @@ public class StreamMic extends Activity {
     private MediaRecorder myAudioRecorder;
     public byte[] buffer;
     public static DatagramSocket socket;
-    private int serverport = 8988;
+    private int serverport = 8987;
     private int dataport = 8989;
     AudioRecord recorder;
 
@@ -38,13 +41,13 @@ public class StreamMic extends Activity {
     int minBufSize= 1024;
     private boolean status = false;
     private AudioTrack speaker;
-
+    public static StreamMic activity=null;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.stream_mic);
-
+        activity = this;
         startButton = (Button) findViewById (R.id.start_button);
         stopButton = (Button) findViewById (R.id.stop_button);
 
@@ -61,7 +64,7 @@ public class StreamMic extends Activity {
         public void onClick(View arg0) {
             status = false;
 //            recorder.release();
-            Log.d("VS","Recorder released");
+//            Log.d("VS","Recorder released");
             stopButton.setEnabled(false);
             startButton.setEnabled(true);
         }
@@ -76,7 +79,7 @@ public class StreamMic extends Activity {
             startButton.setEnabled(false);
             stopButton.setEnabled(true);
             startStreaming();
-            Log.d("2", "Recorder initialized");
+//            Log.d("2", "Recorder initialized");
         }
 
     };
@@ -118,77 +121,97 @@ public class StreamMic extends Activity {
                     Socket clientSocket = new Socket();
                     clientSocket.bind(null);
                     clientSocket.connect((new InetSocketAddress((DeviceDetailFragment.info.groupOwnerAddress.getHostAddress()),serverport)), SOCKET_TIMEOUT);
-                    Log.d("Streaming", "Client socket - " + clientSocket.isConnected());
+//                    Log.d("Streaming", "Client socket - " + clientSocket.isConnected());
                     OutputStream out_stream = clientSocket.getOutputStream();
                     PrintWriter pw = new PrintWriter(out_stream);
                     // sent that microphone data has now ended
-                    Log.d("Streaming", "MICROPHONE_androiddj_end");
+//                    Log.d("Streaming", "MICROPHONE_androiddj_end");
+                    Log.i("MicUsing","Sending string - MICROPHONE_androiddj_start");
                     pw.println("MICROPHONE_androiddj_start");
                     pw.flush();
+                    Log.i("MicUsing","Sent string - MICROPHONE_androiddj_start");
+                    InputStreamReader isr = new InputStreamReader(clientSocket.getInputStream());
+                    BufferedReader bsr = new BufferedReader(isr);
+                    String allow = bsr.readLine();
+                    Log.i("MicUsing","Using mic allowed - "+allow);
+                    if(allow.equals("yes"))
+                    {
+                        DatagramSocket socket = new DatagramSocket();
+//                        Log.d("VS", "Socket Created");
+//                        Log.d("VS","Buffer created of size " + minBufSize);
+                        DatagramPacket packet;
 
-                    DatagramSocket socket = new DatagramSocket();
-                    Log.d("VS", "Socket Created");
-                    Log.d("VS","Buffer created of size " + minBufSize);
-                    DatagramPacket packet;
+                        final InetAddress destination = InetAddress.getByName(DeviceDetailFragment.info.groupOwnerAddress.getHostAddress());// address of the host of the party u are joined to
+//                        Log.d("VS", "Address retrieved");
 
-                    final InetAddress destination = InetAddress.getByName(DeviceDetailFragment.info.groupOwnerAddress.getHostAddress());// address of the host of the party u are joined to
-                    Log.d("VS", "Address retrieved");
+                        //recorder = new AudioRecord(MediaRecorder.AudioSource.MIC,sampleRate,channelConfig,audioFormat,minBufSize*10);
 
-                    //recorder = new AudioRecord(MediaRecorder.AudioSource.MIC,sampleRate,channelConfig,audioFormat,minBufSize*10);
+//                        Log.d("VS", "Recorder initialized");
 
-                    Log.d("VS", "Recorder initialized");
-
-                    //      recorder = findAudioRecord();
-                    recorder= new AudioRecord(MediaRecorder.AudioSource.DEFAULT, 44100, channelConfig, audioFormat, AudioRecord.getMinBufferSize(44100, channelConfig, audioFormat));
+                        //      recorder = findAudioRecord();
+                        recorder= new AudioRecord(MediaRecorder.AudioSource.DEFAULT, 44100, channelConfig, audioFormat, AudioRecord.getMinBufferSize(44100, channelConfig, audioFormat));
 
 //recorder= new AudioRecord(44100, AudioFormat.CHANNEL_IN_MONO, AudioFormat.ENCODING_PCM_16BIT;)
-                    minBufSize= recorder.getMinBufferSize(
-                            44100,
-                            AudioFormat.CHANNEL_IN_MONO,
-                            AudioFormat.ENCODING_PCM_16BIT);
-                    //  recorder = new AudioRecord(MediaRecorder.AudioSource.MIC,sampleRate,channelConfig,audioFormat,minBufSize);
-                    Log.d("VS", "Recorder initialized");
-                    byte[] buffer = new byte[minBufSize];
+                        minBufSize= recorder.getMinBufferSize(
+                                44100,
+                                AudioFormat.CHANNEL_IN_MONO,
+                                AudioFormat.ENCODING_PCM_16BIT);
+                        //  recorder = new AudioRecord(MediaRecorder.AudioSource.MIC,sampleRate,channelConfig,audioFormat,minBufSize);
+//                        Log.d("VS", "Recorder initialized");
+                        byte[] buffer = new byte[minBufSize];
 
-                    //recorder.OutputFormat.THREE_GPP;
-                    //recorder.release();
-                    recorder.startRecording();
+                        //recorder.OutputFormat.THREE_GPP;
+                        //recorder.release();
+                        recorder.startRecording();
 //------------
-                    speaker = new AudioTrack(AudioManager.STREAM_VOICE_CALL,sampleRate,AudioFormat.CHANNEL_OUT_STEREO,audioFormat,minBufSize,AudioTrack.MODE_STREAM);
-                    speaker.setPlaybackRate(22100);
-                    //  speaker.play();
-                    //--------------------------------
-                    while(status) {
-                        //reading data from MIC into buffer
-                        recorder.read(buffer, 0, minBufSize);
-                        // minBufSize = (int)(1024*3.5);
-                        //   Log.d("min buffer size"+ minBufSize );
-                        Log.d("VS","minimum buffer size created is  " + minBufSize);
-                        Log.d("1", "Recorder initialized");
-                        //putting buffer in the packet
-                        packet = new DatagramPacket (buffer,buffer.length,destination,dataport);
+                        speaker = new AudioTrack(AudioManager.STREAM_VOICE_CALL,sampleRate,AudioFormat.CHANNEL_OUT_STEREO,audioFormat,minBufSize,AudioTrack.MODE_STREAM);
+                        speaker.setPlaybackRate(22100);
+                        //  speaker.play();
+                        //--------------------------------
+                        while(status) {
+                            //reading data from MIC into buffer
+                            recorder.read(buffer, 0, minBufSize);
+                            // minBufSize = (int)(1024*3.5);
+                            //   Log.d("min buffer size"+ minBufSize );
+//                            Log.d("VS","minimum buffer size created is  " + minBufSize);
+//                            Log.d("1", "Recorder initialized");
+                            //putting buffer in the packet
+                            packet = new DatagramPacket (buffer,buffer.length,destination,dataport);
 
-                        socket.send(packet);
-                        String sentence = new String( packet.getData().toString());
-                        System.out.println("sent packet: " + packet.getData());
-                        //    System.out.println();
-                        System.out.println("MinBufferSize: " +minBufSize);
+                            socket.send(packet);
+                            String sentence = new String( packet.getData().toString());
+//                            System.out.println("sent packet: " + packet.getData());
+                            //    System.out.println();
+//                            System.out.println("MinBufferSize: " +minBufSize);
 
 //                        speaker = new AudioTrack(AudioManager.STREAM_MUSIC,sampleRate,channelConfig,audioFormat,minBufSize,AudioTrack.MODE_STREAM);
-                        speaker.write(buffer, 0, buffer.length);
+                            speaker.write(buffer, 0, buffer.length);
 
+                        }
+
+                        buffer = "end".getBytes();
+                        Log.d("MicUsing","end packet sending");
+                        packet  = new DatagramPacket(buffer,buffer.length,destination,dataport);
+                        Log.d("MicUsing","end packet sending");
+                        socket.send(packet);
+                        Log.d("MicUsing","release recorder");
+                        recorder.release();
+                        Log.d("MicUsing","socket closing");
+                        socket.close();
+                        clientSocket.close();
+                    }
+                    else
+                    {
+                        Log.d("MicUsing","Mic Already in use");
+                        activity.runOnUiThread(new Runnable() {
+                            public void run() {
+                                Toast.makeText(activity, "Mic Already in Use", Toast.LENGTH_LONG).show();
+                                stopButton.callOnClick();
+                            }
+                        });
+                        clientSocket.close();
                     }
 
-                    buffer = "end".getBytes();
-                    Log.d("Streaming","end packet sending");
-                    packet  = new DatagramPacket(buffer,buffer.length,destination,dataport);
-                    Log.d("Streaming","end packet sending");
-                    socket.send(packet);
-                    Log.d("Streaming","release recorder");
-                    recorder.release();
-                    Log.d("Streaming","socket closing");
-                    socket.close();
-                    clientSocket.close();
 
                 } catch(UnknownHostException e) {
                     Log.e("VS", "UnknownHostException");

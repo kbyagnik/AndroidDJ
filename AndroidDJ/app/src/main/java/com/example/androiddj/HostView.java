@@ -40,6 +40,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.io.PrintWriter;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetSocketAddress;
@@ -55,7 +56,7 @@ public class HostView extends Activity {
     ListView list;
     private boolean downloading = false;
     private boolean getVotes = false;
-
+    public static boolean micUsing = false;
     private ListViewAdapterHost adapter;
     int pos = -1;
     private ArrayList<String> song_names;
@@ -163,21 +164,21 @@ public class HostView extends Activity {
                 int port = 8988;
 
                 try{
-                    Log.d(tag,"create serversocket");
+                    Log.d(tag,"create download serversocket");
                     ServerSocket fileServer = new ServerSocket();
                     fileServer.setReuseAddress(true);
                     fileServer.bind(new InetSocketAddress(port));
-                    Log.d(tag,"Reuse address "+fileServer.getReuseAddress());
+                    Log.d(tag,"Reuse download address "+fileServer.getReuseAddress());
 
                     while(true)
                     {
                         try {
-                            Log.d(tag,"create client");
-                            Log.d(tag,"accept client on "+fileServer.getReuseAddress());
+                            Log.d(tag,"create download client");
+                            Log.d(tag,"accept download client on "+fileServer.getReuseAddress());
                             Socket client = fileServer.accept();
                             Log.d(tag, "Starting Download from........."+client.getInetAddress().toString());
                             FileServerAsyncTask file = new FileServerAsyncTask(HostView.this);
-                            Log.d(tag,"start asyctask");
+                            Log.d(tag,"start download asyctask");
                             file.execute(new Socket[]{client});
 
                         }catch (IOException ex)
@@ -198,6 +199,48 @@ public class HostView extends Activity {
 
         Thread download = new Thread(downloadFile);
         download.start();
+
+        Runnable micRunnable = new Runnable() {
+            @Override
+            public void run() {
+                int port = 8987;
+
+                try{
+                    Log.d(tag,"create mic serversocket");
+                    ServerSocket micServer = new ServerSocket();
+                    micServer.setReuseAddress(true);
+                    micServer.bind(new InetSocketAddress(port));
+                    Log.d(tag,"Reuse mic  address "+micServer.getReuseAddress());
+
+                    while(true)
+                    {
+                        try {
+                            Log.d(tag,"create mic client");
+                            Log.d(tag,"accept mic client on "+micServer.getReuseAddress());
+                            Socket client = micServer.accept();
+                            Log.d(tag, "Starting mic streaming from........."+client.getInetAddress().toString());
+                            MicAsyncTask micTask = new MicAsyncTask(HostView.this);
+                            Log.d(tag,"start mic asyctask");
+                            micTask.execute(new Socket[]{client});
+
+                        }catch (IOException ex)
+                        {
+                            ex.printStackTrace();
+                            break;
+                        }
+                    }
+                }
+                catch (IOException ex)
+                {
+                    Log.d(tag,ex.getMessage());
+                }
+
+//                Log.d(tag, "handler attached....");
+            }
+        };
+
+        Thread micThread = new Thread(micRunnable);
+        micThread.start();
 
         Runnable voteRunnable = new Runnable() {
             @Override
@@ -246,7 +289,7 @@ public class HostView extends Activity {
             public void run() {
                 sendPlaylist();
                 Log.d(tag, "Sending Playlist....");
-                playlistHandler.postDelayed(this, 5500);
+                playlistHandler.postDelayed(this, 3000);
             }
         };
 
@@ -373,8 +416,9 @@ public class HostView extends Activity {
 //                index=index+1;
                     db.deleteSong(songs.get(index).getID());
                     songs.remove(index);
-                    adapter.setList(songs);
-//                    adapter.notifyDataSetChanged();
+                    sortList();
+//                  adapter.setList(songs);
+//                  adapter.notifyDataSetChanged();
 
                     Log.i("adapter","adapter size: "+adapter.getCount()+" Song size :"+songs.size());
 
@@ -505,8 +549,7 @@ public class HostView extends Activity {
         db.addSong(s);
         songs.add(s);
         Log.d(tag, "Song added : " + s);
-//        adapter.setList(songs);
-        adapter.notifyDataSetChanged();
+        sortList();
     }
 
     public static String append(String filename,String time)
@@ -632,20 +675,17 @@ public class HostView extends Activity {
         return clientIP;
     }
 
-    private class FileServerAsyncTask extends AsyncTask<Socket, Void, String> {
+    private class MicAsyncTask extends AsyncTask<Socket, Void, String> {
 
         private Context context;
-//        private int serverPort = 8988;
-        private int dataPort = 8989;
-//        private ServerSocket serverSocket;
         private DatagramSocket dataServer;
+        private int dataPort = 8989;
 
         /**
          * @param context
          */
-        public FileServerAsyncTask(Context context) throws IOException {
+        public MicAsyncTask(Context context) throws IOException {
             this.context = context;
-//            serverSocket = new ServerSocket(serverPort);
             dataServer = new DatagramSocket(null);
             dataServer.setReuseAddress(true);
             dataServer.bind(new InetSocketAddress(dataPort));
@@ -653,9 +693,122 @@ public class HostView extends Activity {
 
         @Override
         protected String doInBackground(Socket... params) {
+
+            Socket client = params[0];
+
+            try {
+
+            InputStream inputstream = client.getInputStream();
+
+            InputStreamReader isr = new InputStreamReader(inputstream);
+
+            BufferedReader br = new BufferedReader(isr);
+            String recieved_fname = br.readLine();
+
+            Log.d("MicUsing","Recieved File name: "+recieved_fname);
+            OutputStream out_stream = client.getOutputStream();
+            PrintWriter pw = new PrintWriter(out_stream);
+            Log.i("MicUsing1",micUsing?"yes":"no");
+
+            if(!micUsing)
+            {
+                pw.println("yes");
+                pw.flush();
+//                        Log.d(WiFiDirectActivity.TAG, "microphone android dj");
+                micUsing=true;
+                Log.i("MicUsing2",micUsing?"yes":"no");
+//                        Log.d(tag, "recieved file name" + " " + recieved_fname);
+//                        Log.d("VS", "Recorder initialized");
+                MinBufSize=1024*3;
+
+                speaker = new AudioTrack(AudioManager.STREAM_VOICE_CALL,sampleRate,AudioFormat.CHANNEL_OUT_STEREO,audioFormat,MinBufSize,AudioTrack.MODE_STREAM);
+
+                byte[] receiveData = new byte[3*1024];
+
+                String data = "";
+
+                //   int minBufSize = AudioRecord.getMinBufferSize(sampleRate, channelConfig, audioFormat);
+
+                // speaker = new AudioTrack(AudioManager.STREAM_MUSIC,sampleRate,AudioFormat.CHANNEL_OUT_STEREO,audioFormat,MinBufSize,AudioTrack.MODE_STREAM);
+                speaker = new AudioTrack(AudioManager.STREAM_VOICE_CALL,sampleRate,AudioFormat.CHANNEL_OUT_STEREO,audioFormat,MinBufSize,AudioTrack.MODE_STREAM);
+
+                speaker.setPlaybackRate(22100);
+                speaker.play();
+
+                String sentence = "";
+                Log.i("MicUsing","Start mic receiving");
+
+                while(!sentence.equals("end"))
+                {
+//                            Log.d("in while loop", "in while loop" + " " + recieved_fname);
+                    DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
+//                            Log.i("VR", "Socket Created");
+                    dataServer.receive(receivePacket);
+                    //  out.write(receivePacket.getData(), 0, receiveData.length);
+//                            Log.i(tag,"receiving streaming");
+                    sentence = new String(receivePacket.getData(), 0, receivePacket.getLength());
+                    data = receivePacket.getData().toString();
+
+//                            System.out.println("RECEIVED: " + data);
+//
+                    receiveData = receivePacket.getData();
+                    speaker.write(receiveData, 0, receiveData.length);
+                    // speaker.write(buffer, 0, MinBufSize);
+//                            Log.d("VR", "Writing buffer content to speaker");
+                    ///AudioTrack(AudioManager.STREAM_MUSIC,sampleRate,channelConfig,audioFormat,minBufSize,AudioTrack.MODE_STREAM);
+
+                }
+
+//                        Log.d("Streaming","dataserver closing");
+                dataServer.close();
+//                        Log.d("Streaming","dataserver closed");
+                client.close();
+//                        Log.d("Streaming","client closed");
+                Log.i("MicUsing3",micUsing?"yes":"no");
+                //   play(findViewById(R.id.play));
+            }
+            else
+            {
+                Log.i("MicUsing4",micUsing?"yes":"no");
+                pw.println("no"); // if mic already used
+                pw.flush();
+                client.close();
+            }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            return "Complete";
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            Log.i("Streaming Complete", result);
+            if (result != null) {
+                micUsing=false;
+                Log.d("MicUsing",result+" : " +(micUsing?"yes":"no"));
+            }
+
+        }
+
+    }
+
+    private class FileServerAsyncTask extends AsyncTask<Socket, Void, String> {
+
+        private Context context;
+
+        /**
+         * @param context
+         */
+        public FileServerAsyncTask(Context context) throws IOException {
+            this.context = context;
+//            serverSocket = new ServerSocket(serverPort);
+        }
+
+        @Override
+        protected String doInBackground(Socket... params) {
             try {
                 Log.d(WiFiDirectActivity.TAG, "Server: Socket opened");
-                String filename=null;
                 downloading = true;
                 Log.d(tag, "Downloading started: " + downloading);
 
@@ -668,72 +821,24 @@ public class HostView extends Activity {
                 InputStreamReader isr = new InputStreamReader(inputstream);
 
                 BufferedReader br = new BufferedReader(isr);
-                Log.d(tag, "recieving file");
                 recieved_fname = br.readLine();
-                if(recieved_fname.equals("MICROPHONE_androiddj_start"))
-                {
-                    Log.d(WiFiDirectActivity.TAG, "microphone android dj");
+                Log.d("MicUsing5", "receiving file "+recieved_fname);
 
-                    Log.d(tag, "recieved file name" + " " + recieved_fname);
-                    Log.d("VS", "Recorder initialized");
-                    MinBufSize=1024*3;
-
-                    speaker = new AudioTrack(AudioManager.STREAM_VOICE_CALL,sampleRate,AudioFormat.CHANNEL_OUT_STEREO,audioFormat,MinBufSize,AudioTrack.MODE_STREAM);
-
-                    byte[] receiveData = new byte[3*1024];
-
-                    String data = "";
-
-                    //   int minBufSize = AudioRecord.getMinBufferSize(sampleRate, channelConfig, audioFormat);
-
-                    // speaker = new AudioTrack(AudioManager.STREAM_MUSIC,sampleRate,AudioFormat.CHANNEL_OUT_STEREO,audioFormat,MinBufSize,AudioTrack.MODE_STREAM);
-                    speaker = new AudioTrack(AudioManager.STREAM_VOICE_CALL,sampleRate,AudioFormat.CHANNEL_OUT_STEREO,audioFormat,MinBufSize,AudioTrack.MODE_STREAM);
-
-                    speaker.setPlaybackRate(22100);
-                    speaker.play();
-
-                    String sentence = "";
-
-                    while(!sentence.equals("end"))
-                    {
-                        Log.d("in while loop", "in while loop" + " " + recieved_fname);
-                        DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
-                        Log.i("VR", "Socket Created");
-                        dataServer.receive(receivePacket);
-                        //  out.write(receivePacket.getData(), 0, receiveData.length);
-                        Log.i(tag,"receiving streaming");
-                        sentence = new String(receivePacket.getData(), 0, receivePacket.getLength());
-                        data = receivePacket.getData().toString();
-
-                        System.out.println("RECEIVED: " + receivePacket.getData().toString());
-//
-                        receiveData = receivePacket.getData();
-                        speaker.write(receiveData, 0, receiveData.length);
-                        // speaker.write(buffer, 0, MinBufSize);
-                        Log.d("VR", "Writing buffer content to speaker");
-                        ///AudioTrack(AudioManager.STREAM_MUSIC,sampleRate,channelConfig,audioFormat,minBufSize,AudioTrack.MODE_STREAM);
-
-                    }
-
-                    Log.d("Streaming","dataserver closing");
-                    dataServer.close();
-                    Log.d("Streaming","dataserver closed");
-                    client.close();
-                    Log.d("Streaming","client closed");
-                 //   play(findViewById(R.id.play));
-
-                }else {
-                    Log.d(WiFiDirectActivity.TAG, "recieved file name" + " " + recieved_fname);
-                    filename = append(recieved_fname,String.valueOf(System.currentTimeMillis()));
-                    final File f = new File(folder + filename);
-                    f.createNewFile();
-                    Log.d(WiFiDirectActivity.TAG, "recieved file written " + f.getAbsolutePath());
-                    Log.d(WiFiDirectActivity.TAG, "server: copying files " + f.toString());
-                    copyFile(inputstream, new FileOutputStream(f));
-                    client.close();
-                    dataServer.close();
-                    Log.d(tag,"client socket closed");
-                }
+//                if(recieved_fname.equals("MICROPHONE_androiddj_start"))
+//                {
+//                    ;
+//                }else {
+                Log.d(WiFiDirectActivity.TAG, "recieved file name" + " " + recieved_fname);
+                String filename = append(recieved_fname,String.valueOf(System.currentTimeMillis()));
+                final File f = new File(folder + filename);
+                f.createNewFile();
+                Log.d(WiFiDirectActivity.TAG, "recieved file written " + f.getAbsolutePath());
+                Log.d(WiFiDirectActivity.TAG, "server: copying files " + f.toString());
+                copyFile(inputstream, new FileOutputStream(f));
+                client.close();
+//                    dataServer.close();
+                Log.d(tag,"client socket closed");
+//                }
 
                 return filename;
 
@@ -751,6 +856,7 @@ public class HostView extends Activity {
          */
         @Override
         protected void onPostExecute(String result) {
+//            setUsing(false);
             if (result != null) {
                 addSong(result);
 //                downloading = false;
@@ -778,20 +884,7 @@ public class HostView extends Activity {
     }
 
     public String getUpvotes(Socket client) {
-//        int port = 8111;
-//        ServerSocket votesServerSocket = null;
-//        try {
-//            votesServerSocket = new ServerSocket(port);
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//            Log.i(tag, "Socket not opened on port" + Integer.toString(port));
-//        }
         try {
-//            Log.d(tag, "Server-Socket opened for upvotes transfer");
-//
-//            getVotes = true;
-//            Socket client = votesServerSocket.accept();
-//            Log.d(tag, "connection done");
 
             InputStream inputstream = client.getInputStream();
             InputStreamReader isr = new InputStreamReader(inputstream);

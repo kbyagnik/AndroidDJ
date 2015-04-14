@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- From: file:/home/master/Documents/GitHub/temp/AndroidDJ/AndroidDJ/app/src/main/res/values/color.xml -->
+    <!-- From: file:/F:/BT/6th%20sem/CSL343-Computer%20Networks/Project/git/master/AndroidDJ/app/src/main/res/values/color.xml -->
     <eat-comment/>
     <color name="GREEN">#00FF00</color>
     <color name="RED">#FF0000</color>
-    <!-- From: file:/home/master/Documents/GitHub/temp/AndroidDJ/AndroidDJ/app/src/main/res/values/dimens.xml -->
+    <!-- From: file:/F:/BT/6th%20sem/CSL343-Computer%20Networks/Project/git/master/AndroidDJ/app/src/main/res/values/dimens.xml -->
     <eat-comment/>
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="phone_list_height">250dp</dimen>
     <dimen name="tablet_list_width">300dp</dimen>
-    <!-- From: file:/home/master/Documents/GitHub/temp/AndroidDJ/AndroidDJ/app/src/main/res/values/strings.xml -->
+    <!-- From: file:/F:/BT/6th%20sem/CSL343-Computer%20Networks/Project/git/master/AndroidDJ/app/src/main/res/values/strings.xml -->
     <eat-comment/>
     <string name="VotingTextView">Song name</string>
     <string name="action_settings">Settings</string>
@@ -44,7 +44,7 @@
     <string name="title_activity_main">MainActivity</string>
     <string name="upvote">Upvote song</string>
     <string name="yes">yes</string>
-    <!-- From: file:/home/master/Documents/GitHub/temp/AndroidDJ/AndroidDJ/app/src/main/res/values/styles.xml -->
+    <!-- From: file:/F:/BT/6th%20sem/CSL343-Computer%20Networks/Project/git/master/AndroidDJ/app/src/main/res/values/styles.xml -->
     <eat-comment/>
     <style name="AppBaseTheme" parent="android:Theme.Light">
         <!--
