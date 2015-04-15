@@ -78,67 +78,52 @@ public class ListViewAdapterHost extends ArrayAdapter<Songs> {
         Log.i(tag, Integer.toString(position) + "    " + Integer.toString(pos));
         final Button upvote = (Button) convertView.findViewById(R.id.upvote);
         final Button downvote = (Button) convertView.findViewById(R.id.downvote);
-        final TextView vote = (TextView) convertView.findViewById(R.id.votedByUser);
 
         save = (Button)convertView.findViewById(R.id.saveSong);
 
         save.setEnabled(false);
         save.setVisibility(View.GONE);
 
-        if (pos == position) {
-            boolean upvoted = songsUpvoted.contains(id);
-            boolean downvoted = songsDownvoted.contains(id);
-            upvote.setVisibility(View.VISIBLE);
-            downvote.setVisibility(View.VISIBLE);
-            upvote.setEnabled(!(upvoted || downvoted));
-            downvote.setEnabled(!(upvoted || downvoted));
-            upvote.setVisibility(View.VISIBLE);
-            downvote.setVisibility(View.VISIBLE);
-            upvotes.setVisibility(View.VISIBLE);
-            downvotes.setVisibility(View.VISIBLE);
-            if (upvoted) {
-                vote.setText("Upvoted");
-                vote.setVisibility(View.VISIBLE);
-                vote.setTextColor(context.getResources().getColor(R.color.GREEN));
-            } else if (downvoted) {
-                vote.setText("Downvoted");
-                vote.setVisibility(View.VISIBLE);
-                vote.setTextColor(context.getResources().getColor(R.color.RED));
-            }
-        } else {
+        /*if (pos == position) {*/
+        boolean upvoted = songsUpvoted.contains(id);
+        boolean downvoted = songsDownvoted.contains(id);
+        if (upvoted) {
+            upvote.setAlpha((float)0.5);
+            upvote.setEnabled(false);
+            downvote.setEnabled(false);
+            downvote.setAlpha((float)0.0);
+        } else if (downvoted) {
+            upvote.setEnabled(false);
+            downvote.setEnabled(false);
+            upvote.setAlpha((float)0.0);
+            downvote.setAlpha((float)0.5);
+        }
+        /*} else {
             upvote.setVisibility(View.GONE);
             downvote.setVisibility(View.GONE);
             upvotes.setVisibility(View.GONE);
             downvotes.setVisibility(View.GONE);
             vote.setVisibility(View.GONE);
-        }
+        }*/
         upvote.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                vote.setText("Upvoted");
                 Log.i(tag, "inside on click");
                 upvote.setEnabled(false);
                 downvote.setEnabled(false);
                 Songs song = db.getSong(id);
+                upvote.setAlpha((float)0.5);
+                downvote.setAlpha((float)0.0);
                 Log.i(tag, "Got song with id " + Integer.toString(id) + " and name " + song.getName() + " upvotes " + song.getUpvotes());
                 int upvotesCount = song.getUpvotes();
                 song.setUpvotes(upvotesCount + 1);
                 songsUpvoted.add(new Integer(id));
                 Log.i(tag, "upvotes incremented");
                 db.updateSong(id, song.getStatus(), song.getUpvotes(), song.getDownvotes(), song.getAging());
-                vote.setVisibility(View.VISIBLE);
                 Log.i(tag, "database updated " + " upvotes " + db.getSong(id).getUpvotes());
                 upvotes.setText(Integer.toString(song.getUpvotes()));
                 Log.i(tag, "upvotes shown");
-                vote.setTextColor(context.getResources().getColor(R.color.GREEN));
-
-                upvote.setVisibility(View.GONE);
-                downvote.setVisibility(View.GONE);
-                upvotes.setVisibility(View.GONE);
-                downvotes.setVisibility(View.GONE);
-                vote.setVisibility(View.GONE);
-
                 host.sortList();
 
 
@@ -149,25 +134,16 @@ public class ListViewAdapterHost extends ArrayAdapter<Songs> {
 
             @Override
             public void onClick(View v) {
-                vote.setText("Downvoted");
                 Songs song = db.getSong(id);
                 upvote.setEnabled(false);
                 downvote.setEnabled(false);
+                upvote.setAlpha((float)0.5);
+                downvote.setAlpha((float)0.0);
                 songsDownvoted.add(new Integer(id));
                 int downvotesCount = song.getDownvotes();
                 song.setDownvotes(downvotesCount + 1);
                 db.updateSong(id, song.getStatus(), song.getUpvotes(), song.getDownvotes(), song.getAging());
-                vote.setVisibility(View.VISIBLE);
                 downvotes.setText(Integer.toString(song.getDownvotes()));
-                vote.setTextColor(context.getResources().getColor(R.color.RED));
-
-
-                upvote.setVisibility(View.GONE);
-                downvote.setVisibility(View.GONE);
-                upvotes.setVisibility(View.GONE);
-                downvotes.setVisibility(View.GONE);
-                vote.setVisibility(View.GONE);
-
                 host.sortList();
 
 

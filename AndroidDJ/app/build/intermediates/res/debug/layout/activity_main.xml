@@ -2,13 +2,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context="com.example.androiddj.HostView">
+
+<!--android:paddingBottom="16dp"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.example.androiddj.HostView">
-
-
+    -->
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
@@ -17,12 +17,15 @@
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            android:background="#ffd5d5d5">
 
             <ListView
                 android:id="@+id/listview"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
+                android:divider="@null"
+                android:dividerHeight="0dp"
                 android:scrollbars="vertical"></ListView>
 
         </LinearLayout>
@@ -160,4 +163,4 @@
     </LinearLayout>
 
 </RelativeLayout>
-<!-- From: file:/F:/BT/6th%20sem/CSL343-Computer%20Networks/Project/git/master/AndroidDJ/app/src/main/res/layout/activity_main.xml -->
+<!-- From: file:/C:/Users/ankit/workspace/AndroidWorkspace/AndroidProject/AndroidDJ_merge/AndroidDJ/AndroidDJ/app/src/main/res/layout/activity_main.xml -->

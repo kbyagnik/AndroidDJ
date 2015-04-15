@@ -80,42 +80,9 @@ public View getView(final int position, View convertView, ViewGroup parent) {
 	        Log.i(tag,Integer.toString(position) + "    " + Integer.toString(pos));
 	        final Button upvote = (Button)convertView.findViewById(R.id.upvote);
 	        final Button downvote = (Button)convertView.findViewById(R.id.downvote);
-	        final TextView vote = (TextView)convertView.findViewById(R.id.votedByUser);
             final Button saveSong = (Button) convertView.findViewById(R.id.saveSong);
 
-	        if(pos == position)
-	        {
-                boolean upvoted = songsUpvoted.contains(id);
-                boolean downvoted = songsDownvoted.contains(id);
-                upvote.setVisibility(View.VISIBLE);
-                downvote.setVisibility(View.VISIBLE);
-                saveSong.setVisibility(View.VISIBLE);
-                upvote.setEnabled(!(upvoted || downvoted));
-                downvote.setEnabled(!(upvoted || downvoted));
-                upvotes.setVisibility(View.VISIBLE);
-	        	downvotes.setVisibility(View.VISIBLE);
-	        	if(upvoted)
-                {
-                    vote.setText("Upvoted");
-                    vote.setVisibility(View.VISIBLE);
-                    vote.setTextColor(context.getResources().getColor(R.color.GREEN));
-                }
-                else if(downvoted)
-                {
-                    vote.setText("Downvoted");
-                    vote.setVisibility(View.VISIBLE);
-                    vote.setTextColor(context.getResources().getColor(R.color.RED));
-                }
-	        }
-	        else
-	        {
-	        	upvote.setVisibility(View.GONE);
-	        	downvote.setVisibility(View.GONE);
-	        	upvotes.setVisibility(View.GONE);
-                saveSong.setVisibility(View.GONE);
-	        	downvotes.setVisibility(View.GONE);
-	        	vote.setVisibility(View.GONE);
-	        }
+
 
             saveSong.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -129,36 +96,56 @@ public View getView(final int position, View convertView, ViewGroup parent) {
                 }
             });
 
-	        upvote.setOnClickListener(new View.OnClickListener() {
-				
-				@Override
-				public void onClick(View v) {
-					vote.setText("Upvoted");
-					Log.i(tag, "inside on click");
-					Log.i(tag, "Got song with id " + Integer.toString(id));
-					int upvotesCount = p.getUpvotes();
+	       /*if(pos == position)
+	        {*/
+            boolean upvoted = songsUpvoted.contains(id);
+            boolean downvoted = songsDownvoted.contains(id);
+            if(upvoted)
+            {
+                    /*vote.setVisibility(View.VISIBLE);*/
+                upvote.setAlpha((float)0.5);
+                upvote.setEnabled(false);
+                downvote.setEnabled(false);
+                downvote.setAlpha((float)0.0);
+            }
+            else if(downvoted)
+            {
+                upvote.setEnabled(false);
+                downvote.setEnabled(false);
+                upvote.setAlpha((float)0.0);
+                downvote.setAlpha((float)0.5);
+                    /*vote.setVisibility(View.VISIBLE);*/
+            }
+	        /*}
+	        else
+	        {
+	        	upvote.setVisibility(View.GONE);
+	        	downvote.setVisibility(View.GONE);
+	        	upvotes.setVisibility(View.GONE);
+	        	downvotes.setVisibility(View.GONE);
+	        	vote.setVisibility(View.GONE);
+	        }*/
+            upvote.setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+                    Log.i(tag, "inside on click");
+                    Log.i(tag, "Got song with id " + Integer.toString(id));
+                    int upvotesCount = p.getUpvotes();
                     upvote.setEnabled(false);
                     songsUpvoted.add(new Integer(id));
                     downvote.setEnabled(false);
-					//send json string to host with upvote request for the song
-					
-					Log.i(tag, "Incrementing upvotes by sending upvote request to host");
+                    upvote.setAlpha((float)0.5);
+                    downvote.setAlpha((float)0.0);
+                    //send json string to host with upvote request for the song
+
+                    Log.i(tag, "Incrementing upvotes by sending upvote request to host");
 					/*song.setUpvotes(upvotesCount + 1);
 					Log.i(tag, "upvotes incremented");
 					db.updateSong(id, song.getStatus(),song.getUpvotes(),song.getDownvotes(),song.getAging());*/
-					vote.setVisibility(View.VISIBLE);
-					//Log.i(tag, "database updated " + " upvotes " + song.getUpvotes());
-					upvotes.setText(Integer.toString(upvotesCount + 1));
-					Log.i(tag, "upvotes shown");
-					vote.setTextColor(context.getResources().getColor(R.color.GREEN));
-
-                    upvote.setVisibility(View.GONE);
-                    downvote.setVisibility(View.GONE);
-                    upvotes.setVisibility(View.GONE);
-                    downvotes.setVisibility(View.GONE);
-                    vote.setVisibility(View.GONE);
-                    saveSong.setText("Save working");
-
+                    //Log.i(tag, "database updated " + " upvotes " + song.getUpvotes());
+                    upvotes.setText(Integer.toString(upvotesCount + 1));
+                    Log.i(tag, "upvotes shown");
                     //JSONArray jsonArray = new JSONArray();
                     JSONObject jsonobject = new JSONObject();
                     try {
@@ -175,35 +162,29 @@ public View getView(final int position, View convertView, ViewGroup parent) {
 
                     streamVotes(jsonobject.toString());
 
+
+
+
+
                 }
-			});
-	        
-	        downvote.setOnClickListener(new View.OnClickListener() {
-				
-				@Override
-				public void onClick(View v) {
-					vote.setText("Downvoted");
+            });
+
+            downvote.setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
 					/*Songs song = db.getSong(id);*/
                     upvote.setEnabled(false);
                     downvote.setEnabled(false);
-					//send json string to host with downvote request for the song
-					int downvotesCount = p.getDownvotes();
+                    upvote.setAlpha((float)0.0);
+                    downvote.setAlpha((float)0.5);
+                    //send json string to host with downvote request for the song
+                    int downvotesCount = p.getDownvotes();
                     songsDownvoted.add(new Integer(id));
 //                    receiveSong("SEND_SONG_"+p.getName());
                     //song.setDownvotes(downvotesCount + 1);
 					/*db.updateSong(id, song.getStatus(),song.getUpvotes(),song.getDownvotes(),song.getAging());*/
-					vote.setVisibility(View.VISIBLE);
-					downvotes.setText(Integer.toString(downvotesCount + 1));
-					vote.setTextColor(context.getResources().getColor(R.color.RED));
-
-
-                    upvote.setVisibility(View.GONE);
-                    downvote.setVisibility(View.GONE);
-                    upvotes.setVisibility(View.GONE);
-                    downvotes.setVisibility(View.GONE);
-                    vote.setVisibility(View.GONE);
-
-
+                    downvotes.setText(Integer.toString(downvotesCount + 1));
                     //JSONArray jsonArray = new JSONArray();
                     JSONObject jsonobject = new JSONObject();
                     try {
@@ -223,8 +204,8 @@ public View getView(final int position, View convertView, ViewGroup parent) {
 
 
 
-				}
-			});
+                }
+            });
 
 	     
         }
