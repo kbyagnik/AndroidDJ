@@ -1,16 +1,12 @@
 package com.example.androiddj;
 
 import android.app.IntentService;
-import android.app.Service;
-import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.IBinder;
 import android.util.Log;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -23,6 +19,7 @@ import java.net.Socket;
 public class SongTransferService extends IntentService {
     private static final int SOCKET_TIMEOUT = 5000;
     public static final String EXTRAS_SONG_NAME = "filename";
+    public static final String EXTRAS_SONG_ID = "file_id";
     public static final String ACTION_SEND_FILE = "com.example.android.wifidirect.SEND_FILE";
 //    public static final String EXTRAS_FILE_PATH = "file_url";
     public static final String EXTRAS_GROUP_OWNER_ADDRESS = "go_host";
@@ -46,6 +43,7 @@ public class SongTransferService extends IntentService {
         Context context = getApplicationContext();
         if (intent.getAction().equals(ACTION_SEND_FILE)) {
   //         String fileUri = intent.getExtras().getString(EXTRAS_FILE_PATH);
+            int songID = intent.getExtras().getInt(EXTRAS_SONG_ID);
             String songName = intent.getExtras().getString(EXTRAS_SONG_NAME);
             String host = intent.getExtras().getString(EXTRAS_GROUP_OWNER_ADDRESS);
             Socket clientSocket = new Socket();
@@ -59,9 +57,11 @@ public class SongTransferService extends IntentService {
                 OutputStream outstream = clientSocket.getOutputStream();
                 PrintWriter pw = new PrintWriter(outstream);
                 Log.d(WiFiDirectActivity.TAG, "File name: " + " " + songName);
-                pw.println(songName);
+                pw.println("SEND_SONG");
                 pw.flush();
 
+                pw.println(songID);
+                pw.flush();
                 final File f = new File(ClientView.folder + songName);
                 f.createNewFile();
                 Log.d(WiFiDirectActivity.TAG, "recieved file written " + f.getAbsolutePath());

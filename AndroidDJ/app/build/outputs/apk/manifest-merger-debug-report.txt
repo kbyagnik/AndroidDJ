@@ -151,3 +151,9 @@ ADDED from AndroidManifest.xml:76:9
 		ADDED from AndroidManifest.xml:78:13
 	android:name
 		ADDED from AndroidManifest.xml:77:13
+service#com.example.androiddj.SongTransferService
+ADDED from AndroidManifest.xml:79:9
+	android:enabled
+		ADDED from AndroidManifest.xml:81:13
+	android:name
+		ADDED from AndroidManifest.xml:80:13

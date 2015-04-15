@@ -21,6 +21,7 @@ public class ListViewAdapterHost extends ArrayAdapter<Songs> {
     private List<Songs> StringList;
     private Context context;
     private int pos;
+    public Button save;
     final String tag = "DJ Debugging";
     final HostView host;
     final DatabaseHandler db;
@@ -78,6 +79,12 @@ public class ListViewAdapterHost extends ArrayAdapter<Songs> {
         final Button upvote = (Button) convertView.findViewById(R.id.upvote);
         final Button downvote = (Button) convertView.findViewById(R.id.downvote);
         final TextView vote = (TextView) convertView.findViewById(R.id.votedByUser);
+
+        save = (Button)convertView.findViewById(R.id.saveSong);
+
+        save.setEnabled(false);
+        save.setVisibility(View.GONE);
+
         if (pos == position) {
             boolean upvoted = songsUpvoted.contains(id);
             boolean downvoted = songsDownvoted.contains(id);

@@ -49,7 +49,7 @@ public class ClientView extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 
-        folder = Environment.getExternalStorageDirectory() + "/AndroidDJ-Playlist/";
+        folder = Environment.getExternalStorageDirectory() + "/AndroidDJ-SavedSongs/";
         File dirs = new File(folder);
 
         if (!dirs.exists())
@@ -67,7 +67,8 @@ public class ClientView extends Activity {
 		 * Here json string has to be used to get the list of the songs
 		 */
 		
-		songs = addSongs();
+//		songs = addSongs();
+        songs= new ArrayList<Songs>();
 		Log.i(tag,"Going to create list");
         list = (ListView)findViewById(R.id.listview);
         adapter = new ListViewAdapterClient(songs,ClientView.this,pos,new DatabaseHandler(this));
@@ -128,7 +129,7 @@ public class ClientView extends Activity {
                     }
                 }
 
-//                Log.d(tag, "handler attached....");
+                Log.d(tag, "handler attached....");
                 downloadHandler.postDelayed(this, 500);
             }
         };

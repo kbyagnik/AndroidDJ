@@ -70,7 +70,6 @@ public class HostView extends Activity {
     private DatabaseHandler db;
     final private int updateTime = 5000;
     private FileObserver plistObserver;
-
     public TextView startTimeField, endTimeField;
     private MediaPlayer mediaPlayer;
     private double startTime = 0;
@@ -870,19 +869,21 @@ public class HostView extends Activity {
 
 
                if(recieved_fname.startsWith("SEND_SONG")){
-                    Log.d(WiFiDirectActivity.TAG, "recieved file name" + " " + recieved_fname);
-                    String songName=recieved_fname.substring(10);
+                   String id= br.readLine();
+                   String songName=db.getSong(Integer.parseInt(id)).getName();
+                    Log.d(WiFiDirectActivity.TAG, "id - "+id+" recieved file name" + " " + songName);
                     Uri fileUri=Uri.fromFile(new File(folder+"/"+songName));
                     ContentResolver cr = context.getContentResolver();
                     InputStream is = null;
                     try {
                         is = cr.openInputStream(Uri.parse(String.valueOf(fileUri)));
+                        Log.d("Fileuri", "uri - "+Uri.parse(String.valueOf(fileUri)));
                     } catch (FileNotFoundException e) {
                         Log.d(WiFiDirectActivity.TAG, e.toString());
                     }
-                    DeviceDetailFragment.copyFile(is, client.getOutputStream());
+                    copyFile(is, client.getOutputStream());
                     client.close();
-                    return "SENT";
+                    return null;
 
                 }
 

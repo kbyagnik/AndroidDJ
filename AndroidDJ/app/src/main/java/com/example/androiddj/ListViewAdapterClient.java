@@ -1,44 +1,31 @@
 package com.example.androiddj;
 
+import android.content.Context;
+import android.content.Intent;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.example.androiddj.database.DatabaseHandler;
+import com.example.androiddj.database.Songs;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
-import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-
-import com.example.androiddj.database.DatabaseHandler;
-import com.example.androiddj.database.Songs;
-
-import android.app.Activity;
-import android.content.Context;
-import android.content.DialogInterface.OnClickListener;
-import android.content.Intent;
-import android.media.AudioFormat;
-import android.media.AudioManager;
-import android.media.AudioRecord;
-import android.media.AudioTrack;
-import android.media.MediaRecorder;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.BaseAdapter;
-import android.widget.Button;
-import android.widget.ListView;
-import android.widget.TextView;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 public class ListViewAdapterClient extends ArrayAdapter<Songs>
 {
@@ -94,12 +81,15 @@ public View getView(final int position, View convertView, ViewGroup parent) {
 	        final Button upvote = (Button)convertView.findViewById(R.id.upvote);
 	        final Button downvote = (Button)convertView.findViewById(R.id.downvote);
 	        final TextView vote = (TextView)convertView.findViewById(R.id.votedByUser);
+            final Button saveSong = (Button) convertView.findViewById(R.id.saveSong);
+
 	        if(pos == position)
 	        {
                 boolean upvoted = songsUpvoted.contains(id);
                 boolean downvoted = songsDownvoted.contains(id);
                 upvote.setVisibility(View.VISIBLE);
                 downvote.setVisibility(View.VISIBLE);
+                saveSong.setVisibility(View.VISIBLE);
                 upvote.setEnabled(!(upvoted || downvoted));
                 downvote.setEnabled(!(upvoted || downvoted));
                 upvotes.setVisibility(View.VISIBLE);
@@ -122,9 +112,23 @@ public View getView(final int position, View convertView, ViewGroup parent) {
 	        	upvote.setVisibility(View.GONE);
 	        	downvote.setVisibility(View.GONE);
 	        	upvotes.setVisibility(View.GONE);
+                saveSong.setVisibility(View.GONE);
 	        	downvotes.setVisibility(View.GONE);
 	        	vote.setVisibility(View.GONE);
 	        }
+
+            saveSong.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Songs song = StringList.get(position);
+
+                    Toast.makeText(context,"Saving song - "+song.getName(),Toast.LENGTH_SHORT);
+                    Log.d(tag,"save song clicked: Song name - "+song.getName()+
+                            " Song id - "+song.getID());
+                    receiveSong(song);
+                }
+            });
+
 	        upvote.setOnClickListener(new View.OnClickListener() {
 				
 				@Override
@@ -148,17 +152,12 @@ public View getView(final int position, View convertView, ViewGroup parent) {
 					Log.i(tag, "upvotes shown");
 					vote.setTextColor(context.getResources().getColor(R.color.GREEN));
 
-
-
-
-
-
                     upvote.setVisibility(View.GONE);
                     downvote.setVisibility(View.GONE);
                     upvotes.setVisibility(View.GONE);
                     downvotes.setVisibility(View.GONE);
                     vote.setVisibility(View.GONE);
-
+                    saveSong.setText("Save working");
 
                     //JSONArray jsonArray = new JSONArray();
                     JSONObject jsonobject = new JSONObject();
@@ -175,10 +174,6 @@ public View getView(final int position, View convertView, ViewGroup parent) {
                     Log.i(tag, jsonobject.toString());
 
                     streamVotes(jsonobject.toString());
-
-
-
-
 
                 }
 			});
@@ -230,6 +225,7 @@ public View getView(final int position, View convertView, ViewGroup parent) {
 
 				}
 			});
+
 	     
         }
     return convertView;
@@ -294,12 +290,13 @@ public void setPosition(int position)
         }
         notifyDataSetChanged();
     }
-    public void receiveSong(String songName){
+    public void receiveSong(Songs song){
 //        Log.d(WiFiDirectActivity.TAG, "Intent----------- " + uri);
         Intent serviceIntent = new Intent(getContext(), SongTransferService.class);
         serviceIntent.setAction(SongTransferService.ACTION_SEND_FILE);
   //      serviceIntent.putExtra(FileTransferService.EXTRAS_FILE_PATH, uri.toString());
-        serviceIntent.putExtra(SongTransferService.EXTRAS_SONG_NAME,songName);
+        serviceIntent.putExtra(SongTransferService.EXTRAS_SONG_ID,song.getID());
+        serviceIntent.putExtra(SongTransferService.EXTRAS_SONG_NAME,song.getName());
         serviceIntent.putExtra(SongTransferService.EXTRAS_GROUP_OWNER_ADDRESS,
                 DeviceDetailFragment.info.groupOwnerAddress.getHostAddress());
         serviceIntent.putExtra(SongTransferService.EXTRAS_GROUP_OWNER_PORT, 8986);
