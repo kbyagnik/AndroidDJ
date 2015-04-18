@@ -6,8 +6,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.media.AudioFormat;
 import android.media.AudioManager;
+import android.media.AudioRecord;
 import android.media.AudioTrack;
 import android.media.MediaPlayer;
+import android.media.MediaRecorder;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -55,6 +57,20 @@ import java.util.concurrent.TimeUnit;
 
 
 public class HostView extends Activity {
+    //
+    private Button startButton,stopButton;
+    private MediaRecorder myAudioRecorder;
+    public byte[] buffer;
+    AudioRecord recorder;
+
+    private int sampleRate = 44100;
+    private int channelConfig = AudioFormat.CHANNEL_IN_MONO;
+    private int audioFormat = AudioFormat.ENCODING_PCM_16BIT;
+    //int minBufSize = AudioRecord.getMinBufferSize(sampleRate, channelConfig, audioFormat);
+    int minBufSize= 1024;
+    private boolean status = false;
+    private AudioTrack speaker;
+    //
     private static String tag = "DJ Debugging";
     ListView list;
     private boolean downloading = false;
@@ -84,27 +100,42 @@ public class HostView extends Activity {
     public static int oneTimeOnly = 0;
     int index = 0;
 
-    private boolean is_youtubelink = false;
+
     private Button youtubeButton;
 
 
-//    AudioRecord recorder;
-    private AudioTrack speaker;
-//    private AudioRecord audiorecord;
-    //Audio Configuration.
-    private int sampleRate = 44100;      //How much will be ideal?
-    private int channelConfig = AudioFormat.CHANNEL_CONFIGURATION_MONO;
-    private int audioFormat = AudioFormat.ENCODING_PCM_16BIT;
+    //    AudioRecord recorder;
+//    private AudioTrack speaker;
+////    private AudioRecord audiorecord;
+//    //Audio Configuration.
+    //  private int sampleRate = 44100;      //How much will be ideal?
+//    private int channelConfig = AudioFormat.CHANNEL_CONFIGURATION_MONO;
+//    private int audioFormat = AudioFormat.ENCODING_PCM_16BIT;
     int MinBufSize;
 //    static AudioFormat format;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
+//
         Log.i(tag, "Going to call oncreate");
         super.onCreate(savedInstanceState);
         Log.i(tag, "calling setcontent view");
         setContentView(R.layout.activity_main);
+
+
+
+        startButton = (Button) findViewById (R.id.host_mic_start);
+        stopButton = (Button) findViewById (R.id.host_mic_stop);
+
+        startButton.setOnClickListener (startListener);
+        stopButton.setOnClickListener (stopListener);
+
+        minBufSize += 2048;
+        System.out.println("minBufSize: " + minBufSize);
+        //
+
+
+
         mediaHandler = new Handler();
         downloadHandler = new Handler();
         playlistHandler = new Handler();
@@ -202,10 +233,15 @@ public class HostView extends Activity {
             }
         };
 
+
+
+
+
+
         Thread download = new Thread(downloadFile);
         download.start();
-		
-		Runnable sendFile = new Runnable() {
+
+        Runnable sendFile = new Runnable() {
             @Override
             public void run() {
                 int port = 8986;
@@ -336,7 +372,7 @@ public class HostView extends Activity {
             public void run() {
                 sendPlaylist();
                 Log.d(tag, "Sending Playlist....");
-                playlistHandler.postDelayed(this, 3000);
+                // playlistHandler.postDelayed(this, 3000);
             }
         };
 
@@ -348,6 +384,140 @@ public class HostView extends Activity {
 
 
     }
+
+    private final View.OnClickListener stopListener = new View.OnClickListener() {
+
+        @Override
+        public void onClick(View arg0) {
+            status = false;
+            Log.d("VS", "Recorder released");
+            stopButton.setEnabled(false);
+            startButton.setEnabled(true);
+
+            startButton.setVisibility(View.VISIBLE);
+            stopButton.setVisibility(View.INVISIBLE);
+        }
+
+    };
+
+    private final View.OnClickListener startListener = new View.OnClickListener() {
+
+        @Override
+        public void onClick(View arg0) {
+            status = true;
+
+            stopButton.setVisibility(View.VISIBLE);
+            startButton.setVisibility(View.INVISIBLE);
+
+            startButton.setEnabled(false);
+            stopButton.setEnabled(true);
+
+            startStreaming();
+            Log.d("2", "Recorder initialized");
+        }
+
+    };
+
+
+    public void startStreaming() {
+
+
+        Thread streamThread = new Thread(new Runnable() {
+
+            @Override
+            public void run() {
+                //try {
+                //Socket clientSocket = new Socket();
+                //clientSocket.bind(null);
+                //clientSocket.connect((new InetSocketAddress((DeviceDetailFragment.info.groupOwnerAddress.getHostAddress()),serverport)), SOCKET_TIMEOUT);
+                //Log.d("Streaming", "Client socket - " + clientSocket.isConnected());
+                //OutputStream out_stream = clientSocket.getOutputStream();
+                //PrintWriter pw = new PrintWriter(out_stream);
+                // sent that microphone data has now ended
+                //Log.d("Streaming", "MICROPHONE_androiddj_end");
+                //pw.println("MICROPHONE_androiddj_start");
+                //pw.flush();
+
+                //DatagramSocket socket = new DatagramSocket();
+                //Log.d("VS", "Socket Created");
+                //Log.d("VS","Buffer created of size " + minBufSize);
+                //DatagramPacket packet;
+
+                //final InetAddress destination = InetAddress.getByName(DeviceDetailFragment.info.groupOwnerAddress.getHostAddress());// address of the host of the party u are joined to
+                //Log.d("VS", "Address retrieved");
+
+                //recorder = new AudioRecord(MediaRecorder.AudioSource.MIC,sampleRate,channelConfig,audioFormat,minBufSize*10);
+
+                //Log.d("VS", "Recorder initialized");
+
+                // //      recorder = findAudioRecord();
+                recorder= new AudioRecord(MediaRecorder.AudioSource.DEFAULT, 44100, channelConfig, audioFormat, AudioRecord.getMinBufferSize(44100, channelConfig, audioFormat));
+
+//recorder= new AudioRecord(44100, AudioFormat.CHANNEL_IN_MONO, AudioFormat.ENCODING_PCM_16BIT;)
+                minBufSize= recorder.getMinBufferSize(
+                        44100,
+                        AudioFormat.CHANNEL_IN_MONO,
+                        AudioFormat.ENCODING_PCM_16BIT);
+                //  recorder = new AudioRecord(MediaRecorder.AudioSource.MIC,sampleRate,channelConfig,audioFormat,minBufSize);
+                Log.d("VS", "Recorder initialized");
+                byte[] buffer = new byte[minBufSize];
+
+                //recorder.OutputFormat.THREE_GPP;
+                //recorder.release();
+                recorder.startRecording();
+                //------------
+                speaker = new AudioTrack(AudioManager.STREAM_VOICE_CALL,sampleRate,AudioFormat.CHANNEL_OUT_STEREO,audioFormat,minBufSize,AudioTrack.MODE_STREAM);
+                speaker.setPlaybackRate(22100);
+                speaker.play();
+                //--------------------------------
+                while(status) {
+                    //reading data from MIC into buffer
+                    recorder.read(buffer, 0, minBufSize);
+                    // minBufSize = (int)(1024*3.5);
+                    //   Log.d("min buffer size"+ minBufSize );
+                    Log.d("VS","minimum buffer size created is  " + minBufSize);
+                    Log.d("1", "Recorder initialized");
+                    //putting buffer in the packet
+                    //packet = new DatagramPacket (buffer,buffer.length,destination,dataport);
+
+                    //socket.send(packet);
+                    //String sentence = new String( packet.getData().toString());
+                    //System.out.println("sent packet: " + packet.getData());
+                    //    System.out.println();
+                    //System.out.println("MinBufferSize: " +minBufSize);
+
+                    //speaker = new AudioTrack(AudioManager.STREAM_MUSIC,sampleRate,channelConfig,audioFormat,minBufSize,AudioTrack.MODE_STREAM);
+                    Log.d("2", "Recddorder initialized");
+                    speaker.write(buffer, 0, minBufSize);
+
+                }
+
+                buffer = "end".getBytes();
+                Log.d("Streaming","end packet sending");
+                //packet  = new DatagramPacket(buffer,buffer.length,destination,dataport);
+                Log.d("Streaming","end packet sending");
+                //socket.send(packet);
+                Log.d("Streaming","release recorder");
+                recorder.release();
+                Log.d("Streaming","socket closing");
+                // socket.close();
+                //clientSocket.close();
+
+                //} catch(UnknownHostException e) {
+                //   Log.e("VS", "UnknownHostException");
+                //} catch (IOException e) {
+                //   e.printStackTrace();
+                //  Log.e("VS", "IOException");
+                //}
+            }
+
+        });
+        streamThread.start();
+    }
+
+    //End of start streaming
+
+
 
 
     public ArrayList<String> updatePlaylist() {
@@ -745,82 +915,82 @@ public class HostView extends Activity {
 
             try {
 
-            InputStream inputstream = client.getInputStream();
+                InputStream inputstream = client.getInputStream();
 
-            InputStreamReader isr = new InputStreamReader(inputstream);
+                InputStreamReader isr = new InputStreamReader(inputstream);
 
-            BufferedReader br = new BufferedReader(isr);
-            String recieved_fname = br.readLine();
+                BufferedReader br = new BufferedReader(isr);
+                String recieved_fname = br.readLine();
 
-            Log.d("MicUsing","Recieved File name: "+recieved_fname);
-            OutputStream out_stream = client.getOutputStream();
-            PrintWriter pw = new PrintWriter(out_stream);
-            Log.i("MicUsing1",micUsing?"yes":"no");
+                Log.d("MicUsing","Recieved File name: "+recieved_fname);
+                OutputStream out_stream = client.getOutputStream();
+                PrintWriter pw = new PrintWriter(out_stream);
+                Log.i("MicUsing1",micUsing?"yes":"no");
 
-            if(!micUsing)
-            {
-                pw.println("yes");
-                pw.flush();
+                if(!micUsing)
+                {
+                    pw.println("yes");
+                    pw.flush();
 //                        Log.d(WiFiDirectActivity.TAG, "microphone android dj");
-                micUsing=true;
-                Log.i("MicUsing2",micUsing?"yes":"no");
+                    micUsing=true;
+                    Log.i("MicUsing2",micUsing?"yes":"no");
 //                        Log.d(tag, "recieved file name" + " " + recieved_fname);
 //                        Log.d("VS", "Recorder initialized");
-                MinBufSize=1024*3;
+                    MinBufSize=1024*3;
 
-                speaker = new AudioTrack(AudioManager.STREAM_VOICE_CALL,sampleRate,AudioFormat.CHANNEL_OUT_STEREO,audioFormat,MinBufSize,AudioTrack.MODE_STREAM);
+                    speaker = new AudioTrack(AudioManager.STREAM_VOICE_CALL,sampleRate,AudioFormat.CHANNEL_OUT_STEREO,audioFormat,MinBufSize,AudioTrack.MODE_STREAM);
 
-                byte[] receiveData = new byte[3*1024];
+                    byte[] receiveData = new byte[3*1024];
 
-                String data = "";
+                    String data = "";
 
-                //   int minBufSize = AudioRecord.getMinBufferSize(sampleRate, channelConfig, audioFormat);
+                    //   int minBufSize = AudioRecord.getMinBufferSize(sampleRate, channelConfig, audioFormat);
 
-                // speaker = new AudioTrack(AudioManager.STREAM_MUSIC,sampleRate,AudioFormat.CHANNEL_OUT_STEREO,audioFormat,MinBufSize,AudioTrack.MODE_STREAM);
-                speaker = new AudioTrack(AudioManager.STREAM_VOICE_CALL,sampleRate,AudioFormat.CHANNEL_OUT_STEREO,audioFormat,MinBufSize,AudioTrack.MODE_STREAM);
+                    // speaker = new AudioTrack(AudioManager.STREAM_MUSIC,sampleRate,AudioFormat.CHANNEL_OUT_STEREO,audioFormat,MinBufSize,AudioTrack.MODE_STREAM);
+                    speaker = new AudioTrack(AudioManager.STREAM_VOICE_CALL,sampleRate,AudioFormat.CHANNEL_OUT_STEREO,audioFormat,MinBufSize,AudioTrack.MODE_STREAM);
 
-                speaker.setPlaybackRate(22100);
-                speaker.play();
+                    speaker.setPlaybackRate(22100);
+                    speaker.play();
 
-                String sentence = "";
-                Log.i("MicUsing","Start mic receiving");
+                    String sentence = "";
+                    Log.i("MicUsing","Start mic receiving");
 
-                while(!sentence.equals("end"))
-                {
+                    while(!sentence.equals("end"))
+                    {
 //                            Log.d("in while loop", "in while loop" + " " + recieved_fname);
-                    DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
+                        DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
 //                            Log.i("VR", "Socket Created");
-                    dataServer.receive(receivePacket);
-                    //  out.write(receivePacket.getData(), 0, receiveData.length);
+                        dataServer.receive(receivePacket);
+                        //  out.write(receivePacket.getData(), 0, receiveData.length);
 //                            Log.i(tag,"receiving streaming");
-                    sentence = new String(receivePacket.getData(), 0, receivePacket.getLength());
-                    data = receivePacket.getData().toString();
+                        sentence = new String(receivePacket.getData(), 0, receivePacket.getLength());
+                        data = receivePacket.getData().toString();
 
 //                            System.out.println("RECEIVED: " + data);
 //
-                    receiveData = receivePacket.getData();
-                    speaker.write(receiveData, 0, receiveData.length);
-                    // speaker.write(buffer, 0, MinBufSize);
+                        receiveData = receivePacket.getData();
+                        speaker.write(receiveData, 0, receiveData.length);
+                        // speaker.write(buffer, 0, MinBufSize);
 //                            Log.d("VR", "Writing buffer content to speaker");
-                    ///AudioTrack(AudioManager.STREAM_MUSIC,sampleRate,channelConfig,audioFormat,minBufSize,AudioTrack.MODE_STREAM);
+                        ///AudioTrack(AudioManager.STREAM_MUSIC,sampleRate,channelConfig,audioFormat,minBufSize,AudioTrack.MODE_STREAM);
 
-                }
+                    }
 
 //                        Log.d("Streaming","dataserver closing");
-                dataServer.close();
+                    dataServer.close();
 //                        Log.d("Streaming","dataserver closed");
-                client.close();
+                    client.close();
 //                        Log.d("Streaming","client closed");
-                Log.i("MicUsing3",micUsing?"yes":"no");
-                //   play(findViewById(R.id.play));
-            }
-            else
-            {
-                Log.i("MicUsing4",micUsing?"yes":"no");
-                pw.println("no"); // if mic already used
-                pw.flush();
-                client.close();
-            }
+                    Log.i("MicUsing3",micUsing?"yes":"no");
+                    //   play(findViewById(R.id.play));
+                }
+                else
+                {
+                    Log.i("MicUsing4",micUsing?"yes":"no");
+                    pw.println("no"); // if mic already used
+                    pw.flush();
+                    client.close();
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -872,9 +1042,9 @@ public class HostView extends Activity {
                 Log.d("fileName", "receiving file "+recieved_fname);
 
 
-               if(recieved_fname.startsWith("SEND_SONG")){
-                   String id= br.readLine();
-                   String songName=db.getSong(Integer.parseInt(id)).getName();
+                if(recieved_fname.startsWith("SEND_SONG")){
+                    String id= br.readLine();
+                    String songName=db.getSong(Integer.parseInt(id)).getName();
                     Log.d(WiFiDirectActivity.TAG, "id - "+id+" recieved file name" + " " + songName);
                     Uri fileUri=Uri.fromFile(new File(folder+"/"+songName));
                     ContentResolver cr = context.getContentResolver();
@@ -891,18 +1061,18 @@ public class HostView extends Activity {
 
                 }
 
-				else {
-                Log.d(WiFiDirectActivity.TAG, "recieved file name" + " " + recieved_fname);
-                String filename = append(recieved_fname,String.valueOf(System.currentTimeMillis()));
-                final File f = new File(folder + filename);
-                f.createNewFile();
-                Log.d(WiFiDirectActivity.TAG, "recieved file written " + f.getAbsolutePath());
-                Log.d(WiFiDirectActivity.TAG, "server: copying files " + f.toString());
-                copyFile(inputstream, new FileOutputStream(f));
-                client.close();
+                else {
+                    Log.d(WiFiDirectActivity.TAG, "recieved file name" + " " + recieved_fname);
+                    String filename = append(recieved_fname,String.valueOf(System.currentTimeMillis()));
+                    final File f = new File(folder + filename);
+                    f.createNewFile();
+                    Log.d(WiFiDirectActivity.TAG, "recieved file written " + f.getAbsolutePath());
+                    Log.d(WiFiDirectActivity.TAG, "server: copying files " + f.toString());
+                    copyFile(inputstream, new FileOutputStream(f));
+                    client.close();
 //                    dataServer.close();
-                Log.d(tag,"client socket closed");
-                return filename;
+                    Log.d(tag,"client socket closed");
+                    return filename;
 
                 }
 
@@ -967,29 +1137,6 @@ public class HostView extends Activity {
             return null;
         }
     }
-
-
-    public String getYouTubeLink(Socket client) {
-        try {
-
-            InputStream inputstream = client.getInputStream();
-            InputStreamReader isr = new InputStreamReader(inputstream);
-            BufferedReader br = new BufferedReader(isr);
-            Log.d(tag, "recieving youtube link");
-            String linkJSON = br.readLine();
-            Log.d(tag, "recieved link" + linkJSON);
-            client.close();
-            //votesServerSocket.close();
-            return linkJSON;
-        } catch (IOException e) {
-            Log.e(tag, e.getMessage());
-            is_youtubelink = false;
-            Log.d(tag, "Downloading Error: " + is_youtubelink);
-            return null;
-        }
-    }
-
-
 
 
 

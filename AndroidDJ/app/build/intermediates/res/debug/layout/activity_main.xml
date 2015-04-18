@@ -4,15 +4,18 @@
     android:layout_height="match_parent"
     tools:context="com.example.androiddj.HostView">
 
-<!--android:paddingBottom="16dp"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    -->
+    <!--android:paddingBottom="16dp"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        -->
+
+
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:orientation="vertical">
+
 
         <LinearLayout
             android:layout_width="fill_parent"
@@ -49,6 +52,29 @@
                 android:layout_height="fill_parent"
                 android:label="@string/footer_layout">
 
+                <Button
+                    android:id="@+id/host_mic_stop"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/images"
+                    android:contentDescription="record"
+                    android:layout_alignBottom="@+id/forward"
+                    android:layout_toRightOf="@+id/seekBar"
+                    android:layout_toEndOf="@+id/seekBar"
+                    android:layout_below="@+id/seekBar" />
+
+
+                <Button
+                    android:id="@+id/host_mic_start"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/images1"
+                    android:contentDescription="record"
+                    android:layout_alignBottom="@+id/forward"
+                    android:layout_toRightOf="@+id/seekBar"
+                    android:layout_toEndOf="@+id/seekBar"
+                    android:layout_below="@+id/seekBar" />
+
                 <TextView
                     android:id="@+id/startTime"
                     android:layout_width="wrap_content"
@@ -82,11 +108,11 @@
                     android:id="@+id/forward"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
                     android:layout_alignParentBottom="true"
                     android:onClick="forward"
-                    android:src="@android:drawable/ic_media_ff" />
+                    android:src="@android:drawable/ic_media_ff"
+                    android:layout_alignRight="@+id/seekBar"
+                    android:layout_alignEnd="@+id/seekBar" />
 
                 <ImageButton
                     android:id="@+id/rewind"
@@ -135,7 +161,7 @@
                     android:background="@android:drawable/ic_input_add"
                     android:contentDescription="@string/addsong" />
 
-                <Button
+                <!--<Button
                     android:id="@+id/record_mic"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -143,6 +169,27 @@
                     android:layout_marginLeft="@dimen/activity_horizontal_margin"
                     android:layout_marginTop="@dimen/activity_horizontal_margin"
                     android:background="@drawable/record_logo"
+                    android:contentDescription="record" />-->
+
+
+                <Button
+                    android:id="@+id/client_mic_stop"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                    android:layout_marginTop="@dimen/activity_horizontal_margin"
+                    android:background="@drawable/images"
+                    android:contentDescription="record" />
+
+
+                <Button
+                    android:id="@+id/client_mic_start"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginTop="@dimen/activity_horizontal_margin"
+                    android:background="@drawable/images1"
                     android:contentDescription="record" />
 
 
@@ -152,8 +199,8 @@
                     android:layout_height="wrap_content"
                     android:text="@string/youtube"
                     android:layout_centerVertical="true"
-                    android:layout_toLeftOf="@+id/record_mic"
-                    android:layout_toStartOf="@+id/record_mic" />
+                    android:layout_toLeftOf="@+id/client_mic_start"
+                    android:layout_toStartOf="@+id/client_mic_start" />
 
 
                 <Button
@@ -172,4 +219,4 @@
     </LinearLayout>
 
 </RelativeLayout>
-<!-- From: file:/home/master/Documents/GitHub/Network_Project/AndroidDJ/AndroidDJ/app/src/main/res/layout/activity_main.xml -->
+<!-- From: file:/G:/tech/android/projects/CHANGEd/AndroidDJ/AndroidDJ/app/src/main/res/layout/activity_main.xml -->
