@@ -86,4 +86,4 @@
         android:layout_height="match_parent"
         android:text="@string/empty_message" />
 </LinearLayout>
-<!-- From: file:/G:/tech/android/projects/CHANGEd/AndroidDJ/AndroidDJ/app/src/main/res/layout/device_list.xml -->
+<!-- From: file:/home/master/Documents/GitHub/Network_Project/AndroidDJ/AndroidDJ/app/src/main/res/layout/device_list.xml -->

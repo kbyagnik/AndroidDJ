@@ -372,7 +372,7 @@ public class HostView extends Activity {
             public void run() {
                 sendPlaylist();
                 Log.d(tag, "Sending Playlist....");
-                // playlistHandler.postDelayed(this, 3000);
+                playlistHandler.postDelayed(this, 3000);
             }
         };
 

@@ -8,7 +8,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" 
-    android:layout_weight="1">
+    android:layout_weight="1"
+    android:background="@drawable/host">
 
     <TextView
         android:layout_width="wrap_content"
@@ -19,18 +20,24 @@
         android:layout_alignParentTop="true"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
-        android:paddingTop="@dimen/activity_vertical_margin"/>
+        android:paddingTop="@dimen/activity_vertical_margin"
+        android:textColor="@android:color/background_light"
+        android:textStyle="bold" />
 
     <Button
-		android:label="Open Button"
-		android:id="@+id/open_button"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:text="Open"
-        android:layout_below="@+id/hosting"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true">
-	</Button>
+        android:label="Open Button"
+        android:id="@+id/open_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Open"
+        android:background="@android:color/holo_blue_light"
+        android:textColor="@android:color/background_light"
+        android:layout_alignTop="@+id/closed_button"
+        android:layout_toLeftOf="@+id/hosting"
+        android:layout_toStartOf="@+id/hosting"
+        android:textStyle="bold"
+        android:padding="12dp">
+    </Button>
 
     <Button
         android:label="Closed Button"
@@ -38,19 +45,23 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Closed"
-        android:layout_below="@+id/open_button"
+        android:textColor="@android:color/background_light"
+        android:background="@android:color/holo_blue_light"
         android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_toRightOf="@+id/hosting"
+        android:layout_toEndOf="@+id/hosting"
+        android:textStyle="bold"
+        android:padding="12dp" />
 
-    <Button
-        android:label="Invitation Button"
-        android:id="@+id/invitation_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Invitation"
-        android:layout_below="@+id/closed_button"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true"/>
+    <!--<Button-->
+        <!--android:label="Invitation Button"-->
+        <!--android:id="@+id/invitation_button"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="Invitation"-->
+        <!--android:layout_below="@+id/closed_button"-->
+        <!--android:layout_centerVertical="true"-->
+        <!--android:layout_centerHorizontal="true"/>-->
 
 </RelativeLayout>
 
@@ -64,16 +75,21 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:layout_weight="1" > 
+    android:layout_weight="1"
+    android:background="@drawable/join">
 
     <Button
-		android:label="@string/join_button"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:text="Join"
-		android:id="@+id/join_button"
-		android:layout_centerInParent="true">
-	</Button>
+        android:label="@string/join_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Join"
+        android:id="@+id/join_button"
+        android:background="@android:color/holo_orange_light"
+        android:layout_below="@+id/textView"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="33dp"
+        android:textStyle="bold">
+    </Button>
 
     <TextView
         android:layout_width="wrap_content"
@@ -83,7 +99,8 @@
         android:id="@+id/textView"
         android:paddingTop="@dimen/activity_vertical_margin"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:textStyle="bold" />
 
 </RelativeLayout>
 </LinearLayout>

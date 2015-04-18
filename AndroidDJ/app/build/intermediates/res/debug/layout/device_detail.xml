@@ -4,14 +4,15 @@
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="fill_parent"
-    android:background="@android:color/holo_orange_light"
+    android:background="@drawable/back2"
     android:visibility="visible">
     <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:orientation="vertical"
+        android:background="@drawable/back2"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <LinearLayout
+        <RelativeLayout
             xmlns:android="http://schemas.android.com/apk/res/android"
             android:orientation="horizontal"
             android:layout_width="match_parent"
@@ -20,13 +21,32 @@
                 android:id="@+id/btn_connect"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/connect_peer_button" />
+                android:text="@string/connect_peer_button"
+                android:background="@android:color/holo_green_light"
+                android:textColor="#ffffffff"
+                android:textStyle="bold"
+                android:layout_marginLeft="21dp"
+                android:layout_marginStart="21dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginTop="21dp"
+                android:padding="12dp" />
             <Button
                 android:id="@+id/btn_disconnect"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/disconnect_peer_button" />
-        </LinearLayout>
+                android:text="@string/disconnect_peer_button"
+                android:textStyle="bold"
+                android:background="@android:color/holo_green_light"
+                android:textColor="#ffffffff"
+                android:layout_marginLeft="32dp"
+                android:layout_marginStart="32dp"
+                android:layout_alignTop="@+id/btn_connect"
+                android:layout_toRightOf="@+id/btn_connect"
+                android:layout_toEndOf="@+id/btn_connect"
+                android:padding="12dp" />
+        </RelativeLayout>
         <TextView
             android:id="@+id/device_address"
             android:layout_width="match_parent"
@@ -45,4 +65,4 @@
             android:layout_height="wrap_content" />
     </LinearLayout>
 </FrameLayout>
-<!-- From: file:/G:/tech/android/projects/CHANGEd/AndroidDJ/AndroidDJ/app/src/main/res/layout/device_detail.xml -->
+<!-- From: file:/home/master/Documents/GitHub/Network_Project/AndroidDJ/AndroidDJ/app/src/main/res/layout/device_detail.xml -->

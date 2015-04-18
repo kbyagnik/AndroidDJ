@@ -21,7 +21,7 @@
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:layout_weight="1"
-            android:background="#ffd5d5d5">
+            android:background="@drawable/back2">
 
             <ListView
                 android:id="@+id/listview"
@@ -48,6 +48,10 @@
 
             <RelativeLayout
                 android:id="@+id/host_layout"
+                android:paddingBottom="16dp"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingRight="@dimen/activity_horizontal_margin"
+                android:visibility="visible"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
                 android:label="@string/footer_layout">
@@ -103,34 +107,40 @@
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:layout_marginBottom="10dp" />
 
-
+                <!--android:layout_alignParentEnd="true"-->
+                <!--android:layout_alignParentRight="true"-->
                 <ImageButton
                     android:id="@+id/forward"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/play"
                     android:layout_alignParentBottom="true"
+                    android:layout_marginLeft="25dp"
                     android:onClick="forward"
-                    android:src="@android:drawable/ic_media_ff"
-                    android:layout_alignRight="@+id/seekBar"
-                    android:layout_alignEnd="@+id/seekBar" />
+                    android:background="@drawable/mybutton"
+                    android:src="@android:drawable/ic_media_ff" />
 
+                <!--android:layout_alignParentLeft="true"-->
+                <!--android:layout_alignParentStart="true"-->
                 <ImageButton
                     android:id="@+id/rewind"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentStart="true"
+                    android:layout_toLeftOf="@id/play"
+                    android:layout_marginRight="25dp"
                     android:onClick="rewind"
+                    android:background="@drawable/mybutton"
                     android:src="@android:drawable/ic_media_rew" />
 
-                <ImageButton
+               <ImageButton
                     android:id="@+id/play"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
                     android:layout_centerHorizontal="true"
                     android:onClick="play"
+                    android:background="@drawable/mybutton"
                     android:src="@android:drawable/ic_media_play" />
 
                 <ImageButton
@@ -140,6 +150,7 @@
                     android:layout_alignParentBottom="true"
                     android:layout_centerHorizontal="true"
                     android:onClick="pause"
+                    android:background="@drawable/mybutton"
                     android:src="@android:drawable/ic_media_pause" />
 
             </RelativeLayout>
@@ -148,6 +159,8 @@
                 android:id="@+id/client_layout"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingRight="@dimen/activity_horizontal_margin"
                 android:label="@string/footer_layout"
                 android:visibility="invisible">
 
@@ -156,10 +169,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
-                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+
                     android:layout_marginTop="@dimen/activity_horizontal_margin"
-                    android:background="@android:drawable/ic_input_add"
-                    android:contentDescription="@string/addsong" />
+                    android:background="@drawable/upload"
+                    android:contentDescription="@string/addsong"
+                    android:layout_alignBottom="@+id/youtube" />
 
                 <!--<Button
                     android:id="@+id/record_mic"
@@ -174,43 +188,51 @@
 
                 <Button
                     android:id="@+id/client_mic_stop"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                    android:layout_width="100dp"
+                    android:layout_height="55dp"
                     android:layout_marginTop="@dimen/activity_horizontal_margin"
                     android:background="@drawable/images"
-                    android:contentDescription="record" />
+                    android:contentDescription="record"
+                    android:layout_alignBottom="@+id/client_mic_start"
+                    android:layout_alignLeft="@+id/client_mic_start"
+                    android:layout_alignStart="@+id/client_mic_start" />
 
 
                 <Button
                     android:id="@+id/client_mic_start"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginTop="@dimen/activity_horizontal_margin"
+                    android:layout_width="100dp"
+                    android:layout_height="55dp"
                     android:background="@drawable/images1"
-                    android:contentDescription="record" />
+                    android:contentDescription="record"
+                    android:layout_alignTop="@+id/youtube"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true" />
 
 
                 <Button
                     android:id="@+id/youtube"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/youtube"
+                    android:background="@drawable/youtube1"
                     android:layout_centerVertical="true"
-                    android:layout_toLeftOf="@+id/client_mic_start"
-                    android:layout_toStartOf="@+id/client_mic_start" />
+                    android:layout_toLeftOf="@+id/client_mic_stop"
+                    android:layout_toStartOf="@+id/client_mic_stop"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginEnd="30dp" />
 
 
                 <Button
                     android:id="@+id/leave_party"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignLeft="@+id/add_file"
-                    android:layout_marginLeft="100dp"
-                    android:layout_marginTop="@dimen/activity_horizontal_margin"
-                    android:text="Leave" />
+                    android:text="Leave"
+                    android:background="@android:color/holo_orange_light"
+                    android:textStyle="bold"
+                    android:textColor="#ffffffff"
+                    android:layout_alignBottom="@+id/add_file"
+                    android:layout_toRightOf="@+id/add_file"
+                    android:layout_marginLeft="20dp"
+                     />
 
             </RelativeLayout>
 

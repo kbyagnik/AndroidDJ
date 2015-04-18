@@ -36,9 +36,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="25sp"
-        android:text="Search Song"
+        android:text="Search"
         android:padding="10dp"
-         android:layout_marginBottom="20dp"/>
+         android:layout_marginBottom="20dp"
+        android:textColor="@android:color/background_light" />
 <LinearLayout
     android:layout_width="fill_parent"
     android:layout_height="0dp"
@@ -62,31 +63,6 @@
         android:layout_marginRight="20dp"
         android:layout_marginEnd="20dp"
         android:text="Pressing Search Song without entering query in text box will show popular music videos in India."/>
-
-    <ImageView
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ashish"
-        android:gravity="center"
-        android:layout_marginBottom="5dp"/>
-
-    <TextView
-
-        android:textColor="@color/copyright_tx"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:gravity="center_horizontal"
-        android:textStyle="italic"
-        android:textIsSelectable="false"
-        android:editable="false"
-        android:textSize="22sp"
-        android:layout_marginTop="2dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginBottom="0dp"
-        android:text="Author: Ashish Singh \nEmail: signumash@gmail.com"
-        android:id="@+id/textView" />
 
 
 </LinearLayout>

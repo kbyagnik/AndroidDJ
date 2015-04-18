@@ -197,7 +197,7 @@ public class ClientView extends Activity {
                 }
 
                 Log.d(tag, "handler attached....");
-                //downloadHandler.postDelayed(this, 500);
+                downloadHandler.postDelayed(this, 500);
             }
         };
 

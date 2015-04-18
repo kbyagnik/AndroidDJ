@@ -5,8 +5,7 @@
     android:paddingLeft="10sp"
     android:paddingRight="10sp"
     android:paddingTop="5sp"
-    android:paddingBottom="5sp"
-    android:background="#ffdfdfdf">
+    android:paddingBottom="5sp">
 <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -53,7 +52,7 @@
         android:layout_height="25sp"
         android:onClick="upvoteSong"
         android:layout_centerHorizontal="true"
-        android:background="@drawable/up"/>
+        android:background="@drawable/like"/>
 </RelativeLayout>
        <RelativeLayout
            android:id="@+id/column1"
@@ -67,7 +66,6 @@
         android:layout_width="wrap_content"
         android:layout_height="40sp"
         android:text="0"
-        android:textColor="@color/GREEN"
         android:layout_gravity="left"
         android:layout_centerVertical="true"
         android:textSize="20sp"/>
@@ -88,7 +86,7 @@
         android:onClick="downvoteSong"
         android:layout_centerHorizontal="true"
         android:layout_toRightOf="@id/upvoteCount"
-        android:background="@drawable/down"/>
+        android:background="@drawable/dislike"/>
 
            </RelativeLayout>
 
@@ -105,7 +103,6 @@
         android:layout_width="wrap_content"
         android:layout_height="40sp"
         android:gravity="left"
-        android:textColor="@color/RED"
         android:layout_centerVertical="true"
         android:layout_toRightOf="@id/downvote"
         android:text="0"
@@ -129,7 +126,7 @@
                android:layout_centerHorizontal="true"
                android:onClick="receiveSong"
                android:layout_toRightOf="@id/downvoteCount"
-               android:background="@drawable/save"/>
+               android:background="@drawable/download1"/>
 
            </RelativeLayout>
 
@@ -137,4 +134,4 @@
     </TableRow>
 
 </TableLayout>
-    </RelativeLayout><!-- From: file:/G:/tech/android/projects/CHANGEd/AndroidDJ/AndroidDJ/app/src/main/res/layout/listview_content.xml -->
+    </RelativeLayout><!-- From: file:/home/master/Documents/GitHub/Network_Project/AndroidDJ/AndroidDJ/app/src/main/res/layout/listview_content.xml -->
