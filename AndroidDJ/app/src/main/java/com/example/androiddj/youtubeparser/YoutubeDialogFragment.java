@@ -36,6 +36,8 @@ public class YoutubeDialogFragment extends DialogFragment {
 //                            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
 //                            startActivity(browserIntent);
 
+
+
 //                            SEND the VIDEO_ID and title to the host
 
                         }

@@ -29,6 +29,7 @@ public class FileTransferService extends IntentService {
     public static final String EXTRAS_FILE_PATH = "file_url";
     public static final String EXTRAS_GROUP_OWNER_ADDRESS = "go_host";
     public static final String EXTRAS_GROUP_OWNER_PORT = "go_port";
+    public static final String EXTRAS_IS_LINK = "is_youtubelink";
 
     public FileTransferService(String name) {
         super(name);

@@ -84,7 +84,7 @@ public class HostView extends Activity {
     public static int oneTimeOnly = 0;
     int index = 0;
 
-
+    private boolean is_youtubelink = false;
     private Button youtubeButton;
 
 
@@ -967,6 +967,29 @@ public class HostView extends Activity {
             return null;
         }
     }
+
+
+    public String getYouTubeLink(Socket client) {
+        try {
+
+            InputStream inputstream = client.getInputStream();
+            InputStreamReader isr = new InputStreamReader(inputstream);
+            BufferedReader br = new BufferedReader(isr);
+            Log.d(tag, "recieving youtube link");
+            String linkJSON = br.readLine();
+            Log.d(tag, "recieved link" + linkJSON);
+            client.close();
+            //votesServerSocket.close();
+            return linkJSON;
+        } catch (IOException e) {
+            Log.e(tag, e.getMessage());
+            is_youtubelink = false;
+            Log.d(tag, "Downloading Error: " + is_youtubelink);
+            return null;
+        }
+    }
+
+
 
 
 
