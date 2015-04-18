@@ -146,6 +146,15 @@
                     android:contentDescription="record" />
 
 
+                <Button
+                    android:id="@+id/youtube"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                    android:layout_marginTop="@dimen/activity_horizontal_margin"
+                    android:text="@string/youtube" />
+
 
                 <Button
                     android:id="@+id/leave_party"
@@ -163,4 +172,4 @@
     </LinearLayout>
 
 </RelativeLayout>
-<!-- From: file:/media/master/ACER/Users/acer/Documents/GitHub/Networks/AndroidDJ/AndroidDJ/app/src/main/res/layout/activity_main.xml -->
+<!-- From: file:/home/master/Documents/GitHub/Network_Project/AndroidDJ/AndroidDJ/app/src/main/res/layout/activity_main.xml -->

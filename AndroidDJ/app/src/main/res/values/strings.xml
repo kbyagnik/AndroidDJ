@@ -33,6 +33,7 @@
     <string name="title_activity_main">MainActivity</string>
     <string name="background">back</string>
     <string name="addsong">add</string>
+    <string name="youtube">YouTube</string>
 
 
     <!--<string name="app_name">Youtube Parser</string>-->

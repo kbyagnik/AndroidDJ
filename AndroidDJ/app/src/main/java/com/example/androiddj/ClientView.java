@@ -34,7 +34,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 
-import youtubeparser.ListViewHome;
+import com.example.androiddj.youtubeparser.ListViewHome;
 
 public class ClientView extends Activity {
 	private String tag = "DJ Debugging";
@@ -110,8 +110,21 @@ public class ClientView extends Activity {
                     public void onClick(View v) {
                         // Allow user to pick an audio from File-Manager or other
                         // registered apps
-                        Intent intent = new Intent(ClientView.this, ListViewHome.class);
+                        Intent intent = new Intent(ClientView.this, StreamMic.class);
                         Log.d(WiFiDirectActivity.TAG, "Start record_mic");
+                        startActivity(intent);
+                    }
+                });
+
+        findViewById(R.id.youtube).setOnClickListener(
+                new View.OnClickListener() {
+
+                    @Override
+                    public void onClick(View v) {
+                        // Allow user to pick an audio from File-Manager or other
+                        // registered apps
+                        Intent intent = new Intent(ClientView.this, ListViewHome.class);
+                        Log.d(WiFiDirectActivity.TAG, "Start youtube");
                         startActivity(intent);
                     }
                 });

@@ -2,6 +2,7 @@
 <resources>
     <string-array name="youtube_dialog_list">
         <item>Play and Watch</item>
-        <item>Go to Youtube</item>
+        <!--<item>Go to Youtube</item>-->
+        <item>Add Link to Playlist</item>
     </string-array>
 </resources>

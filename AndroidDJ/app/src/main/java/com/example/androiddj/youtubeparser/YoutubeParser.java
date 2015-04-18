@@ -1,4 +1,4 @@
-package youtubeparser;
+package com.example.androiddj.youtubeparser;
 
 import android.util.JsonReader;
 import android.util.JsonToken;

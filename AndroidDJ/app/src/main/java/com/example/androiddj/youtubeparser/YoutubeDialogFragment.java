@@ -1,4 +1,4 @@
-package youtubeparser;
+package com.example.androiddj.youtubeparser;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -24,6 +24,7 @@ public class YoutubeDialogFragment extends DialogFragment {
         //Resources res = getActivity().getResources();
         final Bundle bundle = getArguments();
         final String VIDEO_ID =bundle.getString(videoId);
+        final String TITLE = bundle.getString("Description");
         url="https://www.youtube.com/watch?v="+VIDEO_ID;
         final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setItems(R.array.youtube_dialog_list, new DialogInterface.OnClickListener() {
@@ -32,18 +33,14 @@ public class YoutubeDialogFragment extends DialogFragment {
                         // of the selected item
                         if(which==1){
                             //play the video in youtube app
-                            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-                            startActivity(browserIntent);
+//                            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+//                            startActivity(browserIntent);
+
+//                            SEND the VIDEO_ID and title to the host
+
                         }
                         else if(which==0){
-                            //remove the following two lines and write code to send the videoId to host
-                            //Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.google.com"));
-                           // startActivity(browserIntent);
-                           // Intent base = new Intent(mActivity.getBaseContext(),ListViewWithBaseAdapter.StandaloneYoutubePlayer.class);
-                           // base.putExtra(videoId,VIDEO_ID);
-                            //startActivity(base);
                             ListViewWithBaseAdapter.play(VIDEO_ID);
-
                         }
                         dialog.dismiss();
                     }

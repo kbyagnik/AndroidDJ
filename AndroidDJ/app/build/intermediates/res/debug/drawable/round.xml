@@ -4,4 +4,4 @@
     android:shape="rectangle" >
     <solid android:color="#FFFFFFFF" />
     <corners android:radius="20dp" />
-</shape><!-- From: file:/media/master/ACER/Users/acer/Documents/GitHub/Networks/AndroidDJ/AndroidDJ/app/src/main/res/drawable/round.xml -->
+</shape><!-- From: file:/home/master/Documents/GitHub/Network_Project/AndroidDJ/AndroidDJ/app/src/main/res/drawable/round.xml -->

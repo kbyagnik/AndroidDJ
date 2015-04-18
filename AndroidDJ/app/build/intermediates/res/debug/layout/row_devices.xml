@@ -31,4 +31,4 @@
             android:singleLine="true"
             android:ellipsize="marquee" />
     </LinearLayout>
-</LinearLayout><!-- From: file:/media/master/ACER/Users/acer/Documents/GitHub/Networks/AndroidDJ/AndroidDJ/app/src/main/res/layout/row_devices.xml -->
+</LinearLayout><!-- From: file:/home/master/Documents/GitHub/Network_Project/AndroidDJ/AndroidDJ/app/src/main/res/layout/row_devices.xml -->

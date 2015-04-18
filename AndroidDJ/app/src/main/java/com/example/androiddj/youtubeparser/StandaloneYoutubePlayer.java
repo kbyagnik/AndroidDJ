@@ -1,4 +1,4 @@
-package youtubeparser;
+package com.example.androiddj.youtubeparser;
 
 import android.app.Activity;
 import android.content.Intent;

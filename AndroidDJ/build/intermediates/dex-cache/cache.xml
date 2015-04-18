@@ -2,18 +2,25 @@
 <items version="2" >
 
     <item
-        jar="E:\Software\Andriod\AndroidSDK\extras\android\m2repository\com\android\support\support-v4\19.1.0\support-v4-19.1.0.jar"
-        jumboMode="false"
-        revision="21.1.2"
-        sha1="85f201b380937e61a9dce6ca90ccf6872abbfb67">
-        <dex dex="C:\Users\acer\Documents\GitHub\Networks\AndroidDJ\AndroidDJ\app\build\intermediates\pre-dexed\debug\support-v4-19.1.0-9e411d920f6574f503b4c40d08e5d307513eb1c8.jar" />
-    </item>
-    <item
-        jar="C:\Users\acer\Documents\GitHub\Networks\AndroidDJ\AndroidDJ\app\libs\YouTubeAndroidPlayerApi.jar"
+        jar="/home/master/Documents/GitHub/Network_Project/AndroidDJ/AndroidDJ/app/libs/YouTubeAndroidPlayerApi.jar"
         jumboMode="false"
         revision="21.1.2"
         sha1="78b8f6e37921559ed21c1fae1f30f9f713494db8">
-        <dex dex="C:\Users\acer\Documents\GitHub\Networks\AndroidDJ\AndroidDJ\app\build\intermediates\pre-dexed\debug\YouTubeAndroidPlayerApi-5977030e18341d68306e0c8df93cc566f68b8456.jar" />
+        <dex dex="/home/master/Documents/GitHub/Network_Project/AndroidDJ/AndroidDJ/app/build/intermediates/pre-dexed/debug/YouTubeAndroidPlayerApi-f4063a6b67314ae359c91dcd68d158c1a91b4955.jar" />
+    </item>
+    <item
+        jar="/media/master/ACER/Users/acer/Documents/GitHub/Networks/AndroidDJ/AndroidDJ/app/libs/YouTubeAndroidPlayerApi.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="78b8f6e37921559ed21c1fae1f30f9f713494db8">
+        <dex dex="/media/master/ACER/Users/acer/Documents/GitHub/Networks/AndroidDJ/AndroidDJ/app/build/intermediates/pre-dexed/debug/YouTubeAndroidPlayerApi-194598bd84f3f72ca7df2d4dbc57b0b7e3893098.jar" />
+    </item>
+    <item
+        jar="/opt/android-sdk-linux/extras/android/m2repository/com/android/support/support-v4/19.1.0/support-v4-19.1.0.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="85f201b380937e61a9dce6ca90ccf6872abbfb67">
+        <dex dex="/media/master/ACER/Users/acer/Documents/GitHub/Networks/AndroidDJ/AndroidDJ/app/build/intermediates/pre-dexed/debug/support-v4-19.1.0-5ab5bbb3844d6c72109d7acdf4c48c80a5c728cc.jar" />
     </item>
 
 </items>

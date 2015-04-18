@@ -1,9 +1,4 @@
-package youtubeparser;
-
-/**
- *
- * Created by Ashish Singh on 09-Apr-15.
- */
+package com.example.androiddj.youtubeparser;
 
 import android.app.Activity;
 import android.app.Fragment;

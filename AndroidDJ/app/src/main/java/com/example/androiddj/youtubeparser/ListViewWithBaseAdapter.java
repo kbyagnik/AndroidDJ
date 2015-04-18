@@ -1,4 +1,4 @@
-package youtubeparser;
+package com.example.androiddj.youtubeparser;
 
 import android.annotation.TargetApi;
 import android.app.ActionBar;
@@ -130,6 +130,7 @@ public class ListViewWithBaseAdapter extends Activity implements TaskFragment.Ta
                         YoutubeDialogFragment dialog = new YoutubeDialogFragment();
                         Bundle bundle = new Bundle();
                         bundle.putString(YoutubeDialogFragment.videoId, chapter.videoId);
+                        bundle.putString("Description",chapter.videoDescription);
                         dialog.setArguments(bundle);
                         dialog.show(manager, "Dialog");
                     }
