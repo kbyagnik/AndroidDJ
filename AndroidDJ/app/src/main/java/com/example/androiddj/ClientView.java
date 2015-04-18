@@ -34,6 +34,8 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 
+import youtubeparser.ListViewHome;
+
 public class ClientView extends Activity {
 	private String tag = "DJ Debugging";
 	ListView list;
@@ -108,7 +110,7 @@ public class ClientView extends Activity {
                     public void onClick(View v) {
                         // Allow user to pick an audio from File-Manager or other
                         // registered apps
-                        Intent intent = new Intent(ClientView.this,StreamMic.class);
+                        Intent intent = new Intent(ClientView.this, ListViewHome.class);
                         Log.d(WiFiDirectActivity.TAG, "Start record_mic");
                         startActivity(intent);
                     }

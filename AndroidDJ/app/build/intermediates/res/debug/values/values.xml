@@ -1,16 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- From: file:/C:/Users/ankit/workspace/AndroidWorkspace/AndroidProject/AndroidDJ_merge/AndroidDJ/AndroidDJ/app/src/main/res/values/color.xml -->
+    <!-- From: file:/media/master/ACER/Users/acer/Documents/GitHub/Networks/AndroidDJ/AndroidDJ/app/src/main/res/values/arrays.xml -->
+    <eat-comment/>
+    <string-array name="youtube_dialog_list">
+        <item>Play and Watch</item>
+        <item>Go to Youtube</item>
+    </string-array>
+    <!-- From: file:/media/master/ACER/Users/acer/Documents/GitHub/Networks/AndroidDJ/AndroidDJ/app/src/main/res/values/color.xml -->
     <eat-comment/>
     <color name="GREEN">#00FF00</color>
     <color name="RED">#FF0000</color>
-    <!-- From: file:/C:/Users/ankit/workspace/AndroidWorkspace/AndroidProject/AndroidDJ_merge/AndroidDJ/AndroidDJ/app/src/main/res/values/dimens.xml -->
+    <!-- From: file:/media/master/ACER/Users/acer/Documents/GitHub/Networks/AndroidDJ/AndroidDJ/app/src/main/res/values/styles.xml -->
+    <eat-comment/>
+    <color name="copyright_bg">#330099ff</color>
+    <color name="copyright_tx">#000000</color>
+    <color name="dark_blue">#000066</color>
+    <color name="edit_text_bg">#ffffff</color>
+    <color name="edit_text_tx">#000000</color>
+    <color name="hint_color">#ff9999</color>
+    <color name="msg_popular">#ffffff</color>
+    <!-- From: file:/media/master/ACER/Users/acer/Documents/GitHub/Networks/AndroidDJ/AndroidDJ/app/src/main/res/values/dimens.xml -->
     <eat-comment/>
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="phone_list_height">250dp</dimen>
     <dimen name="tablet_list_width">300dp</dimen>
-    <!-- From: file:/C:/Users/ankit/workspace/AndroidWorkspace/AndroidProject/AndroidDJ_merge/AndroidDJ/AndroidDJ/app/src/main/res/values/strings.xml -->
+    <!-- From: file:/media/master/ACER/Users/acer/Documents/GitHub/Networks/AndroidDJ/AndroidDJ/app/src/main/res/values/strings.xml -->
     <eat-comment/>
     <string name="VotingTextView">Song name asdnjas dsa das dja dja dj saj sajd asjd sad sad as d sa d a sd  ad  as dd we wen wn dkkjnjj</string>
     <string name="action_settings">Settings</string>
@@ -26,6 +41,7 @@
     <string name="empty"/>
     <string name="empty_message">No devices found. Turn on P2P and perform discovery from the Action Bar</string>
     <string name="enable_p2p_button">P2P On/Off</string>
+    <string name="error_player">There was an error initializing the YouTubePlayer (%1$s)</string>
     <string name="footer_layout">This is a layout for adding songs from local storage</string>
     <string name="get_file_button">Launch Gallery</string>
     <string name="group_owner_text">"Am I the Group Owner? "</string>
@@ -40,11 +56,12 @@
     <string name="no">no</string>
     <string name="open_party">Host an open party</string>
     <string name="p2p_off_warning">Enable P2P from action bar button above or system settings</string>
+    <string name="search_title">Search Youtube</string>
     <string name="title_activity_host_options">HostOptions</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="upvote">Upvote song</string>
     <string name="yes">yes</string>
-    <!-- From: file:/C:/Users/ankit/workspace/AndroidWorkspace/AndroidProject/AndroidDJ_merge/AndroidDJ/AndroidDJ/app/src/main/res/values/styles.xml -->
+    <!-- From: file:/media/master/ACER/Users/acer/Documents/GitHub/Networks/AndroidDJ/AndroidDJ/app/src/main/res/values/styles.xml -->
     <eat-comment/>
     <style name="AppBaseTheme" parent="android:Theme.Light">
         <!--
@@ -55,5 +72,10 @@
     </style>
     <style name="AppTheme" parent="AppBaseTheme">
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
+    </style>
+    <!-- From: file:/media/master/ACER/Users/acer/Documents/GitHub/Networks/AndroidDJ/AndroidDJ/app/src/main/res/values/themes.xml -->
+    <eat-comment/>
+    <style name="MyAppTheme" parent="@android:style/Theme.Light.NoTitleBar">
+        <!-- Any customizations for your app running on pre-3.0 devices here -->
     </style>
 </resources>

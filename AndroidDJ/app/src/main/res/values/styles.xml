@@ -17,4 +17,23 @@
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
     </style>
 
+
+
+
+
+
+    <color name="copyright_bg">#330099ff</color>
+    <color name="copyright_tx">#000000</color>
+    <color name="edit_text_bg">#ffffff</color>
+    <color name="edit_text_tx">#000000</color>
+    <color name="hint_color">#ff9999</color>
+    <color name="msg_popular">#ffffff</color>
+    <color name="dark_blue">#000066</color>
+    <!--
+        Base application theme, dependent on API level. This theme is replaced
+        by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
+    -->
+
+
+
 </resources>

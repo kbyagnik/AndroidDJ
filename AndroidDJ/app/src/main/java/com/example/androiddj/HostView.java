@@ -21,6 +21,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.SeekBar;
@@ -82,6 +83,9 @@ public class HostView extends Activity {
     private ImageButton playButton, pauseButton;
     public static int oneTimeOnly = 0;
     int index = 0;
+
+
+    private Button youtubeButton;
 
 
 //    AudioRecord recorder;

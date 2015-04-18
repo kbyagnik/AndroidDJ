@@ -2,11 +2,18 @@
 <items version="2" >
 
     <item
-        jar="E:\Android\sdk\extras\android\m2repository\com\android\support\support-v4\19.1.0\support-v4-19.1.0.jar"
+        jar="E:\Software\Andriod\AndroidSDK\extras\android\m2repository\com\android\support\support-v4\19.1.0\support-v4-19.1.0.jar"
         jumboMode="false"
         revision="21.1.2"
         sha1="85f201b380937e61a9dce6ca90ccf6872abbfb67">
-        <dex dex="C:\Users\ankit\workspace\AndroidWorkspace\AndroidProject\AndroidDJ_merge\AndroidDJ\AndroidDJ\app\build\intermediates\pre-dexed\debug\support-v4-19.1.0-be220b38eb335326b6406b05fa5b60644c539549.jar" />
+        <dex dex="C:\Users\acer\Documents\GitHub\Networks\AndroidDJ\AndroidDJ\app\build\intermediates\pre-dexed\debug\support-v4-19.1.0-9e411d920f6574f503b4c40d08e5d307513eb1c8.jar" />
+    </item>
+    <item
+        jar="C:\Users\acer\Documents\GitHub\Networks\AndroidDJ\AndroidDJ\app\libs\YouTubeAndroidPlayerApi.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="78b8f6e37921559ed21c1fae1f30f9f713494db8">
+        <dex dex="C:\Users\acer\Documents\GitHub\Networks\AndroidDJ\AndroidDJ\app\build\intermediates\pre-dexed\debug\YouTubeAndroidPlayerApi-5977030e18341d68306e0c8df93cc566f68b8456.jar" />
     </item>
 
 </items>

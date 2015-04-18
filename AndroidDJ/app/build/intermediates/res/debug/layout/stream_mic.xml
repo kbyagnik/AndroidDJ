@@ -29,4 +29,4 @@
         android:layout_alignLeft="@+id/start_button"
         android:text="Stop" />
 
-</RelativeLayout><!-- From: file:/C:/Users/ankit/workspace/AndroidWorkspace/AndroidProject/AndroidDJ_merge/AndroidDJ/AndroidDJ/app/src/main/res/layout/stream_mic.xml -->
+</RelativeLayout><!-- From: file:/media/master/ACER/Users/acer/Documents/GitHub/Networks/AndroidDJ/AndroidDJ/app/src/main/res/layout/stream_mic.xml -->

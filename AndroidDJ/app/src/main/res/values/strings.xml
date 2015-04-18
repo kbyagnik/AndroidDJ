@@ -34,4 +34,12 @@
     <string name="background">back</string>
     <string name="addsong">add</string>
 
+
+    <!--<string name="app_name">Youtube Parser</string>-->
+    <!--<string name="action_settings">Settings</string>-->
+    <!--<string name="hello_world">Hello world!</string>-->
+    <string name="error_player">There was an error initializing the YouTubePlayer (%1$s)</string>
+    <string name="search_title">Search Youtube</string>
+
+
 </resources>
