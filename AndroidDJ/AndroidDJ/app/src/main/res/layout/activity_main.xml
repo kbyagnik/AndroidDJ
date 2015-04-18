@@ -1,0 +1,218 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.androiddj.HostView">
+
+    <!--android:paddingBottom="16dp"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        -->
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:background="#ffd5d5d5">
+
+            <ListView
+                android:id="@+id/listview"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:divider="@null"
+                android:dividerHeight="0dp"
+                android:scrollbars="vertical"></ListView>
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/holo_blue_light"
+            android:gravity="center_vertical" />
+
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="5"
+            android:label="@string/footer_layout">
+
+            <RelativeLayout
+                android:id="@+id/host_layout"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:label="@string/footer_layout">
+
+                <Button
+                    android:id="@+id/host_mic_stop"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/images"
+                    android:contentDescription="record"
+                    android:layout_alignBottom="@+id/forward"
+                    android:layout_toRightOf="@+id/seekBar"
+                    android:layout_toEndOf="@+id/seekBar"
+                    android:layout_below="@+id/seekBar" />
+
+
+                <Button
+                    android:id="@+id/host_mic_start"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/images1"
+                    android:contentDescription="record"
+                    android:layout_alignBottom="@+id/forward"
+                    android:layout_toRightOf="@+id/seekBar"
+                    android:layout_toEndOf="@+id/seekBar"
+                    android:layout_below="@+id/seekBar" />
+
+                <TextView
+                    android:id="@+id/startTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_above="@+id/rewind"
+                    android:layout_alignParentLeft="true"
+                    android:text="@string/inital_Time"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:layout_marginBottom="10dp" />
+
+                <SeekBar
+                    android:id="@+id/seekBar"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_above="@+id/pause"
+                    android:layout_toRightOf="@+id/startTime"
+                    android:layout_toLeftOf="@+id/endTime"/>
+
+                <TextView
+                    android:id="@+id/endTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_above="@+id/forward"
+                    android:layout_alignParentRight="true"
+                    android:text="@string/inital_Time"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:layout_marginBottom="10dp" />
+
+
+                <ImageButton
+                    android:id="@+id/forward"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:onClick="forward"
+                    android:src="@android:drawable/ic_media_ff"
+                    android:layout_alignRight="@+id/seekBar"
+                    android:layout_alignEnd="@+id/seekBar" />
+
+                <ImageButton
+                    android:id="@+id/rewind"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:onClick="rewind"
+                    android:src="@android:drawable/ic_media_rew" />
+
+                <ImageButton
+                    android:id="@+id/play"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:onClick="play"
+                    android:src="@android:drawable/ic_media_play" />
+
+                <ImageButton
+                    android:id="@+id/pause"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:onClick="pause"
+                    android:src="@android:drawable/ic_media_pause" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/client_layout"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:label="@string/footer_layout"
+                android:visibility="invisible">
+
+                <Button
+                    android:id="@+id/add_file"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                    android:layout_marginTop="@dimen/activity_horizontal_margin"
+                    android:background="@android:drawable/ic_input_add"
+                    android:contentDescription="@string/addsong" />
+
+                <!--<Button
+                    android:id="@+id/record_mic"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                    android:layout_marginTop="@dimen/activity_horizontal_margin"
+                    android:background="@drawable/record_logo"
+                    android:contentDescription="record" />-->
+
+
+                <Button
+                    android:id="@+id/client_mic_stop"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                    android:layout_marginTop="@dimen/activity_horizontal_margin"
+                    android:background="@drawable/images"
+                    android:contentDescription="record" />
+
+
+                <Button
+                    android:id="@+id/client_mic_start"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginTop="@dimen/activity_horizontal_margin"
+                    android:background="@drawable/images1"
+                    android:contentDescription="record" />
+
+
+                <Button
+                    android:id="@+id/youtube"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/youtube"
+                    android:layout_centerVertical="true"
+                    android:layout_toLeftOf="@+id/client_mic_start"
+                    android:layout_toStartOf="@+id/client_mic_start" />
+
+
+                <Button
+                    android:id="@+id/leave_party"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignLeft="@+id/add_file"
+                    android:layout_marginLeft="100dp"
+                    android:layout_marginTop="@dimen/activity_horizontal_margin"
+                    android:text="Leave" />
+
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>
