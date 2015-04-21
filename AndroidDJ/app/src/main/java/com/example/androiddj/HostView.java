@@ -426,31 +426,7 @@ public class HostView extends Activity {
 
             @Override
             public void run() {
-                //try {
-                //Socket clientSocket = new Socket();
-                //clientSocket.bind(null);
-                //clientSocket.connect((new InetSocketAddress((DeviceDetailFragment.info.groupOwnerAddress.getHostAddress()),serverport)), SOCKET_TIMEOUT);
-                //Log.d("Streaming", "Client socket - " + clientSocket.isConnected());
-                //OutputStream out_stream = clientSocket.getOutputStream();
-                //PrintWriter pw = new PrintWriter(out_stream);
-                // sent that microphone data has now ended
-                //Log.d("Streaming", "MICROPHONE_androiddj_end");
-                //pw.println("MICROPHONE_androiddj_start");
-                //pw.flush();
 
-                //DatagramSocket socket = new DatagramSocket();
-                //Log.d("VS", "Socket Created");
-                //Log.d("VS","Buffer created of size " + minBufSize);
-                //DatagramPacket packet;
-
-                //final InetAddress destination = InetAddress.getByName(DeviceDetailFragment.info.groupOwnerAddress.getHostAddress());// address of the host of the party u are joined to
-                //Log.d("VS", "Address retrieved");
-
-                //recorder = new AudioRecord(MediaRecorder.AudioSource.MIC,sampleRate,channelConfig,audioFormat,minBufSize*10);
-
-                //Log.d("VS", "Recorder initialized");
-
-                // //      recorder = findAudioRecord();
                 recorder= new AudioRecord(MediaRecorder.AudioSource.DEFAULT, 44100, channelConfig, audioFormat, AudioRecord.getMinBufferSize(44100, channelConfig, audioFormat));
 
 //recorder= new AudioRecord(44100, AudioFormat.CHANNEL_IN_MONO, AudioFormat.ENCODING_PCM_16BIT;)
@@ -500,15 +476,7 @@ public class HostView extends Activity {
                 Log.d("Streaming","release recorder");
                 recorder.release();
                 Log.d("Streaming","socket closing");
-                // socket.close();
-                //clientSocket.close();
 
-                //} catch(UnknownHostException e) {
-                //   Log.e("VS", "UnknownHostException");
-                //} catch (IOException e) {
-                //   e.printStackTrace();
-                //  Log.e("VS", "IOException");
-                //}
             }
 
         });

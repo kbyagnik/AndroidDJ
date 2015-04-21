@@ -29,7 +29,8 @@
                 android:layout_height="fill_parent"
                 android:divider="@null"
                 android:dividerHeight="0dp"
-                android:scrollbars="vertical"></ListView>
+                android:scrollbars="vertical"
+                android:background="#ffea5233"></ListView>
 
         </LinearLayout>
 

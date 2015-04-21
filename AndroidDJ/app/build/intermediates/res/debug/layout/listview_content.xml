@@ -5,7 +5,8 @@
     android:paddingLeft="10sp"
     android:paddingRight="10sp"
     android:paddingTop="5sp"
-    android:paddingBottom="5sp">
+    android:paddingBottom="5sp"
+    android:background="#ffea5233">
 <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -134,4 +135,4 @@
     </TableRow>
 
 </TableLayout>
-    </RelativeLayout><!-- From: file:/home/master/Documents/GitHub/Network_Project/AndroidDJ/AndroidDJ/app/src/main/res/layout/listview_content.xml -->
+    </RelativeLayout><!-- From: file:/F:/BT/6th%20sem/CSL343-Computer%20Networks/Project/git/master/AndroidDJ/app/src/main/res/layout/listview_content.xml -->

@@ -91,11 +91,11 @@ public class ListViewAdapterHost extends ArrayAdapter<Songs> {
             upvote.setAlpha((float)0.5);
             upvote.setEnabled(false);
             downvote.setEnabled(false);
-            downvote.setAlpha((float)0.0);
+            downvote.setAlpha((float)0.25);
         } else if (downvoted) {
             upvote.setEnabled(false);
             downvote.setEnabled(false);
-            upvote.setAlpha((float)0.0);
+            upvote.setAlpha((float)0.25);
             downvote.setAlpha((float)0.5);
         }
         /*} else {
@@ -110,15 +110,15 @@ public class ListViewAdapterHost extends ArrayAdapter<Songs> {
             @Override
             public void onClick(View v) {
                 Log.i(tag, "inside on click");
-                upvote.setEnabled(false);
-                downvote.setEnabled(false);
+//                upvote.setEnabled(false);
+//                downvote.setEnabled(false);
                 Songs song = db.getSong(id);
-                upvote.setAlpha((float)0.5);
-                downvote.setAlpha((float)0.0);
+//                upvote.setAlpha((float)0.5);
+//                downvote.setAlpha((float)0.25);
                 Log.i(tag, "Got song with id " + Integer.toString(id) + " and name " + song.getName() + " upvotes " + song.getUpvotes());
                 int upvotesCount = song.getUpvotes();
                 song.setUpvotes(upvotesCount + 1);
-                songsUpvoted.add(new Integer(id));
+                songsUpvoted.add(new Integer(song.getID()));
                 Log.i(tag, "upvotes incremented");
                 db.updateSong(id, song.getStatus(), song.getUpvotes(), song.getDownvotes(), song.getAging());
                 Log.i(tag, "database updated " + " upvotes " + db.getSong(id).getUpvotes());
@@ -135,19 +135,16 @@ public class ListViewAdapterHost extends ArrayAdapter<Songs> {
             @Override
             public void onClick(View v) {
                 Songs song = db.getSong(id);
-                upvote.setEnabled(false);
-                downvote.setEnabled(false);
-                upvote.setAlpha((float)0.5);
-                downvote.setAlpha((float)0.0);
-                songsDownvoted.add(new Integer(id));
+//                upvote.setEnabled(false);
+//                downvote.setEnabled(false);
+//                upvote.setAlpha((float)0.5);
+//                downvote.setAlpha((float)0.25);
+                songsDownvoted.add(new Integer(song.getID()));
                 int downvotesCount = song.getDownvotes();
                 song.setDownvotes(downvotesCount + 1);
                 db.updateSong(id, song.getStatus(), song.getUpvotes(), song.getDownvotes(), song.getAging());
                 downvotes.setText(Integer.toString(song.getDownvotes()));
                 host.sortList();
-
-
-
             }
         });
 

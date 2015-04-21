@@ -38,7 +38,7 @@ final ClientView client;
 final DatabaseHandler db;
 private HashSet<Integer> songsUpvoted;
 private HashSet<Integer> songsDownvoted;
-
+private HashSet<Integer> songsDownloaded;
 
     public ListViewAdapterClient(List<Songs> StringList, Context ctx,int position,DatabaseHandler db) {
     super(ctx, R.layout.listview_content, StringList);
@@ -48,8 +48,9 @@ private HashSet<Integer> songsDownvoted;
     this.context = ctx;
     this.client = (ClientView) ctx;
     this.db = db;
-    songsUpvoted = new HashSet<Integer>();
-    songsDownvoted = new HashSet<Integer>();
+    songsUpvoted = new HashSet<>();
+    songsDownvoted = new HashSet<>();
+    songsDownloaded = new HashSet<>();
 
 }
  
@@ -90,8 +91,11 @@ public View getView(final int position, View convertView, ViewGroup parent) {
                     Songs song = StringList.get(position);
 
                     Toast.makeText(context,"Saving song - "+song.getName(),Toast.LENGTH_SHORT);
-                    Log.d(tag,"save song clicked: Song name - "+song.getName()+
-                            " Song id - "+song.getID());
+                    Log.d(tag, "save song clicked: Song name - " + song.getName() +
+                            " Song id - " + song.getID());
+                    songsDownloaded.add(song.getID());
+                    saveSong.setEnabled(false);
+                    saveSong.setAlpha((float)0.5);
                     receiveSong(song);
                 }
             });
@@ -106,15 +110,21 @@ public View getView(final int position, View convertView, ViewGroup parent) {
                 upvote.setAlpha((float)0.5);
                 upvote.setEnabled(false);
                 downvote.setEnabled(false);
-                downvote.setAlpha((float)0.0);
+                downvote.setAlpha((float)0.25);
             }
             else if(downvoted)
             {
                 upvote.setEnabled(false);
                 downvote.setEnabled(false);
-                upvote.setAlpha((float)0.0);
+                upvote.setAlpha((float)0.25);
                 downvote.setAlpha((float)0.5);
                     /*vote.setVisibility(View.VISIBLE);*/
+            }
+
+            if(songsDownloaded.contains(id))
+            {
+                saveSong.setEnabled(false);
+                saveSong.setAlpha((float)0.5);
             }
 	        /*}
 	        else
@@ -136,7 +146,7 @@ public View getView(final int position, View convertView, ViewGroup parent) {
                     songsUpvoted.add(new Integer(id));
                     downvote.setEnabled(false);
                     upvote.setAlpha((float)0.5);
-                    downvote.setAlpha((float)0.0);
+                    downvote.setAlpha((float)0.25);
                     //send json string to host with upvote request for the song
 
                     Log.i(tag, "Incrementing upvotes by sending upvote request to host");
@@ -176,7 +186,7 @@ public View getView(final int position, View convertView, ViewGroup parent) {
 					/*Songs song = db.getSong(id);*/
                     upvote.setEnabled(false);
                     downvote.setEnabled(false);
-                    upvote.setAlpha((float)0.0);
+                    upvote.setAlpha((float)0.25);
                     downvote.setAlpha((float)0.5);
                     //send json string to host with downvote request for the song
                     int downvotesCount = p.getDownvotes();

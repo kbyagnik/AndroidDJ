@@ -111,9 +111,6 @@ public class ClientView extends Activity {
         minBufSize += 2048;
         System.out.println("minBufSize: " + minBufSize);
 
-        //
-
-
         Log.i(tag,"Going to create list_file");
         findViewById(R.id.host_layout).setVisibility(View.INVISIBLE);
         findViewById(R.id.client_layout).setVisibility(View.VISIBLE);
@@ -122,7 +119,7 @@ public class ClientView extends Activity {
 		 */
 
 //		songs = addSongs();
-        songs= new ArrayList<Songs>();
+        songs= new ArrayList<>();
         Log.i(tag,"Going to create list");
         list = (ListView)findViewById(R.id.listview);
         adapter = new ListViewAdapterClient(songs,ClientView.this,pos,new DatabaseHandler(this));
