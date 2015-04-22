@@ -94,8 +94,8 @@ public View getView(final int position, View convertView, ViewGroup parent) {
                     Log.d(tag, "save song clicked: Song name - " + song.getName() +
                             " Song id - " + song.getID());
                     songsDownloaded.add(song.getID());
-                    saveSong.setEnabled(false);
-                    saveSong.setAlpha((float)0.5);
+//                    saveSong.setEnabled(false);
+//                    saveSong.setAlpha((float)0.5);
                     receiveSong(song);
                 }
             });
@@ -142,11 +142,11 @@ public View getView(final int position, View convertView, ViewGroup parent) {
                     Log.i(tag, "inside on click");
                     Log.i(tag, "Got song with id " + Integer.toString(id));
                     int upvotesCount = p.getUpvotes();
-                    upvote.setEnabled(false);
+//                    upvote.setEnabled(false);
                     songsUpvoted.add(new Integer(id));
-                    downvote.setEnabled(false);
-                    upvote.setAlpha((float)0.5);
-                    downvote.setAlpha((float)0.25);
+//                    downvote.setEnabled(false);
+//                    upvote.setAlpha((float)0.5);
+//                    downvote.setAlpha((float)0.25);
                     //send json string to host with upvote request for the song
 
                     Log.i(tag, "Incrementing upvotes by sending upvote request to host");
@@ -184,10 +184,10 @@ public View getView(final int position, View convertView, ViewGroup parent) {
                 @Override
                 public void onClick(View v) {
 					/*Songs song = db.getSong(id);*/
-                    upvote.setEnabled(false);
-                    downvote.setEnabled(false);
-                    upvote.setAlpha((float)0.25);
-                    downvote.setAlpha((float)0.5);
+//                    upvote.setEnabled(false);
+//                    downvote.setEnabled(false);
+//                    upvote.setAlpha((float)0.25);
+//                    downvote.setAlpha((float)0.5);
                     //send json string to host with downvote request for the song
                     int downvotesCount = p.getDownvotes();
                     songsDownvoted.add(new Integer(id));

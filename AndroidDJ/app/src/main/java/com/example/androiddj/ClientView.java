@@ -16,6 +16,7 @@ import android.os.Environment;
 import android.os.Handler;
 import android.provider.OpenableColumns;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -52,6 +53,7 @@ public class ClientView extends Activity {
     private String tag = "DJ Debugging";
     ListView list;
     ListViewAdapterClient adapter;
+    public static String LEAVE_PARTY = "leave";
     final int pos = -1;
     public static String folder;
     private boolean downloading = false;
@@ -152,18 +154,16 @@ public class ClientView extends Activity {
                     }
                 });
 
-       /* findViewById(R.id.record_mic).setOnClickListener(
-                new View.OnClickListener() {
-
-                    @Override
-                    public void onClick(View v) {
-                        // Allow user to pick an audio from File-Manager or other
-                        // registered apps
-                        Intent intent = new Intent(ClientView.this, StreamMic.class);
-                        Log.d(WiFiDirectActivity.TAG, "Start record_mic");
-                        startActivity(intent);
-                    }
-                });*/
+        findViewById(R.id.leave_party).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d(tag,"Disconnect");
+                Intent intent = new Intent();
+                intent.putExtra(LEAVE_PARTY,"yes");
+                setResult(1, intent);
+                finish();
+            }
+        });
 
         findViewById(R.id.youtube).setOnClickListener(
                 new View.OnClickListener() {
@@ -516,19 +516,19 @@ public class ClientView extends Activity {
         //UpdateListView
     }
 
-//    @Override
-//    public boolean onKeyDown(int keyCode, KeyEvent event)
-//    {
-//        switch(keyCode)
-//        {
-//            case KeyEvent.KEYCODE_BACK:
-//
-//                moveTaskToBack(true);
-//
-//                return true;
-//        }
-//        return false;
-//    }
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event)
+    {
+        switch(keyCode)
+        {
+            case KeyEvent.KEYCODE_BACK:
+
+                moveTaskToBack(true);
+
+                return true;
+        }
+        return false;
+    }
 
     private class PlaylistTransfer extends AsyncTask<Void, Void, String> {
 

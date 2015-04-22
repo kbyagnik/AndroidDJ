@@ -59,6 +59,7 @@ public class WiFiDirectActivity extends Activity implements ChannelListener, Dev
     private String HOST_NAME="host";
     private String hostName="";
     private String call_type ="" ;
+    private int count = 0;
 
     private final IntentFilter intentFilter = new IntentFilter();
     private Channel channel;
@@ -234,8 +235,7 @@ public class WiFiDirectActivity extends Activity implements ChannelListener, Dev
                     // Since this is the system wireless settings activity, it's
                     // not going to send us a result. We will be notified by
                     // WiFiDeviceBroadcastReceiver instead.
-
-                    startActivity(new Intent(Settings.ACTION_WIRELESS_SETTINGS));
+                    startActivity(new Intent(Settings.ACTION_WIFI_SETTINGS));
                 } else {
                     Log.e(TAG, "channel or manager is null");
                 }
@@ -250,6 +250,13 @@ public class WiFiDirectActivity extends Activity implements ChannelListener, Dev
 //                final DeviceListFragment fragment = (DeviceListFragment) getFragmentManager()
 //                        .findFragmentById(R.id.frag_list);
 //                fragment.onInitiateDiscovery();
+                if(count>3)
+                {
+                    Toast.makeText(WiFiDirectActivity.this,"Try removing group from the setting.",Toast.LENGTH_SHORT).show();
+                    count = 0;
+                }
+
+                count++;
                 manager.discoverPeers(channel, new WifiP2pManager.ActionListener() {
 
                     @Override
