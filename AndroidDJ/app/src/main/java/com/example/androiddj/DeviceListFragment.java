@@ -33,6 +33,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,6 +50,7 @@ public class DeviceListFragment extends ListFragment implements PeerListListener
     private boolean visible = false ;
     private WifiP2pDevice device;
     private String hostType="";
+    int request_code = 1;
     private String e_tag = "tag";
 
     @Override
@@ -68,7 +70,7 @@ public class DeviceListFragment extends ListFragment implements PeerListListener
                 if(hostType.equals("Client"))
                 {
                    Intent intent = new Intent(getActivity(),ClientView.class);
-                   startActivity(intent);
+                   startActivityForResult(intent, request_code);
                 }
                 else if(hostType.equals("Host"))
                 {
@@ -78,6 +80,25 @@ public class DeviceListFragment extends ListFragment implements PeerListListener
             }
         });
         return mContentView;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent intent)
+    {
+        if(resultCode == 1 ) {     //  CODE TO DELETE ITEM
+            super.onActivityResult(requestCode, resultCode, intent);
+
+            ((WiFiDirectActivity)getActivity()).disconnect();
+            Toast.makeText(getActivity(), "Disconnected from party", Toast.LENGTH_SHORT).show();
+            mContentView.findViewById(R.id.start_party).setVisibility(View.GONE);
+            Log.d("leave party","Leave party");
+        }
+        else
+        {
+//            Log.d(TAG,"Leave party");
+            Toast.makeText(getActivity(), "Some error has occurred while leaving party.", Toast.LENGTH_SHORT);
+        }
+
     }
 
     /**

@@ -99,16 +99,16 @@ public class DeviceDetailFragment extends Fragment implements ConnectionInfoList
         // The owner IP is now known.
         TextView view = (TextView) mContentView.findViewById(R.id.group_owner);
         view.setText(getResources().getString(R.string.group_owner_text)
-                + ((info.isGroupOwner == true) ? getResources().getString(R.string.yes)
+                + ((info.isGroupOwner) ? getResources().getString(R.string.yes)
                         : getResources().getString(R.string.no)));
 
         // InetAddress from WifiP2pInfo struct.
         view = (TextView) mContentView.findViewById(R.id.device_info);
-        view.setText("Group Owner IP - " + info.groupOwnerAddress.getHostAddress());
+        view.setText("Group Owner IP - " );
 
         // After the group negotiation, we assign the group owner as the file
         // server. The file server is single threaded, single connection server
-        // socket.
+        // socket. + info.groupOwnerAddress.getHostAddress()
         if (info.groupFormed && info.isGroupOwner) {
             Log.d(WiFiDirectActivity.TAG,"Group Formed..");
         } else if (info.groupFormed) {

@@ -59,23 +59,23 @@ public class ListViewAdapterHost extends ArrayAdapter<Songs> {
             convertView = inflater.inflate(R.layout.listview_content, parent, false);
         }
         // Now we can fill the layout with the right values
-        TextView name = null;
-        Songs p = null;
+        TextView name;
+        Songs p;
         try {
             name = (TextView) convertView.findViewById(R.id.listViewItem);
             Log.d(tag,"size of adapter: "+this.getCount()+" size of list: "+StringList.size());
             p = StringList.get(position);
             p = db.getSong(p.getID());
-        } catch (Exception e) {
-            Log.i(tag, e.getMessage());
-        }
-        Log.i(tag, "Song id " + Integer.toString(p.getID()) + "upvotes " + p.getUpvotes());
+
+//        Log.i(tag, "Song id " + Integer.toString(p.getID()) + "upvotes " + p.getUpvotes());
         final int id = p.getID();
-        name.setSelected(true);
         name.setEllipsize(TextUtils.TruncateAt.MARQUEE);
         name.setSelected(true);
         name.setSingleLine(true);
-        name.setText(p.getName());
+        String temp = p.getName();
+        int indx = temp.lastIndexOf("_");
+        name.setText(temp.substring(0,indx));
+
         final TextView upvotes = (TextView) convertView.findViewById(R.id.upvoteCount);
         final TextView downvotes = (TextView) convertView.findViewById(R.id.downvoteCount);
         upvotes.setText(Integer.toString(p.getUpvotes()));
@@ -122,7 +122,7 @@ public class ListViewAdapterHost extends ArrayAdapter<Songs> {
                 Log.i(tag, "Got song with id " + Integer.toString(id) + " and name " + song.getName() + " upvotes " + song.getUpvotes());
                 int upvotesCount = song.getUpvotes();
                 song.setUpvotes(upvotesCount + 1);
-                songsUpvoted.add(new Integer(song.getID()));
+                songsUpvoted.add(song.getID());
                 Log.i(tag, "upvotes incremented");
                 db.updateSong(id, song.getStatus(), song.getUpvotes(), song.getDownvotes(), song.getAging());
                 Log.i(tag, "database updated " + " upvotes " + db.getSong(id).getUpvotes());
@@ -157,6 +157,9 @@ public class ListViewAdapterHost extends ArrayAdapter<Songs> {
 			StringList.add("Song"+Integer.toString(i));
 		}*/
 
+        } catch (Exception e) {
+            Log.i(tag, e.getMessage());
+        }
 
         return convertView;
     }

@@ -36,7 +36,6 @@
         android:marqueeRepeatLimit="marquee_forever"
         android:scrollHorizontally="true"
         android:maxLines="1"
-        android:text="@string/VotingTextView"
         android:focusable="true"
         android:focusableInTouchMode="true"
         android:enabled="true" />

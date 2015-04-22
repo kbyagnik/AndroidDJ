@@ -62,10 +62,6 @@ public class ClientView extends Activity {
     private View layout = null;
     protected static final int CHOOSE_FILE_RESULT_CODE = 20;
 
-    //
-
-    //
-
     private static final int SOCKET_TIMEOUT = 5000;
     private Button startButton,stopButton;
     private MediaRecorder myAudioRecorder;
@@ -83,10 +79,6 @@ public class ClientView extends Activity {
     private boolean status = false;
     private AudioTrack speaker;
     public static StreamMic activity=null;
-
-    //
-
-    //
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

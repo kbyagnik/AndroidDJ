@@ -79,7 +79,10 @@ public View getView(final int position, View convertView, ViewGroup parent) {
             final Songs p = StringList.get(position);
 	        Log.i(tag, "Song id " + Integer.toString(p.getID()));
 	        final int id = p.getID();
-	        name.setText(p.getName());
+            String temp = p.getName();
+            int indx = temp.lastIndexOf("_");
+            name.setText(temp.substring(0,indx));
+
 	        final TextView upvotes = (TextView) convertView.findViewById(R.id.upvoteCount);
 	        final TextView downvotes = (TextView) convertView.findViewById(R.id.downvoteCount);
 	        upvotes.setText(Integer.toString(p.getUpvotes()));
@@ -95,8 +98,7 @@ public View getView(final int position, View convertView, ViewGroup parent) {
                 @Override
                 public void onClick(View view) {
                     Songs song = StringList.get(position);
-
-                    Toast.makeText(context,"Saving song - "+song.getName(),Toast.LENGTH_SHORT);
+                    Toast.makeText(context,"Saving song - "+song.getName(),Toast.LENGTH_SHORT).show();
                     Log.d(tag, "save song clicked: Song name - " + song.getName() +
                             " Song id - " + song.getID());
                     songsDownloaded.add(song.getID());

@@ -739,11 +739,16 @@ public class HostView extends Activity {
 
     public static String append(String filename,String time)
     {
-        String arr[]=filename.split("\\.",2);
-        if (arr.length==2)
-            return arr[0]+"_"+time+"."+arr[1];
-        else
-            return arr[0];
+//        String arr[]=filename.split("\\.",2);
+        int index = filename.lastIndexOf(".");
+        String songname = filename.substring(0,index);
+        String format = filename.substring(index);
+
+        return songname+"_"+time+format;
+//        if (arr.length==2)
+//            return arr[0]+"_"+time+"."+arr[1];
+//        else
+//            return arr[0];
     }
 
     @Override

@@ -36,7 +36,6 @@
         android:marqueeRepeatLimit="marquee_forever"
         android:scrollHorizontally="true"
         android:maxLines="1"
-        android:text="@string/VotingTextView"
         android:focusable="true"
         android:focusableInTouchMode="true"
         android:enabled="true" />
@@ -145,4 +144,4 @@
     </TableRow>
 
 </TableLayout>
-    </RelativeLayout><!-- From: file:/C:/Users/ankit/workspace/AndroidWorkspace/AndroidProject/AndroidDJ_3/AndroidDJ/AndroidDJ/app/src/main/res/layout/listview_content.xml -->
+    </RelativeLayout><!-- From: file:/F:/BT/6th%20sem/CSL343-Computer%20Networks/Project/git/master/AndroidDJ/app/src/main/res/layout/listview_content.xml -->
