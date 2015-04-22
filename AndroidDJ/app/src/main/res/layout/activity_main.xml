@@ -166,11 +166,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
-
-                    android:layout_marginTop="@dimen/activity_horizontal_margin"
+                    android:layout_centerVertical="true"
                     android:background="@drawable/upload"
-                    android:contentDescription="@string/addsong"
-                    android:layout_alignBottom="@+id/youtube" />
+                    android:contentDescription="@string/addsong"/>
 
                 <!--<Button
                     android:id="@+id/record_mic"
@@ -182,41 +180,35 @@
                     android:background="@drawable/record_logo"
                     android:contentDescription="record" />-->
 
-
-                <Button
-                    android:id="@+id/client_mic_stop"
-                    android:layout_width="100dp"
-                    android:layout_height="55dp"
-                    android:layout_marginTop="@dimen/activity_horizontal_margin"
-                    android:background="@drawable/images"
-                    android:contentDescription="record"
-                    android:layout_alignBottom="@+id/client_mic_start"
-                    android:layout_alignLeft="@+id/client_mic_start"
-                    android:layout_alignStart="@+id/client_mic_start" />
-
-
-                <Button
-                    android:id="@+id/client_mic_start"
-                    android:layout_width="100dp"
-                    android:layout_height="55dp"
-                    android:background="@drawable/images1"
-                    android:contentDescription="record"
-                    android:layout_alignTop="@+id/youtube"
-                    android:layout_alignParentRight="true"
-                    android:layout_alignParentEnd="true" />
-
-
                 <Button
                     android:id="@+id/youtube"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/youtube1"
                     android:layout_centerVertical="true"
-                    android:layout_toLeftOf="@+id/client_mic_stop"
-                    android:layout_toStartOf="@+id/client_mic_stop"
-                    android:layout_marginRight="20dp"
-                    android:layout_marginEnd="30dp" />
+                    android:layout_toRightOf="@+id/add_file"
+                    android:layout_marginLeft="30dp" />
 
+                <Button
+                    android:id="@+id/client_mic_stop"
+                    android:layout_width="70dp"
+                    android:layout_height="60dp"
+                    android:layout_centerVertical="true"
+                    android:background="@drawable/images"
+                    android:contentDescription="record"
+                    android:layout_toRightOf="@+id/youtube"
+                    android:layout_marginLeft="30dp" />
+
+
+                <Button
+                    android:id="@+id/client_mic_start"
+                    android:layout_width="70dp"
+                    android:layout_height="60dp"
+                    android:background="@drawable/images1"
+                    android:layout_centerVertical="true"
+                    android:contentDescription="record"
+                    android:layout_toRightOf="@+id/youtube"
+                    android:layout_marginLeft="30dp" />
 
                 <Button
                     android:id="@+id/leave_party"
@@ -226,10 +218,8 @@
                     android:background="@android:color/holo_orange_light"
                     android:textStyle="bold"
                     android:textColor="#ffffffff"
-                    android:layout_alignBottom="@+id/add_file"
-                    android:layout_toRightOf="@+id/add_file"
-                    android:layout_marginLeft="20dp"
-                     />
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentRight="true" />
 
             </RelativeLayout>
 

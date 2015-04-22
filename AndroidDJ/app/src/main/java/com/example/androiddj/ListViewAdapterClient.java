@@ -317,7 +317,7 @@ public void setPosition(int position)
         serviceIntent.putExtra(SongTransferService.EXTRAS_SONG_ID,song.getID());
         serviceIntent.putExtra(SongTransferService.EXTRAS_SONG_NAME,song.getName());
         serviceIntent.putExtra(SongTransferService.EXTRAS_GROUP_OWNER_ADDRESS,
-                DeviceDetailFragment.info.groupOwnerAddress.getHostAddress());
+        DeviceDetailFragment.info.groupOwnerAddress.getHostAddress());
         serviceIntent.putExtra(SongTransferService.EXTRAS_GROUP_OWNER_PORT, 8986);
         getContext().startService(serviceIntent);
 

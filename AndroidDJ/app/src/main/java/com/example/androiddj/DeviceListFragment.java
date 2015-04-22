@@ -96,7 +96,7 @@ public class DeviceListFragment extends ListFragment implements PeerListListener
         else
         {
 //            Log.d(TAG,"Leave party");
-            Toast.makeText(getActivity(), "Some error has occurred while leaving party.", Toast.LENGTH_SHORT);
+            Toast.makeText(getActivity(), "Some error has occurred while leaving party.", Toast.LENGTH_SHORT).show();
         }
 
     }
@@ -137,19 +137,22 @@ public class DeviceListFragment extends ListFragment implements PeerListListener
      */
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
-        WifiP2pDevice device = (WifiP2pDevice) getListAdapter().getItem(position);
-        final DeviceDetailFragment fragment = (DeviceDetailFragment) getFragmentManager()
-                .findFragmentById(R.id.frag_detail);
-        if(visible) {
-            Log.i(e_tag,"visible") ;
-            fragment.getView().setVisibility(View.INVISIBLE);
-            visible=false;
-        }
-        else {
-            Log.i(e_tag,"not visible") ;
-            fragment.getView().setVisibility(View.VISIBLE);
-            ((DeviceActionListener) getActivity()).showDetails(device);
-            visible=true;
+        if(hostType.equals("Client"))
+        {
+            WifiP2pDevice device = (WifiP2pDevice) getListAdapter().getItem(position);
+            final DeviceDetailFragment fragment = (DeviceDetailFragment) getFragmentManager()
+                    .findFragmentById(R.id.frag_detail);
+            if(visible) {
+                Log.i(e_tag,"visible") ;
+                fragment.getView().setVisibility(View.INVISIBLE);
+                visible=false;
+            }
+            else {
+                Log.i(e_tag,"not visible") ;
+                fragment.getView().setVisibility(View.VISIBLE);
+                ((DeviceActionListener) getActivity()).showDetails(device);
+                visible=true;
+            }
         }
 
     }
