@@ -24,12 +24,22 @@
     <TextView 
         android:id="@+id/listViewItem"
         android:textSize="16sp"
-        android:lines="1"
-        android:ellipsize="marquee"
+        android:singleLine="true"
         android:fadingEdge="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:ellipsize="end"
+        android:minLines="1"
+        android:layout_weight="1"
+        android:padding="5dp"
         android:marqueeRepeatLimit="marquee_forever"
         android:scrollHorizontally="true"
-        android:text="@string/VotingTextView"/>
+        android:maxLines="1"
+        android:text="@string/VotingTextView"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:enabled="true" />
     
     </TableRow>
     

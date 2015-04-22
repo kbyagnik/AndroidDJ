@@ -1,5 +1,6 @@
 package com.example.androiddj;
 
+import android.text.TextUtils.TruncateAt;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
@@ -70,7 +71,12 @@ public View getView(final int position, View convertView, ViewGroup parent) {
         else
         {
             final TextView name = (TextView) convertView.findViewById(R.id.listViewItem);
-	        final Songs p = StringList.get(position);
+            name.setSelected(true);
+            name.setEllipsize(TruncateAt.MARQUEE);
+            name.setSelected(true);
+            name.setSingleLine(true);
+
+            final Songs p = StringList.get(position);
 	        Log.i(tag, "Song id " + Integer.toString(p.getID()));
 	        final int id = p.getID();
 	        name.setText(p.getName());
@@ -318,3 +324,5 @@ public void setPosition(int position)
 
 
 }
+
+

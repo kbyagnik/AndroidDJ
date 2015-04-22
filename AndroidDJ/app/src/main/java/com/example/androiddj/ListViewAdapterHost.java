@@ -1,6 +1,7 @@
 package com.example.androiddj;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -70,6 +71,10 @@ public class ListViewAdapterHost extends ArrayAdapter<Songs> {
         }
         Log.i(tag, "Song id " + Integer.toString(p.getID()) + "upvotes " + p.getUpvotes());
         final int id = p.getID();
+        name.setSelected(true);
+        name.setEllipsize(TextUtils.TruncateAt.MARQUEE);
+        name.setSelected(true);
+        name.setSingleLine(true);
         name.setText(p.getName());
         final TextView upvotes = (TextView) convertView.findViewById(R.id.upvoteCount);
         final TextView downvotes = (TextView) convertView.findViewById(R.id.downvoteCount);
@@ -101,8 +106,8 @@ public class ListViewAdapterHost extends ArrayAdapter<Songs> {
          else {
             upvote.setEnabled(true);
             downvote.setEnabled(true);
-            upvote.setAlpha((float)1.0);
-            downvote.setAlpha((float)1.0);
+            upvote.setAlpha((float) 1.0);
+            downvote.setAlpha((float) 1.0);
         }
         upvote.setOnClickListener(new View.OnClickListener() {
 
