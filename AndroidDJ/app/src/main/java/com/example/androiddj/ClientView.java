@@ -606,4 +606,9 @@ public class ClientView extends Activity {
         }
 
     }
+
+    public void refreshList()
+    {
+        adapter.notifyDataSetChanged();
+    }
 }

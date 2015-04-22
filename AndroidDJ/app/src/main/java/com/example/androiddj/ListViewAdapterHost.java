@@ -98,13 +98,12 @@ public class ListViewAdapterHost extends ArrayAdapter<Songs> {
             upvote.setAlpha((float)0.25);
             downvote.setAlpha((float)0.5);
         }
-        /*} else {
-            upvote.setVisibility(View.GONE);
-            downvote.setVisibility(View.GONE);
-            upvotes.setVisibility(View.GONE);
-            downvotes.setVisibility(View.GONE);
-            vote.setVisibility(View.GONE);
-        }*/
+         else {
+            upvote.setEnabled(true);
+            downvote.setEnabled(true);
+            upvote.setAlpha((float)1.0);
+            downvote.setAlpha((float)1.0);
+        }
         upvote.setOnClickListener(new View.OnClickListener() {
 
             @Override

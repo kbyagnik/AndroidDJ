@@ -111,6 +111,13 @@ public View getView(final int position, View convertView, ViewGroup parent) {
                 upvote.setEnabled(false);
                 downvote.setEnabled(false);
                 downvote.setAlpha((float)0.25);
+                for(int i=0;i<StringList.size();i++)
+                {
+                    if(StringList.get(i).getID() == id)
+                    {
+                        Log.i("voting",StringList.get(i).getName() + " " + Integer.toString(StringList.get(i).getID()));
+                    }
+                }
             }
             else if(downvoted)
             {
@@ -120,7 +127,13 @@ public View getView(final int position, View convertView, ViewGroup parent) {
                 downvote.setAlpha((float)0.5);
                     /*vote.setVisibility(View.VISIBLE);*/
             }
-
+            else
+            {
+                upvote.setEnabled(true);
+                downvote.setEnabled(true);
+                upvote.setAlpha((float)1.0);
+                downvote.setAlpha((float)1.0);
+            }
             if(songsDownloaded.contains(id))
             {
                 saveSong.setEnabled(false);
@@ -142,11 +155,18 @@ public View getView(final int position, View convertView, ViewGroup parent) {
                     Log.i(tag, "inside on click");
                     Log.i(tag, "Got song with id " + Integer.toString(id));
                     int upvotesCount = p.getUpvotes();
-//                    upvote.setEnabled(false);
+                    upvote.setEnabled(false);
                     songsUpvoted.add(new Integer(id));
-//                    downvote.setEnabled(false);
-//                    upvote.setAlpha((float)0.5);
-//                    downvote.setAlpha((float)0.25);
+                    Log.i("voting","up" + id);
+                    Log.i("voting",songsUpvoted.toString());
+                    for(int i=0;i<StringList.size();i++)
+                    {
+                        Log.i("voting",StringList.get(i).getName() + " " + Integer.toString(StringList.get(i).getID()));
+                    }
+                   downvote.setEnabled(false);
+                    upvote.setAlpha((float)0.5);
+                    downvote.setAlpha((float)0.25);
+                    p.setUpvotes(upvotesCount + 1);
                     //send json string to host with upvote request for the song
 
                     Log.i(tag, "Incrementing upvotes by sending upvote request to host");
@@ -175,7 +195,6 @@ public View getView(final int position, View convertView, ViewGroup parent) {
 
 
 
-
                 }
             });
 
@@ -184,17 +203,19 @@ public View getView(final int position, View convertView, ViewGroup parent) {
                 @Override
                 public void onClick(View v) {
 					/*Songs song = db.getSong(id);*/
-//                    upvote.setEnabled(false);
-//                    downvote.setEnabled(false);
-//                    upvote.setAlpha((float)0.25);
-//                    downvote.setAlpha((float)0.5);
+                    upvote.setEnabled(false);
+                    downvote.setEnabled(false);
+                    upvote.setAlpha((float)0.25);
+                    downvote.setAlpha((float)0.5);
                     //send json string to host with downvote request for the song
                     int downvotesCount = p.getDownvotes();
                     songsDownvoted.add(new Integer(id));
+                    Log.i("voting","down" + id);
 //                    receiveSong("SEND_SONG_"+p.getName());
-                    //song.setDownvotes(downvotesCount + 1);
+                    p.setDownvotes(downvotesCount + 1);
 					/*db.updateSong(id, song.getStatus(),song.getUpvotes(),song.getDownvotes(),song.getAging());*/
                     downvotes.setText(Integer.toString(downvotesCount + 1));
+                    p.setDownvotes(downvotesCount + 1);
                     //JSONArray jsonArray = new JSONArray();
                     JSONObject jsonobject = new JSONObject();
                     try {
@@ -210,7 +231,6 @@ public View getView(final int position, View convertView, ViewGroup parent) {
                     Log.i(tag, jsonobject.toString());
 
                     streamVotes(jsonobject.toString());
-
 
 
 
