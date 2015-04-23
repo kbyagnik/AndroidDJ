@@ -564,26 +564,26 @@ public class ClientView extends Activity {
                         Songs newSong = new Songs();
                         Log.i("playlist","new song created");
                         newSong.setID(jsonObject.getInt("id"));
-                        Log.i("playlist","1");
+//                        Log.i("playlist","1");
                         // Log.i("playlist",jsonObject.getString("id"));
-                        Log.i("playlist","2");
+//                        Log.i("playlist","2");
 
                         newSong.setName(jsonObject.getString("name"));
-                        Log.i("playlist","3");
+//                        Log.i("playlist","3");
 
                         newSong.setUpvotes(jsonObject.getInt("upvotes"));
                         newSong.setDownvotes(jsonObject.getInt("downvotes"));
-                        Log.i("playlist","4");
+//                        Log.i("playlist","4");
 
                         songsArray.add(newSong);
-                        Log.i("playlist","5");
+//                        Log.i("playlist","5");
 
                     }
                     songs = songsArray;
-                    Log.i("playlist","1" + Integer.toString(songs.size()) + "2");
+                    Log.i("playlist", Integer.toString(songs.size()));
 
                     adapter.setList(songs);
-                    Log.i("playlist","1" + Integer.toString(songs.size()) + "2");
+                    Log.i("playlist", Integer.toString(songs.size()));
                     adapter.notifyDataSetChanged();
                 }
                 catch(Exception e)

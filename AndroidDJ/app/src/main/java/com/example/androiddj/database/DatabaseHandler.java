@@ -24,8 +24,10 @@ public class  DatabaseHandler extends SQLiteOpenHelper
 	private static final String KEY_UPVOTES = "upvotes";
 	private static final String KEY_DOWNVOTES = "downvotes";
 	private static final String KEY_AGING = "aging";
-	
-	private final String tag = "DJ Debugging";
+    private static final String KEY_FLAG_YOUTUBE = "flag_Youtube";
+
+
+    private final String tag = "DJ Debugging";
 	
 	public DatabaseHandler(Context context)
 	{
@@ -41,7 +43,7 @@ public class  DatabaseHandler extends SQLiteOpenHelper
 		Log.i("Debugging","database on create called");
 		String CREATE_SONGS_TABLE = "CREATE TABLE " + TABLE_SONGS + "("
 				+ KEY_ID + " INTEGER PRIMARY KEY," + KEY_NAME + " TEXT," + KEY_STATUS + " INTEGER," +  KEY_UPVOTES + 
-				" INTEGER," + KEY_DOWNVOTES + " INTEGER," + KEY_AGING + " INTEGER" + ")";
+				" INTEGER," + KEY_DOWNVOTES + " INTEGER," + KEY_AGING + " INTEGER," + KEY_FLAG_YOUTUBE + " INTEGER" + ")";
 		Log.i("Debugging", CREATE_SONGS_TABLE);
 		try
 		{
@@ -84,10 +86,11 @@ public class  DatabaseHandler extends SQLiteOpenHelper
 		values.put(KEY_UPVOTES, 0);
 		values.put(KEY_DOWNVOTES, 0);
 		values.put(KEY_AGING,0);
+        values.put(KEY_FLAG_YOUTUBE,0);
 		
 		String query = "INSERT INTO " + TABLE_SONGS + " VALUES(" + Integer.toString(song.getID()) + ",'" + 
 		song.getName() + "'," + Integer.toString(song.getStatus()) + "," + Integer.toString(song.getUpvotes()) + "," + 
-		Integer.toString(song.getDownvotes()) + "," + Integer.toString(song.getAging()) + ")";
+		Integer.toString(song.getDownvotes()) + "," + Integer.toString(song.getAging()) +  "," + Integer.toString(song.getFlag_Youtube()) +")";
 		Log.i("Debugging", query);
 		try
 		{
@@ -109,12 +112,52 @@ public class  DatabaseHandler extends SQLiteOpenHelper
 		Log.i("Debugging","Insertion value is " + Integer.toString(val));
 		db.close();
 	}
-	
-	public Songs getSong(int id)
+
+    public void addYoutube_Song(Songs song)
+    {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(KEY_ID, song.getID());
+        values.put(KEY_NAME, song.getName());
+        values.put(KEY_STATUS, 0);
+        values.put(KEY_UPVOTES, 0);
+        values.put(KEY_DOWNVOTES, 0);
+        values.put(KEY_AGING,0);
+        values.put(KEY_FLAG_YOUTUBE,1);
+
+        String query = "INSERT INTO " + TABLE_SONGS + " VALUES(" + Integer.toString(song.getID()) + ",'" +
+                song.getName() + "'," + Integer.toString(song.getStatus()) + "," + Integer.toString(song.getUpvotes()) + "," +
+                Integer.toString(song.getDownvotes()) + "," + Integer.toString(song.getAging()) +  "," + Integer.toString(song.getFlag_Youtube()) +")";
+        Log.i("Debugging", query);
+        try
+        {
+            int val = (int) db.insertOrThrow(TABLE_SONGS, null, values);
+        }
+        catch(Exception e)
+        {
+            Log.i("Debugging",e.getMessage());
+        }
+		/*try
+		{
+			db.execSQL(query);
+		}
+		catch(Exception e)
+		{
+			Log.i("Debugging", "Exceptoin " + e.getMessage());
+		}*/
+        int val = 1;
+        Log.i("Debugging","Insertion value is " + Integer.toString(val));
+        db.close();
+    }
+
+
+
+    public Songs getSong(int id)
 	{
 		SQLiteDatabase db = this.getReadableDatabase();
 		
-		Cursor cursor = db.query(TABLE_SONGS,new String[]{KEY_ID,KEY_NAME,KEY_STATUS,KEY_UPVOTES,KEY_DOWNVOTES,KEY_AGING},
+		Cursor cursor = db.query(TABLE_SONGS,new String[]{KEY_ID,KEY_NAME,KEY_STATUS,KEY_UPVOTES,KEY_DOWNVOTES,KEY_AGING,KEY_FLAG_YOUTUBE},
 				KEY_ID + "=?",new String[] {Integer.toString(id)},null,null,null,null);
 		
 		if(cursor != null)
@@ -123,7 +166,7 @@ public class  DatabaseHandler extends SQLiteOpenHelper
 		}
 		
 		Songs song = new Songs(Integer.parseInt(cursor.getString(0)),cursor.getString(1),Integer.parseInt(cursor.getString(2)),
-				Integer.parseInt(cursor.getString(3)),Integer.parseInt(cursor.getString(4)),Integer.parseInt(cursor.getString(5)));
+				Integer.parseInt(cursor.getString(3)),Integer.parseInt(cursor.getString(4)),Integer.parseInt(cursor.getString(5)),Integer.parseInt(cursor.getString(6)));
 
         db.close();
 
@@ -154,6 +197,7 @@ public class  DatabaseHandler extends SQLiteOpenHelper
 				song.setUpvotes(Integer.parseInt(cursor.getString(3)));
 				song.setDownvotes(Integer.parseInt(cursor.getString(4)));
 				song.setAging(Integer.parseInt(cursor.getString(5)));
+                song.setFlag_Youtube(Integer.parseInt(cursor.getString(6)));
 				songs.add(song);
 			}while(cursor.moveToNext());
 		}
@@ -184,6 +228,7 @@ public class  DatabaseHandler extends SQLiteOpenHelper
                 song.setUpvotes(Integer.parseInt(cursor.getString(3)));
                 song.setDownvotes(Integer.parseInt(cursor.getString(4)));
                 song.setAging(Integer.parseInt(cursor.getString(5)));
+                song.setFlag_Youtube(Integer.parseInt(cursor.getString(6)));
                 songs.add(song);
             }while(cursor.moveToNext());
         }
@@ -215,6 +260,7 @@ public class  DatabaseHandler extends SQLiteOpenHelper
                 song.setUpvotes(Integer.parseInt(cursor.getString(3)));
                 song.setDownvotes(Integer.parseInt(cursor.getString(4)));
                 song.setAging(Integer.parseInt(cursor.getString(5)));
+                song.setFlag_Youtube(Integer.parseInt(cursor.getString(6)));
                 songs.add(song);
             }while(cursor.moveToNext());
         }
@@ -305,6 +351,7 @@ public class  DatabaseHandler extends SQLiteOpenHelper
         Log.i(tag, "All songs deleted(Database cleared).");
         db.close();
     }
+
 	public int getSongsCount()
 	{
 		SQLiteDatabase db = this.getReadableDatabase();

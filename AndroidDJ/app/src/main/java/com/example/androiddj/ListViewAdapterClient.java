@@ -81,7 +81,7 @@ public View getView(final int position, View convertView, ViewGroup parent) {
 	        final int id = p.getID();
             String temp = p.getName();
             int indx = temp.lastIndexOf("_");
-            name.setText(temp.substring(0,indx));
+            name.setText(p.getName());
 
 	        final TextView upvotes = (TextView) convertView.findViewById(R.id.upvoteCount);
 	        final TextView downvotes = (TextView) convertView.findViewById(R.id.downvoteCount);
@@ -251,8 +251,6 @@ public View getView(final int position, View convertView, ViewGroup parent) {
 }
 
 public void streamVotes(final String votes){
-
-
 
     Thread streamThread = new Thread(new Runnable() {
 

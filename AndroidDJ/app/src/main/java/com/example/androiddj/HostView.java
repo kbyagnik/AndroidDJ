@@ -75,11 +75,15 @@ public class HostView extends Activity {
     ListView list;
     private boolean downloading = false;
     private boolean getVotes = false;
+    private boolean getyoulink = false;
     public static boolean micUsing = false;
     private ListViewAdapterHost adapter;
     int pos = -1;
     private ArrayList<String> song_names;
     boolean flag = true;
+
+    boolean linkflag = false;
+
     private Handler playlistHandler;
     public String folder;
     private int plist_size = 0;
@@ -99,10 +103,6 @@ public class HostView extends Activity {
     private ImageButton playButton, pauseButton;
     public static int oneTimeOnly = 0;
     int index = 0;
-
-
-    private Button youtubeButton;
-
 
     //    AudioRecord recorder;
 //    private AudioTrack speaker;
@@ -367,6 +367,55 @@ public class HostView extends Activity {
         Thread votesThread = new Thread(voteRunnable);
         votesThread.start();
 
+
+
+        Runnable linkRunnable = new Runnable() {
+            @Override
+            public void run() {
+                int port = 8119;
+                String tag1 = "linkRunnable";
+                try{
+
+                    Log.d(tag1,"create serversocket");
+                    ServerSocket linkServer = new ServerSocket();
+                    linkServer.setReuseAddress(true);
+                    linkServer.bind(new InetSocketAddress(port));
+                    Log.d(tag1,"Reuse address "+linkServer.getReuseAddress());
+
+                    while(true)
+                    {
+                        try {
+                            Log.d(tag1,"create client");
+                            Log.d(tag1,"accept client on "+linkServer.getReuseAddress());
+                            Socket client = linkServer.accept();
+                            Log.d(tag1, "Starting link download from........."+client.getInetAddress().toString());
+                            GetYoutubeLinks linkTask = new GetYoutubeLinks(HostView.this);
+                            Log.d(tag1,"start asyctask");
+                            linkTask.execute(new Socket[]{client});
+
+                        }catch (IOException ex)
+                        {
+                            ex.printStackTrace();
+                            break;
+                        }
+                    }
+                }
+                catch (IOException ex)
+                {
+                    Log.d(tag1,ex.getMessage());
+                }
+
+//                Log.d(tag, "handler attached....");
+            }
+        };
+
+        Thread linkThread = new Thread(linkRunnable);
+        linkThread.start();
+
+
+
+
+
         Runnable playlist = new Runnable() {
             @Override
             public void run() {
@@ -485,9 +534,6 @@ public class HostView extends Activity {
 
     //End of start streaming
 
-
-
-
     public ArrayList<String> updatePlaylist() {
         String tag = "Music_add";
         File dir = new File(folder);
@@ -499,7 +545,7 @@ public class HostView extends Activity {
         if (listOfFiles != null)
             Log.i(tag, String.valueOf(listOfFiles.length));
 
-        ArrayList<String> name = new ArrayList();
+        ArrayList<String> name = new ArrayList<>();
         Log.d(tag, "Adding songs");
 
         for (int i = 0; i < listOfFiles.length; i++) {
@@ -656,6 +702,7 @@ public class HostView extends Activity {
         }
     };
 
+
     public void pause(View view) {
 //        Toast.makeText(getApplicationContext(), "Pausing sound",
 //                Toast.LENGTH_SHORT).show();
@@ -694,6 +741,7 @@ public class HostView extends Activity {
     }
 
 
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -712,6 +760,9 @@ public class HostView extends Activity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+
+
 
     public void sortList()
     {
@@ -737,18 +788,29 @@ public class HostView extends Activity {
         sortList();
     }
 
+    private synchronized void addYouSong(String url, String title) {
+        Songs s = new Songs(++plist_size, url, title, 1);
+        db.addYoutube_Song(s);
+        songs.add(s);
+        Log.d(tag, "Song added : " + s);
+        sortList();
+    }
+
+
+
+
     public static String append(String filename,String time)
     {
-//        String arr[]=filename.split("\\.",2);
-        int index = filename.lastIndexOf(".");
-        String songname = filename.substring(0,index);
-        String format = filename.substring(index);
-
-        return songname+"_"+time+format;
-//        if (arr.length==2)
-//            return arr[0]+"_"+time+"."+arr[1];
-//        else
-//            return arr[0];
+        String arr[]=filename.split("\\.",2);
+//        int index = filename.lastIndexOf(".");
+//        String songname = filename.substring(0,index);
+//        String format = filename.substring(index);
+//        Log.d("format",format+"-"+songname);
+//        return songname+"_"+time+format;
+        if (arr.length==2)
+            return arr[0]+"_"+time+"."+arr[1];
+        else
+            return arr[0];
     }
 
     @Override
@@ -788,6 +850,8 @@ public class HostView extends Activity {
         return false;
     }
 
+
+
     public JSONArray arrayToJSON()
     {
         JSONArray jsonArray = new JSONArray();
@@ -826,6 +890,9 @@ public class HostView extends Activity {
         }
 
     }
+
+
+
 
     public ArrayList<String> getIp() {
         BufferedReader br = null;
@@ -983,6 +1050,8 @@ public class HostView extends Activity {
 
     }
 
+
+
     private class FileServerAsyncTask extends AsyncTask<Socket, Void, String> {
 
         private Context context;
@@ -1091,6 +1160,9 @@ public class HostView extends Activity {
         return true;
     }
 
+
+
+
     public String getUpvotes(Socket client) {
         try {
 
@@ -1110,8 +1182,6 @@ public class HostView extends Activity {
             return null;
         }
     }
-
-
 
     private class GetVotes extends AsyncTask<Socket, Void, String> {
 
@@ -1166,6 +1236,74 @@ public class HostView extends Activity {
         }
 
     }
+
+
+
+
+
+    public String getyoutubelink(Socket client) {
+        try {
+
+            InputStream inputstream = client.getInputStream();
+            InputStreamReader isr = new InputStreamReader(inputstream);
+            BufferedReader br = new BufferedReader(isr);
+            Log.d(tag, "recieving link");
+            String youtubelink = br.readLine();
+            Log.d(tag, "recieved link :" + youtubelink);
+            client.close();
+            //votesServerSocket.close();
+            return youtubelink;
+        } catch (IOException e) {
+            Log.e(tag, e.getMessage());
+            getyoulink = false;
+            Log.d(tag, "Get youlink Error: " + getyoulink);
+            return null;
+        }
+    }
+
+    private class GetYoutubeLinks extends AsyncTask<Socket, Void, String> {
+
+        private Context context;
+
+        /**
+         * @param context
+         */
+        public GetYoutubeLinks(Context context) throws IOException {
+            this.context = context;
+        }
+
+        @Override
+        protected String doInBackground(Socket... params) {
+
+            String youtubelink = getyoutubelink(params[0]);
+            return youtubelink;
+        }
+        @Override
+        protected void onPostExecute(String link) {
+            Log.i("link_received", link);
+            if (link != null) {
+                getVotes = false;
+                try {
+                    JSONObject jsonObject = new JSONObject(link);
+
+                    if (jsonObject.getString("type").equals("youtube")) {
+                        String url = jsonObject.getString("url");
+                        String desc = jsonObject.getString("desc");
+                        addYouSong(url, desc);
+                    }
+
+                    Log.d(tag, "Adding youtube link Completed");
+                } catch (Exception e) {
+                    Log.d("Add link error", "Entered catch exception");
+                    e.printStackTrace();
+                }
+
+            }
+
+        }
+
+    }
+
 
 
 }

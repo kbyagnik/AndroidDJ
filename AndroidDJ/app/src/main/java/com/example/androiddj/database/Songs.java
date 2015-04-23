@@ -1,13 +1,16 @@
 package com.example.androiddj.database;
 
-public class Songs 
+
+public class Songs
 {
 	private int _id;
-	private String _name;
+	private String _url;
+    private String _name;
 	private int _status;
 	private int _upvotes;
 	private int _downvotes;
 	private int _aging;
+    private int _flag_Youtube;
 	
 	public Songs()
 	{
@@ -18,43 +21,77 @@ public class Songs
 	{
 		this._id = id;
 		this._name = name;
+        this._url = "";
 		this._status = status;
 		_upvotes = 0;
 		_downvotes = 0;
 		_aging = 0;
+        _flag_Youtube = 0;
+
 	}
 	
 	public Songs(int id,String name)
 	{
 		this._id = id;
 		this._name = name;
+        this._url = "";
 		this._status = 0;
 		_upvotes = 0;
 		_downvotes = 0;
 		_aging = 0;
+        _flag_Youtube=0;
 	}
 
 	
 	public Songs(String name,int status)
 	{
 		this._name = name;
+        this._url = "";
 		this._status = status;
 		_upvotes = 0;
 		_downvotes = 0;
 		_aging = 0;
+        _flag_Youtube=0;
 	}
 	
 	public Songs(int id,String name,int status,int upvotes,int downvotes,int aging)
 	{
 		this._id = id;
 		this._name = name;
+        this._url = "";
 		this._status = status;
 		this._upvotes = upvotes;
 		this._downvotes = downvotes;
 		this._aging = aging;
+        this._flag_Youtube=0;
 	}
-	
-	//getting the id of the song
+
+    public Songs(int id,String name,int status,int upvotes,int downvotes,int aging, int flag)
+    {
+        this._id = id;
+        this._name = name;
+        this._url = "";
+        this._status = status;
+        this._upvotes = upvotes;
+        this._downvotes = downvotes;
+        this._aging = aging;
+        this._flag_Youtube=flag;
+    }
+
+
+    public Songs(int id, String url, String title, int flag)
+    {
+        this._id = id;
+        this._name = title;
+        this._url = url;
+        this._status = 0;
+        _upvotes = 0;
+        _downvotes = 0;
+        _aging = 0;
+        this._flag_Youtube=flag;
+    }
+
+    //getting the id of the song
 	public int getID()
 	{
 		return _id;
@@ -115,4 +152,8 @@ public class Songs
 	{
 		this._aging = aging;
 	}
+
+    public void setFlag_Youtube(int flag) { this._flag_Youtube=flag; }
+
+    public int getFlag_Youtube() { return _flag_Youtube; }
 }

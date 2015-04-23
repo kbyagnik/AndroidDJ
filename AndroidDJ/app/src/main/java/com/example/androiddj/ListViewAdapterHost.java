@@ -74,7 +74,7 @@ public class ListViewAdapterHost extends ArrayAdapter<Songs> {
         name.setSingleLine(true);
         String temp = p.getName();
         int indx = temp.lastIndexOf("_");
-        name.setText(temp.substring(0,indx));
+        name.setText(p.getName());
 
         final TextView upvotes = (TextView) convertView.findViewById(R.id.upvoteCount);
         final TextView downvotes = (TextView) convertView.findViewById(R.id.downvoteCount);
