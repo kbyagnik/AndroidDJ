@@ -1,0 +1,7 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.example.android.wifidirect.WiFiDirectActivity">
+    <item android:id="@+id/action_settings" android:title="@string/action_settings"
+        android:orderInCategory="100" android:showAsAction="never" />
+</menu>
+<!-- From: file:/F:/BT/6th%20sem/CSL343-Computer%20Networks/Project/git/master/AndroidDJ/app/src/main/res/menu/menu_main.xml -->

@@ -1,0 +1,3 @@
+F:\BT\6th sem\CSL343-Computer Networks\Project\git\master\AndroidDJ\app\build\intermediates\classes\debug
+F:\BT\6th sem\CSL343-Computer Networks\Project\git\master\AndroidDJ\app\build\intermediates\pre-dexed\debug\YouTubeAndroidPlayerApi-e1ce8ef86d3a78bb2d0989ca32738497b7113617.jar
+F:\BT\6th sem\CSL343-Computer Networks\Project\git\master\AndroidDJ\app\build\intermediates\pre-dexed\debug\support-v4-19.1.0-27b0d12314afbe2b3004959fbddd95dccc6f3ee0.jar

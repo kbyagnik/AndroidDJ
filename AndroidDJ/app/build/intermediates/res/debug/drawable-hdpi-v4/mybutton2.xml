@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="oval"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+    <solid android:color="#9F2200"/>
+
+    <stroke android:width="2dp" android:color="#fff" />
+</shape><!-- From: file:/F:/BT/6th%20sem/CSL343-Computer%20Networks/Project/git/master/AndroidDJ/app/src/main/res/drawable-hdpi/mybutton2.xml -->

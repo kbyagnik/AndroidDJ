@@ -1,0 +1,7 @@
+Manifest-Version: 1.0
+Name: com/google/android/youtube/player
+Specification-Title: YouTube Android Player API
+Specification-Version: 1.2.1
+Specification-Vendor: Google Inc
+Created-By: 1.7.0-google-v6 (Google Inc.)
+

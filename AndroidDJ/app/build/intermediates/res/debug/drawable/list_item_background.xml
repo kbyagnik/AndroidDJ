@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_pressed="true">
+        <shape  >
+            <solid android:color="#9999ff" />
+        </shape>
+    </item>
+
+
+
+    <item>
+        <shape  >
+            <solid android:color="#666699"/>
+        </shape>
+    </item>
+</selector><!-- From: file:/F:/BT/6th%20sem/CSL343-Computer%20Networks/Project/git/master/AndroidDJ/app/src/main/res/drawable/list_item_background.xml -->

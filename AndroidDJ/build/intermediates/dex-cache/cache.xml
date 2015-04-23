@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="D:\done\Installed\AndroidSDK\extras\android\m2repository\com\android\support\support-v4\19.1.0\support-v4-19.1.0.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="85f201b380937e61a9dce6ca90ccf6872abbfb67">
+        <dex dex="F:\BT\6th sem\CSL343-Computer Networks\Project\git\master\AndroidDJ\app\build\intermediates\pre-dexed\debug\support-v4-19.1.0-27b0d12314afbe2b3004959fbddd95dccc6f3ee0.jar" />
+    </item>
+    <item
+        jar="F:\BT\6th sem\CSL343-Computer Networks\Project\git\master\AndroidDJ\app\libs\YouTubeAndroidPlayerApi.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="78b8f6e37921559ed21c1fae1f30f9f713494db8">
+        <dex dex="F:\BT\6th sem\CSL343-Computer Networks\Project\git\master\AndroidDJ\app\build\intermediates\pre-dexed\debug\YouTubeAndroidPlayerApi-e1ce8ef86d3a78bb2d0989ca32738497b7113617.jar" />
+    </item>
+
+</items>

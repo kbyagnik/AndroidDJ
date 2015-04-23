@@ -1,0 +1,230 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.androiddj.HostView">
+
+    <!--android:paddingBottom="16dp"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        -->
+
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical">
+
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:background="@drawable/back2">
+
+            <ListView
+                android:id="@+id/listview"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:divider="@null"
+                android:dividerHeight="0dp"
+                android:scrollbars="vertical"
+                android:background="#ffea5233"/>
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/holo_blue_light"
+            android:gravity="center_vertical" />
+
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="5"
+            android:label="@string/footer_layout">
+
+            <RelativeLayout
+                android:id="@+id/host_layout"
+                android:paddingBottom="16dp"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingRight="@dimen/activity_horizontal_margin"
+                android:visibility="visible"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:label="@string/footer_layout">
+
+                <Button
+                    android:id="@+id/host_mic_stop"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/images"
+                    android:contentDescription="record"
+                    android:layout_alignBottom="@+id/forward"
+                    android:layout_toRightOf="@+id/seekBar"
+                    android:layout_toEndOf="@+id/seekBar"
+                    android:layout_below="@+id/seekBar" />
+
+
+                <Button
+                    android:id="@+id/host_mic_start"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/images1"
+                    android:contentDescription="record"
+                    android:layout_alignBottom="@+id/forward"
+                    android:layout_toRightOf="@+id/seekBar"
+                    android:layout_toEndOf="@+id/seekBar"
+                    android:layout_below="@+id/seekBar" />
+
+                <TextView
+                    android:id="@+id/startTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_above="@+id/rewind"
+                    android:layout_alignParentLeft="true"
+                    android:text="@string/inital_Time"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:layout_marginBottom="10dp" />
+
+                <SeekBar
+                    android:id="@+id/seekBar"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_above="@+id/pause"
+                    android:layout_toRightOf="@+id/startTime"
+                    android:layout_toLeftOf="@+id/endTime"/>
+
+                <TextView
+                    android:id="@+id/endTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_above="@+id/forward"
+                    android:layout_alignParentRight="true"
+                    android:text="@string/inital_Time"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:layout_marginBottom="10dp" />
+
+                <!--android:layout_alignParentEnd="true"-->
+                <!--android:layout_alignParentRight="true"-->
+                <ImageButton
+                    android:id="@+id/forward"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_toRightOf="@+id/play"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginLeft="25dp"
+                    android:onClick="forward"
+                    android:background="@drawable/forward" />
+
+                <!--android:layout_alignParentLeft="true"-->
+                <!--android:layout_alignParentStart="true"-->
+                <!-- android:background="@drawable/mybutton"  -->
+                <ImageButton
+                    android:id="@+id/rewind"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_toLeftOf="@id/play"
+                    android:layout_marginRight="25dp"
+                    android:onClick="rewind"
+                    android:background="@drawable/previous" />
+               <ImageButton
+                    android:id="@+id/play"
+                   android:layout_width="40dp"
+                   android:layout_height="40dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:onClick="play"
+                    android:background="@drawable/play" />
+
+                <ImageButton
+                    android:id="@+id/pause"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:onClick="pause"
+                    android:background="@drawable/pause"/>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/client_layout"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingRight="@dimen/activity_horizontal_margin"
+                android:label="@string/footer_layout"
+                android:visibility="invisible">
+
+                <Button
+                    android:id="@+id/add_file"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:background="@drawable/upload"
+                    android:contentDescription="@string/addsong"/>
+
+                <!--<Button
+                    android:id="@+id/record_mic"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                    android:layout_marginTop="@dimen/activity_horizontal_margin"
+                    android:background="@drawable/record_logo"
+                    android:contentDescription="record" />-->
+
+                <Button
+                    android:id="@+id/youtube"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/youtube1"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@+id/add_file"
+                    android:layout_marginLeft="30dp" />
+
+                <Button
+                    android:id="@+id/client_mic_stop"
+                    android:layout_width="70dp"
+                    android:layout_height="60dp"
+                    android:layout_centerVertical="true"
+                    android:background="@drawable/images"
+                    android:contentDescription="record"
+                    android:layout_toRightOf="@+id/youtube"
+                    android:layout_marginLeft="30dp" />
+
+
+                <Button
+                    android:id="@+id/client_mic_start"
+                    android:layout_width="70dp"
+                    android:layout_height="60dp"
+                    android:background="@drawable/images1"
+                    android:layout_centerVertical="true"
+                    android:contentDescription="record"
+                    android:layout_toRightOf="@+id/youtube"
+                    android:layout_marginLeft="30dp" />
+
+                <Button
+                    android:id="@+id/leave_party"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Leave"
+                    android:background="@android:color/holo_orange_light"
+                    android:textStyle="bold"
+                    android:textColor="#ffffffff"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentRight="true" />
+
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>
