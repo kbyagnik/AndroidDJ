@@ -120,6 +120,17 @@
                     android:onClick="forward"
                     android:background="@drawable/forward" />
 
+
+                <ImageButton
+                    android:id="@+id/next"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_toLeftOf="@+id/rewind"
+                    android:layout_marginBottom="5dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginRight="10dp"
+                    android:onClick="next"
+                    android:background="@drawable/next" />
                 <!--android:layout_alignParentLeft="true"-->
                 <!--android:layout_alignParentStart="true"-->
                 <!-- android:background="@drawable/mybutton"  -->
@@ -131,7 +142,7 @@
                     android:layout_toLeftOf="@id/play"
                     android:layout_marginRight="25dp"
                     android:onClick="rewind"
-                    android:background="@drawable/previous" />
+                    android:background="@drawable/rewind" />
                <ImageButton
                     android:id="@+id/play"
                    android:layout_width="40dp"

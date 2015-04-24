@@ -80,8 +80,16 @@ public View getView(final int position, View convertView, ViewGroup parent) {
 	        Log.i(tag, "Song id " + Integer.toString(p.getID()));
 	        final int id = p.getID();
             String temp = p.getName();
-            int indx = temp.lastIndexOf("_");
-            name.setText(p.getName());
+            int index = temp.lastIndexOf("_");
+            if(index == -1)
+            {
+                name.setText(p.getName());
+            }
+            else
+            {
+                Log.i("newname",p.getName().substring(0,index));
+                name.setText(p.getName().substring(0,index));
+            }
 
 	        final TextView upvotes = (TextView) convertView.findViewById(R.id.upvoteCount);
 	        final TextView downvotes = (TextView) convertView.findViewById(R.id.downvoteCount);

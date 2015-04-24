@@ -73,8 +73,17 @@ public class ListViewAdapterHost extends ArrayAdapter<Songs> {
         name.setSelected(true);
         name.setSingleLine(true);
         String temp = p.getName();
-        int indx = temp.lastIndexOf("_");
-        name.setText(p.getName());
+        int index = temp.lastIndexOf("_");
+            Log.i("json1",db.getSong(1).getName() + " " + db.getSong(1).getUpvotes() + " " + db.getSong(1).getDownvotes());
+        if(index == -1)
+        {
+            name.setText(p.getName());
+        }
+            else
+        {
+            Log.i("newname",p.getName().substring(0,index));
+            name.setText(p.getName().substring(0,index));
+        }
 
         final TextView upvotes = (TextView) convertView.findViewById(R.id.upvoteCount);
         final TextView downvotes = (TextView) convertView.findViewById(R.id.downvoteCount);

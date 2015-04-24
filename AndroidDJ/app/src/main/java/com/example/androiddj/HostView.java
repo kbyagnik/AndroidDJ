@@ -57,6 +57,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 
@@ -69,6 +70,7 @@ public class HostView extends Activity {
     private MediaRecorder myAudioRecorder;
     public byte[] buffer;
     AudioRecord recorder;
+    private Random r;
 
     private int sampleRate = 44100;
     private int channelConfig = AudioFormat.CHANNEL_IN_MONO;
@@ -110,6 +112,7 @@ public class HostView extends Activity {
     private ImageButton playButton, pauseButton;
     public static int oneTimeOnly = 0;
     int index = 0;
+    private int changeSongVotes = 0;
 
     //    AudioRecord recorder;
 //    private AudioTrack speaker;
@@ -140,7 +143,7 @@ public class HostView extends Activity {
 
         startButton.setOnClickListener (startListener);
         stopButton.setOnClickListener (stopListener);
-
+        r = new Random();
         minBufSize += 2048;
         System.out.println("minBufSize: " + minBufSize);
         //
@@ -165,9 +168,11 @@ public class HostView extends Activity {
 
         song_names = updatePlaylist();
 
+        Log.i("Music_add",Integer.toString(song_names.size()));
+
         db.addAllSongs(song_names);
 
-        Log.i(tag, "Going to create list: db size : " + String.valueOf(db.getSongsCount()));
+        Log.i("db", "Going to create list: db size : " + String.valueOf(db.getSongsCount()));
 
         songs = db.getAllSongs();
         plist_size = songs.size();
@@ -548,6 +553,7 @@ public class HostView extends Activity {
     public ArrayList<String> updatePlaylist() {
         String tag = "Music_add";
         File dir = new File(folder);
+        Log.i(tag,folder.toString());
         if (!dir.isDirectory())
             Log.i(tag, "Not a directory");
 
@@ -645,8 +651,32 @@ public class HostView extends Activity {
             }
 
         } else {
+            if (mediaPlayer != null)
+            mediaPlayer.stop();
             Toast.makeText(this, "Playlist Empty", Toast.LENGTH_SHORT).show();
             flag = true;
+
+            File dir = new File(folder);
+
+            File[] listOfFiles = dir.listFiles();
+            int[] arr = new int[listOfFiles.length];
+            int count=0;
+            for (int i = 0; i < listOfFiles.length; i++)
+            {
+                if (listOfFiles[i].isFile()) arr[count++]=i;
+            }
+
+            if (count>0)
+            {
+                int ran = r.nextInt(count-1);
+
+                String song_name=listOfFiles[arr[ran]].getName();
+
+                File file = new File(folder + song_name);
+                Uri uri = Uri.fromFile(file);
+                mediaPlayer = MediaPlayer.create(this, uri);
+                mediaPlayer.start();
+            }
         }
     }
 
@@ -827,7 +857,17 @@ public class HostView extends Activity {
 
     }
 
-
+    public void next(View view)
+    {
+        changeSongVotes = 0;
+        if(seekbar != null) {
+            seekbar.setProgress((int) finalTime);
+            if (mediaPlayer != null) {
+                mediaPlayer.seekTo((int) finalTime);
+                return;
+            }
+        }
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -855,7 +895,8 @@ public class HostView extends Activity {
     {
         ArrayList<Songs> tempSongs = new ArrayList<Songs>();
         if(songs.size() != 0) {
-            tempSongs.add(songs.get(0));
+            tempSongs.add(db.getSong(songs.get(0).getID()));
+            Log.i("songdb",songs.get(0).getName() + " " + songs.get(0).getID());
             tempSongs.addAll(db.getAllSongsSorted(songs.get(0).getID()));
             songs = tempSongs;
         }
@@ -889,16 +930,24 @@ public class HostView extends Activity {
 
     public static String append(String filename,String time)
     {
-        String arr[]=filename.split("\\.",2);
-//        int index = filename.lastIndexOf(".");
-//        String songname = filename.substring(0,index);
-//        String format = filename.substring(index);
-//        Log.d("format",format+"-"+songname);
-//        return songname+"_"+time+format;
-        if (arr.length==2)
-            return arr[0]+"_"+time+"."+arr[1];
-        else
-            return arr[0];
+//        String arr[]=filename.split("\\.",2);
+        int index = filename.lastIndexOf(".");
+        if(index == -1)
+        {
+            return filename;
+        }
+        String newName = filename.substring(0,index)+ time + filename.substring(index);
+        Log.i("newname",newName);
+        return newName;
+        /*if(filename.substring(index+1).equalsIgnoreCase())
+        String songname = filename.substring(0,index);
+        String format = filename.substring(index);
+        Log.d("format",format+"-"+songname);
+        return songname+"_"+time+format;
+//        if (arr.length==2)
+//            return arr[0]+"_"+time+"."+arr[1];
+//        else
+//            return arr[0];*/
     }
 
     @Override
@@ -951,6 +1000,7 @@ public class HostView extends Activity {
                 jsonobject.put("upvotes",s.getUpvotes());
                 jsonobject.put("downvotes",s.getDownvotes());
                 jsonArray.put(jsonobject);
+                Log.i("json",s.getID() + " " + s.getName() + " " + s.getDownvotes() + " " + s.getUpvotes());
             }
             catch(Exception e)
             {

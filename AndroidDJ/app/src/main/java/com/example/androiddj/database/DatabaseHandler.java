@@ -70,6 +70,7 @@ public class  DatabaseHandler extends SQLiteOpenHelper
         int i=0;
         for (String s: songs)
         {
+            Log.i("db","adding " + s);
             addSong(new Songs(++i, s));
         }
     }
@@ -91,14 +92,14 @@ public class  DatabaseHandler extends SQLiteOpenHelper
 		String query = "INSERT INTO " + TABLE_SONGS + " VALUES(" + Integer.toString(song.getID()) + ",'" + 
 		song.getName() + "'," + Integer.toString(song.getStatus()) + "," + Integer.toString(song.getUpvotes()) + "," + 
 		Integer.toString(song.getDownvotes()) + "," + Integer.toString(song.getAging()) +  "," + Integer.toString(song.getFlag_Youtube()) +")";
-		Log.i("Debugging", query);
+		Log.i("db", query);
 		try
 		{
 			int val = (int) db.insertOrThrow(TABLE_SONGS, null, values);
 		}
 		catch(Exception e)
 		{
-			Log.i("Debugging",e.getMessage());
+			Log.i("db",e.getMessage());
 		}
 		/*try
 		{
