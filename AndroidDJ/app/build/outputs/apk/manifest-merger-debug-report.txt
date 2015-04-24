@@ -157,27 +157,21 @@ ADDED from AndroidManifest.xml:87:9
 		ADDED from AndroidManifest.xml:88:13
 	android:name
 		ADDED from AndroidManifest.xml:87:19
-activity#com.example.androiddj.youtubeparser.StandaloneYoutubePlayer
-ADDED from AndroidManifest.xml:89:9
-	android:label
-		ADDED from AndroidManifest.xml:90:13
-	android:name
-		ADDED from AndroidManifest.xml:89:19
 service#com.example.androiddj.FileTransferService
-ADDED from AndroidManifest.xml:98:9
+ADDED from AndroidManifest.xml:92:9
 	android:enabled
-		ADDED from AndroidManifest.xml:100:13
+		ADDED from AndroidManifest.xml:94:13
 	android:name
-		ADDED from AndroidManifest.xml:99:13
+		ADDED from AndroidManifest.xml:93:13
 service#com.example.androiddj.PlaylistTransferService
-ADDED from AndroidManifest.xml:102:9
+ADDED from AndroidManifest.xml:96:9
 	android:enabled
-		ADDED from AndroidManifest.xml:104:13
+		ADDED from AndroidManifest.xml:98:13
 	android:name
-		ADDED from AndroidManifest.xml:103:13
+		ADDED from AndroidManifest.xml:97:13
 service#com.example.androiddj.SongTransferService
-ADDED from AndroidManifest.xml:105:9
+ADDED from AndroidManifest.xml:99:9
 	android:enabled
-		ADDED from AndroidManifest.xml:107:13
+		ADDED from AndroidManifest.xml:101:13
 	android:name
-		ADDED from AndroidManifest.xml:106:13
+		ADDED from AndroidManifest.xml:100:13

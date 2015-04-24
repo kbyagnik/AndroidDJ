@@ -156,4 +156,8 @@ public class Songs
     public void setFlag_Youtube(int flag) { this._flag_Youtube=flag; }
 
     public int getFlag_Youtube() { return _flag_Youtube; }
+
+    public void set_url(String url) { this._url=url; }
+
+    public String get_url() { return _url; }
 }

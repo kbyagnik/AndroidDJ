@@ -39,7 +39,8 @@ public class YoutubeDialogFragment extends DialogFragment {
         final Bundle bundle = getArguments();
         final String VIDEO_ID =bundle.getString(videoId);
         title = bundle.getString("Description");
-        url="https://www.youtube.com/watch?v="+VIDEO_ID;
+//        url="https://www.youtube.com/watch?v="+VIDEO_ID;
+        url = VIDEO_ID;
         final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setItems(R.array.youtube_dialog_list, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
@@ -59,6 +60,7 @@ public class YoutubeDialogFragment extends DialogFragment {
                                 String linkStream = jsonObject.toString();
                                 streamLink(linkStream);
                             } catch (JSONException e) {
+                                Log.d("streamLink","json");
                                 e.printStackTrace();
                             }
                         }

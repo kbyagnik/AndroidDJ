@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ResolveInfo;
 import android.media.AudioFormat;
 import android.media.AudioManager;
 import android.media.AudioRecord;
@@ -32,6 +33,9 @@ import android.widget.Toast;
 
 import com.example.androiddj.database.DatabaseHandler;
 import com.example.androiddj.database.Songs;
+import com.example.androiddj.youtubeparser.ListViewWithBaseAdapter;
+import com.google.android.youtube.player.YouTubeInitializationResult;
+import com.google.android.youtube.player.YouTubeStandalonePlayer;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -52,12 +56,15 @@ import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 
 
 public class HostView extends Activity {
     //
+
+    static Activity mActivity;
     private Button startButton,stopButton;
     private MediaRecorder myAudioRecorder;
     public byte[] buffer;
@@ -119,6 +126,10 @@ public class HostView extends Activity {
 //
         Log.i(tag, "Going to call oncreate");
         super.onCreate(savedInstanceState);
+
+        // for youtube activity
+        mActivity = this ;
+
         Log.i(tag, "calling setcontent view");
         setContentView(R.layout.activity_main);
 
@@ -564,67 +575,143 @@ public class HostView extends Activity {
 
     public void play(View view) {
         if (songs.size() > 0) {
-            if (flag) {
-                File file = new File(folder + songs.get(0).getName());
-                Uri uri = Uri.fromFile(file);
-                mediaPlayer = MediaPlayer.create(this, uri);
+
+            if(songs.get(0).getFlag_Youtube() == 0) {
+                if (flag) {
+                    File file = new File(folder + songs.get(0).getName());
+                    Uri uri = Uri.fromFile(file);
+                    mediaPlayer = MediaPlayer.create(this, uri);
+                }
+
+                Log.i(tag, "usee");
+                mediaPlayer.start();
+
+                int index = 1;
+                finalTime = mediaPlayer.getDuration();
+                startTime = mediaPlayer.getCurrentPosition();
+                if (oneTimeOnly == 0) {
+                    seekbar.setMax((int) finalTime);
+                    oneTimeOnly = 1;
+
+                    seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+                        @Override
+                        public void onProgressChanged(SeekBar seekBar, int progressValue, boolean fromUser) {
+                            Toast.makeText(getApplicationContext(), "Changing seekbar progress", Toast.LENGTH_SHORT);
+                            if (fromUser)
+                                mediaPlayer.seekTo(progressValue);
+                        }
+
+                        @Override
+                        public void onStartTrackingTouch(SeekBar seekBar) {
+
+                        }
+
+                        @Override
+                        public void onStopTrackingTouch(SeekBar seekBar) {
+
+                        }
+                    });
+                }
+
+                endTimeField.setText(String.format("%02d:%02d",
+                                TimeUnit.MILLISECONDS.toMinutes((long) finalTime),
+                                TimeUnit.MILLISECONDS.toSeconds((long) finalTime) -
+                                        TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.
+                                                toMinutes((long) finalTime)))
+                );
+                startTimeField.setText(String.format("%02d:%02d",
+                                TimeUnit.MILLISECONDS.toMinutes((long) startTime),
+                                TimeUnit.MILLISECONDS.toSeconds((long) startTime) -
+                                        TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.
+                                                toMinutes((long) startTime)))
+                );
+
+                seekbar.setProgress((int) startTime);
+                mediaHandler.postDelayed(UpdateSongTime, 100);
+                pauseButton.setEnabled(true);
+                playButton.setEnabled(false);
+
+                pauseButton.setVisibility(View.VISIBLE);
+                playButton.setVisibility(View.INVISIBLE);
+
             }
 
-            Log.i(tag, "usee");
-            mediaPlayer.start();
+            else if (songs.get(0).getFlag_Youtube() == 1)
+            {
+//                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+//                startActivity(browserIntent);
 
-            int index = 1;
-            finalTime = mediaPlayer.getDuration();
-            startTime = mediaPlayer.getCurrentPosition();
-            if (oneTimeOnly == 0) {
-                seekbar.setMax((int) finalTime);
-                oneTimeOnly = 1;
-
-                seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-                    @Override
-                    public void onProgressChanged(SeekBar seekBar, int progressValue, boolean fromUser) {
-                        Toast.makeText(getApplicationContext(), "Changing seekbar progress", Toast.LENGTH_SHORT);
-                        if (fromUser)
-                            mediaPlayer.seekTo(progressValue);
-                    }
-
-                    @Override
-                    public void onStartTrackingTouch(SeekBar seekBar) {
-
-                    }
-
-                    @Override
-                    public void onStopTrackingTouch(SeekBar seekBar) {
-
-                    }
-                });
+                play(songs.get(0).get_url());
             }
 
-            endTimeField.setText(String.format("%02d:%02d",
-                            TimeUnit.MILLISECONDS.toMinutes((long) finalTime),
-                            TimeUnit.MILLISECONDS.toSeconds((long) finalTime) -
-                                    TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.
-                                            toMinutes((long) finalTime)))
-            );
-            startTimeField.setText(String.format("%02d:%02d",
-                            TimeUnit.MILLISECONDS.toMinutes((long) startTime),
-                            TimeUnit.MILLISECONDS.toSeconds((long) startTime) -
-                                    TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.
-                                            toMinutes((long) startTime)))
-            );
-
-            seekbar.setProgress((int) startTime);
-            mediaHandler.postDelayed(UpdateSongTime, 100);
-            pauseButton.setEnabled(true);
-            playButton.setEnabled(false);
-
-            pauseButton.setVisibility(View.VISIBLE);
-            playButton.setVisibility(View.INVISIBLE);
         } else {
             Toast.makeText(this, "Playlist Empty", Toast.LENGTH_SHORT).show();
             flag = true;
         }
     }
+
+
+
+    // YoutubeDialogfrag methods
+
+    private static final int REQ_START_STANDALONE_PLAYER = 1;
+    private static final int REQ_RESOLVE_SERVICE_MISSING = 2;
+    private static final String DEVELOPER_KEY="AIzaSyAniiilDhSSjvOCNEGge7TakYkOaCqTtZg";
+    //@Override
+    public static void play(String VIDEO_ID) {
+        //super.onCreate(savedInstanceState);
+        // final Bundle bundle = getIntent().getExtras();
+        //final String VIDEO_ID =bundle.getString("videoId");
+        final int startTimeMillis=0;
+        final boolean autoplay=true;
+        final boolean lightboxMode=true;
+        // setContentView(R.layout.standalone_player);
+        Intent intent = YouTubeStandalonePlayer.createVideoIntent(
+              mActivity , DEVELOPER_KEY, VIDEO_ID, startTimeMillis, autoplay, lightboxMode);
+        if (intent != null) {
+            if (canResolveIntent(intent)) {
+                mActivity.startActivityForResult(intent, REQ_START_STANDALONE_PLAYER);
+            } else {
+                // Could not resolve the intent - must need to install or update the YouTube API service.
+                YouTubeInitializationResult.SERVICE_MISSING
+                        .getErrorDialog(mActivity, REQ_RESOLVE_SERVICE_MISSING).show();
+            }
+        }
+    }
+
+    private static boolean canResolveIntent(Intent intent) {
+        List<ResolveInfo> resolveInfo = mActivity.getPackageManager().queryIntentActivities(intent, 0);
+        return resolveInfo != null && !resolveInfo.isEmpty();
+    }
+
+
+
+    //-----------------------------------
+
+
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQ_START_STANDALONE_PLAYER && resultCode != RESULT_OK) {
+            YouTubeInitializationResult errorReason =
+                    YouTubeStandalonePlayer.getReturnedInitializationResult(data);
+            if (errorReason.isUserRecoverableError()) {
+                errorReason.getErrorDialog(this, 0).show();
+            } else {
+                String errorMessage =
+                        String.format(getString(R.string.error_player), errorReason.toString());
+                Toast.makeText(this, errorMessage, Toast.LENGTH_LONG).show();
+            }
+        }
+    }
+
+
+
+
+
+
 
 
     private Runnable UpdateSongTime = new Runnable() {
@@ -792,7 +879,8 @@ public class HostView extends Activity {
         Songs s = new Songs(++plist_size, url, title, 1);
         db.addYoutube_Song(s);
         songs.add(s);
-        Log.d(tag, "Song added : " + s);
+        Log.d("yousong", "Song added : " + s.getName() + " url : " + s.get_url() );
+
         sortList();
     }
 
@@ -1288,8 +1376,10 @@ public class HostView extends Activity {
 
                     if (jsonObject.getString("type").equals("youtube")) {
                         String url = jsonObject.getString("url");
-                        String desc = jsonObject.getString("desc");
+                        String desc = jsonObject.getString("title");
+                        Log.d("link_recieved", "url recieved " + url);
                         addYouSong(url, desc);
+
                     }
 
                     Log.d(tag, "Adding youtube link Completed");

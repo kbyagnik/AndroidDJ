@@ -1,7 +1,7 @@
 <component name="libraryTable">
   <library name="YouTubeAndroidPlayerApi">
     <CLASSES>
-      <root url="jar://$PROJECT_DIR$/../../../../Users/acer/Desktop/AndroidDJ/app/libs/YouTubeAndroidPlayerApi.jar!/" />
+      <root url="jar://$PROJECT_DIR$/app/libs/YouTubeAndroidPlayerApi.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

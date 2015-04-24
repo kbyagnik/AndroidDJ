@@ -86,12 +86,6 @@
 
         <activity android:name="com.example.androiddj.youtubeparser.ListViewWithBaseAdapter"
             android:label="Youtube Parser"/>
-        <activity android:name="com.example.androiddj.youtubeparser.StandaloneYoutubePlayer"
-            android:label="Youtube Parser"/>
-
-
-
-
 
 
         <!-- Used for transferring files  after a successful connection -->

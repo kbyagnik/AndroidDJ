@@ -49,21 +49,9 @@
       <file leaf-file-name="ClientView.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/androiddj/ClientView.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="4130" max-vertical-offset="4560">
+            <state vertical-scroll-proportion="0.0" vertical-offset="6214" max-vertical-offset="7875">
               <caret line="603" column="16" selection-start-line="603" selection-start-column="16" selection-end-line="603" selection-end-column="16" />
-              <folding>
-                <element signature="e#7133#7166#0" expanded="false" />
-                <element signature="method#findAudioRecord#0;class#ClientView#0" expanded="false" />
-                <element signature="method#startStreaming#0;class#ClientView#0" expanded="false" />
-                <element signature="e#15400#15402#0" expanded="false" />
-                <element signature="method#onActivityResult#0;class#ClientView#0" expanded="false" />
-                <element signature="method#addSongs#0;class#ClientView#0" expanded="false" />
-                <element signature="method#onRestart#0;class#ClientView#0" expanded="false" />
-                <element signature="method#onStop#0;class#ClientView#0" expanded="false" />
-                <element signature="method#getPlaylist#0;class#ClientView#0" expanded="false" />
-                <element signature="method#updateList#0;class#ClientView#0" expanded="false" />
-                <element signature="method#onKeyDown#0;class#ClientView#0" expanded="false" />
-              </folding>
+              <folding />
             </state>
           </provider>
         </entry>
@@ -71,57 +59,57 @@
       <file leaf-file-name="YoutubeDialogFragment.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/androiddj/youtubeparser/YoutubeDialogFragment.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="1071" max-vertical-offset="1665">
-              <caret line="51" column="0" selection-start-line="51" selection-start-column="0" selection-end-line="51" selection-end-column="0" />
+            <state vertical-scroll-proportion="-6.5925927" vertical-offset="497" max-vertical-offset="1185">
+              <caret line="67" column="67" selection-start-line="67" selection-start-column="67" selection-end-line="67" selection-end-column="67" />
               <folding>
-                <element signature="e#1396#2700#0" expanded="true" />
-                <element signature="e#2685#2686#0" expanded="true" />
-                <element signature="e#2743#3111#0" expanded="true" />
-                <element signature="e#3096#3097#0" expanded="true" />
+                <element signature="method#streamLink#0;class#YoutubeDialogFragment#0" expanded="false" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="HostView.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="HostView.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/androiddj/HostView.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.8236776" vertical-offset="2703" max-vertical-offset="12465">
-              <caret line="208" column="31" selection-start-line="208" selection-start-column="31" selection-end-line="208" selection-end-column="31" />
+            <state vertical-scroll-proportion="-9.222222" vertical-offset="11961" max-vertical-offset="20160">
+              <caret line="874" column="19" selection-start-line="874" selection-start-column="19" selection-end-line="874" selection-end-column="19" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#11309#12793#0" expanded="true" />
-                <element signature="e#12782#12783#0" expanded="true" />
-                <element signature="method#startStreaming#0;class#HostView#0" expanded="false" />
-                <element signature="e#23167#23208#0" expanded="false" />
-                <element signature="e#23376#23419#0" expanded="false" />
-                <element signature="e#26088#26154#0" expanded="false" />
-                <element signature="method#forward#0;class#HostView#0" expanded="false" />
-                <element signature="method#rewind#0;class#HostView#0" expanded="false" />
-                <element signature="method#onCreateOptionsMenu#0;class#HostView#0" expanded="false" />
-                <element signature="method#onOptionsItemSelected#0;class#HostView#0" expanded="false" />
-                <element signature="method#sortList#0;class#HostView#0" expanded="false" />
-                <element signature="method#addSong#0;class#HostView#0" expanded="false" />
-                <element signature="method#onRestart#0;class#HostView#0" expanded="false" />
-                <element signature="method#onStop#0;class#HostView#0" expanded="false" />
-                <element signature="method#onDestroy#0;class#HostView#0" expanded="false" />
-                <element signature="method#onKeyDown#0;class#HostView#0" expanded="false" />
-                <element signature="method#arrayToJSON#0;class#HostView#0" expanded="false" />
-                <element signature="method#sendPlaylist#0;class#HostView#0" expanded="false" />
-                <element signature="method#getIp#0;class#HostView#0" expanded="false" />
-                <element signature="class#MicAsyncTask#0;class#HostView#0" expanded="false" />
-                <element signature="docComment;method#FileServerAsyncTask#0;class#FileServerAsyncTask#0;class#HostView#0" expanded="false" />
-                <element signature="method#FileServerAsyncTask#0;class#FileServerAsyncTask#0;class#HostView#0" expanded="false" />
-                <element signature="method#onPostExecute#0;class#FileServerAsyncTask#0;class#HostView#0" expanded="false" />
-                <element signature="method#copyFile#0;class#HostView#0" expanded="false" />
-                <element signature="method#getUpvotes#0;class#HostView#0" expanded="false" />
-                <element signature="class#GetVotes#0;class#HostView#0" expanded="false" />
-                <element signature="docComment;method#GetVotes#0;class#GetVotes#0;class#HostView#0" expanded="false" />
-                <element signature="method#doInBackground#0;class#GetVotes#0;class#HostView#0" expanded="false" />
-                <element signature="method#onPostExecute#0;class#GetVotes#0;class#HostView#0" expanded="false" />
-                <element signature="method#getyoutubelink#0;class#HostView#0" expanded="false" />
-                <element signature="docComment;method#GetYoutubeLinks#0;class#GetYoutubeLinks#0;class#HostView#0" expanded="false" />
-                <element signature="method#doInBackground#0;class#GetYoutubeLinks#0;class#HostView#0" expanded="false" />
+                <element signature="e#6241#6768#0" expanded="true" />
+                <element signature="e#6757#6758#0" expanded="true" />
+                <element signature="method#updatePlaylist#0;class#HostView#0" expanded="false" />
+                <element signature="e#23487#23524#0" expanded="false" />
+                <element signature="e#25320#25352#0" expanded="true" />
+                <element signature="e#25533#29261#0" expanded="true" />
+                <element signature="e#29254#29255#0" expanded="true" />
+                <element signature="e#31218#31225#0" expanded="true" />
+                <element signature="e#34953#34961#0" expanded="true" />
+                <element signature="e#45925#45926#0" expanded="true" />
+                <element signature="e#45971#45972#0" expanded="true" />
+                <element signature="e#48437#48438#0" expanded="true" />
+                <element signature="e#48483#48484#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ListViewHome.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/androiddj/youtubeparser/ListViewHome.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="510">
+              <caret line="16" column="13" selection-start-line="16" selection-start-column="13" selection-end-line="16" selection-end-column="13" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ListViewWithBaseAdapter.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/androiddj/youtubeparser/ListViewWithBaseAdapter.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-4.2222223" vertical-offset="981" max-vertical-offset="5145">
+              <caret line="75" column="25" selection-start-line="75" selection-start-column="25" selection-end-line="75" selection-end-column="25" />
+              <folding>
+                <element signature="imports" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -130,8 +118,8 @@
       <file leaf-file-name="Songs.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/androiddj/database/Songs.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="1403" max-vertical-offset="1935">
-              <caret line="157" column="29" selection-start-line="157" selection-start-column="16" selection-end-line="157" selection-end-column="29" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1995">
+              <caret line="12" column="30" selection-start-line="12" selection-start-column="30" selection-end-line="12" selection-end-column="30" />
               <folding />
             </state>
           </provider>
@@ -140,37 +128,19 @@
       <file leaf-file-name="FileTransferService.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/androiddj/FileTransferService.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="630" max-vertical-offset="1230">
+            <state vertical-scroll-proportion="0.0" vertical-offset="555" max-vertical-offset="1485">
               <caret line="37" column="0" selection-start-line="37" selection-start-column="0" selection-end-line="37" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="DatabaseHandler.java" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="DatabaseHandler.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/androiddj/database/DatabaseHandler.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1380">
-              <caret line="368" column="1" selection-start-line="368" selection-start-column="1" selection-end-line="368" selection-end-column="1" />
-              <folding>
-                <element signature="method#DatabaseHandler#0;class#DatabaseHandler#0" expanded="false" />
-                <element signature="method#onCreate#0;class#DatabaseHandler#0" expanded="false" />
-                <element signature="method#onUpgrade#0;class#DatabaseHandler#0" expanded="false" />
-                <element signature="method#addAllSongs#0;class#DatabaseHandler#0" expanded="false" />
-                <element signature="method#addSong#0;class#DatabaseHandler#0" expanded="false" />
-                <element signature="method#addYoutube_Song#0;class#DatabaseHandler#0" expanded="false" />
-                <element signature="method#getSong#0;class#DatabaseHandler#0" expanded="false" />
-                <element signature="method#getAllSongs#0;class#DatabaseHandler#0" expanded="false" />
-                <element signature="method#getAllSongsSorted#0;class#DatabaseHandler#0" expanded="false" />
-                <element signature="method#getAllSongsSorted#1;class#DatabaseHandler#0" expanded="false" />
-                <element signature="method#deleteSongByName#0;class#DatabaseHandler#0" expanded="false" />
-                <element signature="method#updateSong#0;class#DatabaseHandler#0" expanded="false" />
-                <element signature="method#updateSongUp#0;class#DatabaseHandler#0" expanded="false" />
-                <element signature="method#updateSongDown#0;class#DatabaseHandler#0" expanded="false" />
-                <element signature="method#deleteSong#0;class#DatabaseHandler#0" expanded="false" />
-                <element signature="method#deleteAllSongs#0;class#DatabaseHandler#0" expanded="false" />
-                <element signature="method#getSongsCount#0;class#DatabaseHandler#0" expanded="false" />
-              </folding>
+            <state vertical-scroll-proportion="0.6366279" vertical-offset="1731" max-vertical-offset="5520">
+              <caret line="137" column="9" selection-start-line="137" selection-start-column="9" selection-end-line="137" selection-end-column="9" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -998,7 +968,7 @@
     </option>
     <option name="modificationStamps">
       <map>
-        <entry key="$PROJECT_DIR$" value="4289378248000" />
+        <entry key="$PROJECT_DIR$" value="4288088700000" />
       </map>
     </option>
     <option name="projectBuildClasspath">
@@ -1407,7 +1377,6 @@
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/androiddj/youtubeparser/ListViewWithBaseAdapter.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/androiddj/youtubeparser/TaskFragment.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/start_view.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/codelearn_list_home.xml" />
         <option value="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/menu/menu_main.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/androiddj/WiFiDirectActivity.java" />
@@ -1420,21 +1389,22 @@
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/androiddj/database/DatabaseHandler1.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/androiddj/FileTransferService.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/example/androiddj/database/Songs.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/example/androiddj/database/DatabaseHandler.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/androiddj/ClientView.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/example/androiddj/youtubeparser/YoutubeDialogFragment.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/androiddj/ListViewAdapterHost.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/androiddj/ListViewAdapterClient.java" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/codelearn_list_home.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/example/androiddj/database/Songs.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/example/androiddj/youtubeparser/YoutubeDialogFragment.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/androiddj/HostView.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/example/androiddj/database/DatabaseHandler.java" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
     <option name="x" value="59" />
-    <option name="y" value="-4" />
+    <option name="y" value="24" />
     <option name="width" value="1307" />
-    <option name="height" value="772" />
+    <option name="height" value="744" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
@@ -1462,6 +1432,9 @@
       <sortByType />
     </navigator>
     <panes>
+      <pane id="AndroidView" />
+      <pane id="PackagesPane" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -1568,6 +1541,36 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="res" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="layout" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="AndroidDJ" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="AndroidDJ" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="java" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -1590,15 +1593,62 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="build" />
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="androiddj" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="youtubeparser" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="AndroidDJ" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="AndroidDJ" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="androiddj" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="database" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
-      <pane id="AndroidView" />
-      <pane id="PackagesPane" />
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -1834,7 +1884,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="59" y="-4" width="1307" height="772" extended-state="6" />
+    <frame x="59" y="24" width="1307" height="744" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -1842,7 +1892,6 @@
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32852808" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32879046" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32591414" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.80922097" sideWeight="0.4624506" order="0" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.16442688" sideWeight="0.2159864" order="1" side_tool="true" content_ui="tabs" />
@@ -1850,7 +1899,7 @@
       <window_info id="Gradle Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.34022257" sideWeight="0.4616601" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2246596" sideWeight="0.502551" order="0" side_tool="true" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3321976" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" x="22" y="266" width="1322" height="195" />
-      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.5325914" sideWeight="0.53754944" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.34658188" sideWeight="0.53754944" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32993197" sideWeight="0.5" order="15" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -1863,41 +1912,11 @@
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="7" side_tool="false" content_ui="combo" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
-      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32591414" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="14" side_tool="false" content_ui="tabs" />
     </layout>
-    <layout-to-restore>
-      <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3783784" sideWeight="0.4158103" order="0" side_tool="true" content_ui="tabs" />
-      <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2246596" sideWeight="0.502551" order="0" side_tool="true" content_ui="tabs" />
-      <window_info id="Gradle Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.34022257" sideWeight="0.4616601" order="1" side_tool="true" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32993197" sideWeight="0.5" order="15" side_tool="false" content_ui="tabs" />
-      <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.16442688" sideWeight="0.7840136" order="3" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2542373" sideWeight="0.77912253" order="11" side_tool="false" content_ui="tabs" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="7" side_tool="false" content_ui="combo" />
-      <window_info id="Memory Monitor" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="true" content_ui="tabs" />
-      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
-      <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32852808" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32879046" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32711864" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.16442688" sideWeight="0.2159864" order="1" side_tool="true" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3321976" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" x="22" y="266" width="1322" height="195" />
-      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.06518283" sideWeight="0.53754944" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="14" side_tool="false" content_ui="tabs" />
-    </layout-to-restore>
   </component>
   <component name="Vcs.Log.UiProperties">
     <option name="RECENTLY_FILTERED_USER_GROUPS">
@@ -1921,13 +1940,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/values/dimens.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="306">
-          <caret line="8" column="0" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/values/styles.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="206" max-vertical-offset="765">
@@ -2001,58 +2013,58 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/stream_mic.xml">
+      <provider selected="true" editor-type-id="android-designer">
+        <state />
+      </provider>
       <provider editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="191" max-vertical-offset="555">
           <caret line="19" column="45" selection-start-line="19" selection-start-column="45" selection-end-line="19" selection-end-column="45" />
           <folding />
         </state>
       </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/row_devices.xml">
       <provider selected="true" editor-type-id="android-designer">
         <state />
       </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/row_devices.xml">
       <provider editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="585">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/new_list_item_layout.xml">
       <provider selected="true" editor-type-id="android-designer">
         <state />
       </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/new_list_item_layout.xml">
       <provider editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2055">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
-      <provider selected="true" editor-type-id="android-designer">
-        <state />
-      </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/device_detail.xml">
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.6756757" vertical-offset="425" max-vertical-offset="795">
           <caret line="45" column="19" selection-start-line="45" selection-start-column="19" selection-end-line="45" selection-end-column="19" />
           <folding />
         </state>
       </provider>
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/device_list.xml">
+      <provider selected="true" editor-type-id="android-designer">
+        <state />
+      </provider>
       <provider editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1410">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
-      </provider>
-      <provider selected="true" editor-type-id="android-designer">
-        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/drawable-hdpi/record_logo.png">
@@ -2069,14 +2081,14 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_list_view_with_simple_adapter.xml">
+      <provider selected="true" editor-type-id="android-designer">
+        <state />
+      </provider>
       <provider editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="323">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
-      </provider>
-      <provider selected="true" editor-type-id="android-designer">
-        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/menu/menu_host_options.xml">
@@ -2108,25 +2120,25 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/start_view.xml">
+      <provider selected="true" editor-type-id="android-designer">
+        <state />
+      </provider>
       <provider editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="285" max-vertical-offset="1410">
           <caret line="19" column="32" selection-start-line="19" selection-start-column="32" selection-end-line="19" selection-end-column="32" />
           <folding />
         </state>
       </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/main.xml">
       <provider selected="true" editor-type-id="android-designer">
         <state />
       </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/main.xml">
       <provider editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="204" max-vertical-offset="595">
           <caret line="12" column="16" selection-start-line="12" selection-start-column="16" selection-end-line="12" selection-end-column="16" />
           <folding />
         </state>
-      </provider>
-      <provider selected="true" editor-type-id="android-designer">
-        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/drawable-mdpi/ic_action_discover.png">
@@ -2152,14 +2164,14 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/list_item_layout.xml">
+      <provider selected="true" editor-type-id="android-designer">
+        <state />
+      </provider>
       <provider editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="364">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
-      </provider>
-      <provider selected="true" editor-type-id="android-designer">
-        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/values/arrays.xml">
@@ -2182,7 +2194,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1530">
           <caret line="98" column="69" selection-start-line="98" selection-start-column="69" selection-end-line="98" selection-end-column="69" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2210,32 +2221,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/androiddj/database/DatabaseHandler.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="863" max-vertical-offset="1380">
-          <caret line="368" column="1" selection-start-line="368" selection-start-column="1" selection-end-line="368" selection-end-column="1" />
-          <folding>
-            <element signature="method#DatabaseHandler#0;class#DatabaseHandler#0" expanded="false" />
-            <element signature="method#onCreate#0;class#DatabaseHandler#0" expanded="false" />
-            <element signature="method#onUpgrade#0;class#DatabaseHandler#0" expanded="false" />
-            <element signature="method#addAllSongs#0;class#DatabaseHandler#0" expanded="false" />
-            <element signature="method#addSong#0;class#DatabaseHandler#0" expanded="false" />
-            <element signature="method#addYoutube_Song#0;class#DatabaseHandler#0" expanded="false" />
-            <element signature="method#getSong#0;class#DatabaseHandler#0" expanded="false" />
-            <element signature="method#getAllSongs#0;class#DatabaseHandler#0" expanded="false" />
-            <element signature="method#getAllSongsSorted#0;class#DatabaseHandler#0" expanded="false" />
-            <element signature="method#getAllSongsSorted#1;class#DatabaseHandler#0" expanded="false" />
-            <element signature="method#deleteSongByName#0;class#DatabaseHandler#0" expanded="false" />
-            <element signature="method#updateSong#0;class#DatabaseHandler#0" expanded="false" />
-            <element signature="method#updateSongUp#0;class#DatabaseHandler#0" expanded="false" />
-            <element signature="method#updateSongDown#0;class#DatabaseHandler#0" expanded="false" />
-            <element signature="method#deleteSong#0;class#DatabaseHandler#0" expanded="false" />
-            <element signature="method#deleteAllSongs#0;class#DatabaseHandler#0" expanded="false" />
-            <element signature="method#getSongsCount#0;class#DatabaseHandler#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/androiddj/FileTransferService.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="630" max-vertical-offset="1230">
@@ -2244,34 +2229,26 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/androiddj/database/Songs.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1403" max-vertical-offset="1935">
-          <caret line="157" column="29" selection-start-line="157" selection-start-column="16" selection-end-line="157" selection-end-column="29" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/listview_content.xml">
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.560166" vertical-offset="420" max-vertical-offset="2280">
           <caret line="37" column="16" selection-start-line="37" selection-start-column="16" selection-end-line="37" selection-end-column="16" />
           <folding />
         </state>
       </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml">
       <provider editor-type-id="android-designer">
         <state />
       </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="8.775933" vertical-offset="300" max-vertical-offset="3540">
           <caret line="161" column="38" selection-start-line="161" selection-start-column="38" selection-end-line="161" selection-end-column="38" />
           <folding />
         </state>
-      </provider>
-      <provider editor-type-id="android-designer">
-        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/androiddj/ListViewAdapterClient.java">
@@ -2294,78 +2271,97 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/androiddj/youtubeparser/YoutubeDialogFragment.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="81" max-vertical-offset="1665">
-          <caret line="51" column="0" selection-start-line="51" selection-start-column="0" selection-end-line="51" selection-end-column="0" />
-          <folding>
-            <element signature="e#1396#2700#0" expanded="true" />
-            <element signature="e#2685#2686#0" expanded="true" />
-            <element signature="e#2743#3111#0" expanded="true" />
-            <element signature="e#3096#3097#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/androiddj/ClientView.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="4130" max-vertical-offset="4560">
           <caret line="603" column="16" selection-start-line="603" selection-start-column="16" selection-end-line="603" selection-end-column="16" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/codelearn_list_home.xml">
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-6.8461537" vertical-offset="152" max-vertical-offset="1155">
+          <caret line="22" column="42" selection-start-line="22" selection-start-column="42" selection-end-line="22" selection-end-column="42" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/androiddj/youtubeparser/TaskFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-0.9703504" vertical-offset="495" max-vertical-offset="3840">
+          <caret line="25" column="0" selection-start-line="25" selection-start-column="0" selection-end-line="25" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/androiddj/youtubeparser/ListViewHome.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="510">
+          <caret line="16" column="13" selection-start-line="16" selection-start-column="13" selection-end-line="16" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/androiddj/youtubeparser/ListViewWithBaseAdapter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-4.2222223" vertical-offset="981" max-vertical-offset="5145">
+          <caret line="75" column="25" selection-start-line="75" selection-start-column="25" selection-end-line="75" selection-end-column="25" />
           <folding>
-            <element signature="e#7133#7166#0" expanded="false" />
-            <element signature="method#findAudioRecord#0;class#ClientView#0" expanded="false" />
-            <element signature="method#startStreaming#0;class#ClientView#0" expanded="false" />
-            <element signature="e#15400#15402#0" expanded="false" />
-            <element signature="method#onActivityResult#0;class#ClientView#0" expanded="false" />
-            <element signature="method#addSongs#0;class#ClientView#0" expanded="false" />
-            <element signature="method#onRestart#0;class#ClientView#0" expanded="false" />
-            <element signature="method#onStop#0;class#ClientView#0" expanded="false" />
-            <element signature="method#getPlaylist#0;class#ClientView#0" expanded="false" />
-            <element signature="method#updateList#0;class#ClientView#0" expanded="false" />
-            <element signature="method#onKeyDown#0;class#ClientView#0" expanded="false" />
+            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/androiddj/HostView.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.8236776" vertical-offset="2703" max-vertical-offset="12465">
-          <caret line="208" column="31" selection-start-line="208" selection-start-column="31" selection-end-line="208" selection-end-column="31" />
+        <state vertical-scroll-proportion="-9.222222" vertical-offset="11961" max-vertical-offset="20160">
+          <caret line="874" column="19" selection-start-line="874" selection-start-column="19" selection-end-line="874" selection-end-column="19" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#11309#12793#0" expanded="true" />
-            <element signature="e#12782#12783#0" expanded="true" />
-            <element signature="method#startStreaming#0;class#HostView#0" expanded="false" />
-            <element signature="e#23167#23208#0" expanded="false" />
-            <element signature="e#23376#23419#0" expanded="false" />
-            <element signature="e#26088#26154#0" expanded="false" />
-            <element signature="method#forward#0;class#HostView#0" expanded="false" />
-            <element signature="method#rewind#0;class#HostView#0" expanded="false" />
-            <element signature="method#onCreateOptionsMenu#0;class#HostView#0" expanded="false" />
-            <element signature="method#onOptionsItemSelected#0;class#HostView#0" expanded="false" />
-            <element signature="method#sortList#0;class#HostView#0" expanded="false" />
-            <element signature="method#addSong#0;class#HostView#0" expanded="false" />
-            <element signature="method#onRestart#0;class#HostView#0" expanded="false" />
-            <element signature="method#onStop#0;class#HostView#0" expanded="false" />
-            <element signature="method#onDestroy#0;class#HostView#0" expanded="false" />
-            <element signature="method#onKeyDown#0;class#HostView#0" expanded="false" />
-            <element signature="method#arrayToJSON#0;class#HostView#0" expanded="false" />
-            <element signature="method#sendPlaylist#0;class#HostView#0" expanded="false" />
-            <element signature="method#getIp#0;class#HostView#0" expanded="false" />
-            <element signature="class#MicAsyncTask#0;class#HostView#0" expanded="false" />
-            <element signature="docComment;method#FileServerAsyncTask#0;class#FileServerAsyncTask#0;class#HostView#0" expanded="false" />
-            <element signature="method#FileServerAsyncTask#0;class#FileServerAsyncTask#0;class#HostView#0" expanded="false" />
-            <element signature="method#onPostExecute#0;class#FileServerAsyncTask#0;class#HostView#0" expanded="false" />
-            <element signature="method#copyFile#0;class#HostView#0" expanded="false" />
-            <element signature="method#getUpvotes#0;class#HostView#0" expanded="false" />
-            <element signature="class#GetVotes#0;class#HostView#0" expanded="false" />
-            <element signature="docComment;method#GetVotes#0;class#GetVotes#0;class#HostView#0" expanded="false" />
-            <element signature="method#doInBackground#0;class#GetVotes#0;class#HostView#0" expanded="false" />
-            <element signature="method#onPostExecute#0;class#GetVotes#0;class#HostView#0" expanded="false" />
-            <element signature="method#getyoutubelink#0;class#HostView#0" expanded="false" />
-            <element signature="docComment;method#GetYoutubeLinks#0;class#GetYoutubeLinks#0;class#HostView#0" expanded="false" />
-            <element signature="method#doInBackground#0;class#GetYoutubeLinks#0;class#HostView#0" expanded="false" />
+            <element signature="e#6241#6768#0" expanded="true" />
+            <element signature="e#6757#6758#0" expanded="true" />
+            <element signature="method#updatePlaylist#0;class#HostView#0" expanded="false" />
+            <element signature="e#23487#23524#0" expanded="false" />
+            <element signature="e#25320#25352#0" expanded="true" />
+            <element signature="e#25533#29261#0" expanded="true" />
+            <element signature="e#29254#29255#0" expanded="true" />
+            <element signature="e#31218#31225#0" expanded="true" />
+            <element signature="e#34953#34961#0" expanded="true" />
+            <element signature="e#45925#45926#0" expanded="true" />
+            <element signature="e#45971#45972#0" expanded="true" />
+            <element signature="e#48437#48438#0" expanded="true" />
+            <element signature="e#48483#48484#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/androiddj/database/Songs.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1995">
+          <caret line="12" column="30" selection-start-line="12" selection-start-column="30" selection-end-line="12" selection-end-column="30" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/androiddj/youtubeparser/YoutubeDialogFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-6.5925927" vertical-offset="497" max-vertical-offset="1185">
+          <caret line="67" column="67" selection-start-line="67" selection-start-column="67" selection-end-line="67" selection-end-column="67" />
+          <folding>
+            <element signature="method#streamLink#0;class#YoutubeDialogFragment#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/androiddj/database/DatabaseHandler.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.6366279" vertical-offset="1731" max-vertical-offset="5520">
+          <caret line="137" column="9" selection-start-line="137" selection-start-column="9" selection-end-line="137" selection-end-column="9" />
+          <folding />
         </state>
       </provider>
     </entry>
