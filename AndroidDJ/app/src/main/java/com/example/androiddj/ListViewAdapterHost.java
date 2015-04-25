@@ -69,22 +69,23 @@ public class ListViewAdapterHost extends ArrayAdapter<Songs> {
 
 //        Log.i(tag, "Song id " + Integer.toString(p.getID()) + "upvotes " + p.getUpvotes());
         final int id = p.getID();
+            Log.i("songbug",Integer.toString(position) + StringList.get(position).getName() + p.getName());
         name.setEllipsize(TextUtils.TruncateAt.MARQUEE);
         name.setSelected(true);
         name.setSingleLine(true);
         String temp = p.getName();
         int index = temp.lastIndexOf("_");
             Log.i("json1",db.getSong(1).getName() + " " + db.getSong(1).getUpvotes() + " " + db.getSong(1).getDownvotes());
-        if(index == -1)
-        {
+        /*if(index == -1)
+        {*/
             name.setText(p.getName());
-        }
+        /*}
             else
         {
             Log.i("newname",p.getName().substring(0,index));
             name.setText(p.getName().substring(0,index));
-        }
-
+        }*/
+        Log.i("bug1",Integer.toString(position) + name.getText());
         final TextView upvotes = (TextView) convertView.findViewById(R.id.upvoteCount);
         final TextView downvotes = (TextView) convertView.findViewById(R.id.downvoteCount);
         upvotes.setText(Integer.toString(p.getUpvotes()));
@@ -167,7 +168,8 @@ public class ListViewAdapterHost extends ArrayAdapter<Songs> {
 		}*/
 
         } catch (Exception e) {
-            Log.i(tag, e.getMessage());
+            Log.i("catch", e.getMessage());
+            Log.i("catch","error");
         }
 
         return convertView;

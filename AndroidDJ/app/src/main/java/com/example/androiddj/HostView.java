@@ -33,7 +33,6 @@ import android.widget.Toast;
 
 import com.example.androiddj.database.DatabaseHandler;
 import com.example.androiddj.database.Songs;
-import com.example.androiddj.youtubeparser.ListViewWithBaseAdapter;
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubeStandalonePlayer;
 
@@ -587,6 +586,10 @@ public class HostView extends Activity {
                     File file = new File(folder + songs.get(0).getName());
                     Uri uri = Uri.fromFile(file);
                     mediaPlayer = MediaPlayer.create(this, uri);
+                    if(mediaPlayer == null)
+                    {
+                        Log.i("media","is null");
+                    }
                 }
 
                 Log.i(tag, "usee");
@@ -652,7 +655,7 @@ public class HostView extends Activity {
 
         } else {
             if (mediaPlayer != null)
-            mediaPlayer.stop();
+                mediaPlayer.stop();
             Toast.makeText(this, "Playlist Empty", Toast.LENGTH_SHORT).show();
             flag = true;
 
@@ -697,7 +700,7 @@ public class HostView extends Activity {
         final boolean lightboxMode=true;
         // setContentView(R.layout.standalone_player);
         Intent intent = YouTubeStandalonePlayer.createVideoIntent(
-              mActivity , DEVELOPER_KEY, VIDEO_ID, startTimeMillis, autoplay, lightboxMode);
+                mActivity , DEVELOPER_KEY, VIDEO_ID, startTimeMillis, autoplay, lightboxMode);
         if (intent != null) {
             if (canResolveIntent(intent)) {
                 mActivity.startActivityForResult(intent, REQ_START_STANDALONE_PLAYER);
@@ -905,7 +908,7 @@ public class HostView extends Activity {
             songs = db.getAllSongsSorted();
         }
         adapter.setList(songs);
-//        adapter.notifyDataSetChanged();
+        //adapter.notifyDataSetChanged();
     }
 
     private synchronized void addSong(String name) {
@@ -936,7 +939,7 @@ public class HostView extends Activity {
         {
             return filename;
         }
-        String newName = filename.substring(0,index)+ time + filename.substring(index);
+        String newName = filename.substring(0,index)+ "_" + time + filename.substring(index);
         Log.i("newname",newName);
         return newName;
         /*if(filename.substring(index+1).equalsIgnoreCase())
