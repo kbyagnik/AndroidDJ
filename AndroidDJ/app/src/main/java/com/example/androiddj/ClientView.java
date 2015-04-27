@@ -63,7 +63,7 @@ public class ClientView extends Activity {
     protected static final int CHOOSE_FILE_RESULT_CODE = 20;
 
     private static final int SOCKET_TIMEOUT = 5000;
-    private Button startButton,stopButton;
+    private Button startButton, stopButton;
     private MediaRecorder myAudioRecorder;
     public byte[] buffer;
     public static DatagramSocket socket;
@@ -75,10 +75,10 @@ public class ClientView extends Activity {
     private int channelConfig = AudioFormat.CHANNEL_IN_MONO;
     private int audioFormat = AudioFormat.ENCODING_PCM_16BIT;
     //int minBufSize = AudioRecord.getMinBufferSize(sampleRate, channelConfig, audioFormat);
-    int minBufSize= 1024;
+    int minBufSize = 1024;
     private boolean status = false;
     private AudioTrack speaker;
-    public static StreamMic activity=null;
+    public static StreamMic activity = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,43 +89,40 @@ public class ClientView extends Activity {
         if (!dirs.exists())
             dirs.mkdirs();
 
-        Log.i(tag,"Going to call oncreate");
+        Log.i(tag, "Going to call oncreate");
         super.onCreate(savedInstanceState);
-        Log.i(tag,"calling setcontent view");
+        Log.i(tag, "calling setcontent view");
         setContentView(R.layout.activity_main);
 
-        //
+        startButton = (Button) findViewById(R.id.client_mic_start);
+        stopButton = (Button) findViewById(R.id.client_mic_stop);
 
-        startButton = (Button) findViewById (R.id.client_mic_start);
-        stopButton = (Button) findViewById (R.id.client_mic_stop);
-
-        startButton.setOnClickListener (startListener);
-        stopButton.setOnClickListener (stopListener);
+        startButton.setOnClickListener(startListener);
+        stopButton.setOnClickListener(stopListener);
 
         minBufSize += 2048;
         System.out.println("minBufSize: " + minBufSize);
 
-        Log.i(tag,"Going to create list_file");
+        Log.i(tag, "Going to create list_file");
         findViewById(R.id.host_layout).setVisibility(View.INVISIBLE);
         findViewById(R.id.client_layout).setVisibility(View.VISIBLE);
-		/*
+        /*
 		 * Here json string has to be used to get the list of the songs
 		 */
 
-//		songs = addSongs();
-        songs= new ArrayList<>();
-        Log.i(tag,"Going to create list");
-        list = (ListView)findViewById(R.id.listview);
-        adapter = new ListViewAdapterClient(songs,ClientView.this,pos,new DatabaseHandler(this));
+        songs = new ArrayList<>();
+        Log.i(tag, "Going to create list");
+        list = (ListView) findViewById(R.id.listview);
+        adapter = new ListViewAdapterClient(songs, ClientView.this, pos, new DatabaseHandler(this));
         list.setAdapter(adapter);
-        Log.i(tag,"Adapter set");
-        Log.i(tag,"Defining on click listener");
+        Log.i(tag, "Adapter set");
+        Log.i(tag, "Defining on click listener");
 
         list.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
-                Log.i(tag,"Item at " + Integer.toString(position) + " is clicked");
+                Log.i(tag, "Item at " + Integer.toString(position) + " is clicked");
                 adapter.setPosition(position);
                 position = pos;
                 adapter.notifyDataSetChanged();
@@ -137,8 +134,6 @@ public class ClientView extends Activity {
 
                     @Override
                     public void onClick(View v) {
-                        // Allow user to pick an audio from File-Manager or other
-                        // registered apps
                         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
                         intent.setType("audio/*");
                         Log.d(WiFiDirectActivity.TAG, "Start sending file");
@@ -149,9 +144,9 @@ public class ClientView extends Activity {
         findViewById(R.id.leave_party).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d(tag,"Disconnect");
+                Log.d(tag, "Disconnect");
                 Intent intent = new Intent();
-                intent.putExtra(LEAVE_PARTY,"yes");
+                intent.putExtra(LEAVE_PARTY, "yes");
                 setResult(1, intent);
                 finish();
             }
@@ -162,8 +157,6 @@ public class ClientView extends Activity {
 
                     @Override
                     public void onClick(View v) {
-                        // Allow user to pick an audio from File-Manager or other
-                        // registered apps
                         Intent intent = new Intent(ClientView.this, ListViewHome.class);
                         Log.d(WiFiDirectActivity.TAG, "Start youtube");
                         startActivity(intent);
@@ -193,23 +186,15 @@ public class ClientView extends Activity {
         Thread download = new Thread(downloadFile);
         download.start();
 
-        Log.i(tag,"Going to call create list view");
-        Log.i(tag,"Finished create list view");
+        Log.i(tag, "Going to call create list view");
+        Log.i(tag, "Finished create list view");
     }
-
-
-
-
-    //
 
     private final View.OnClickListener stopListener = new View.OnClickListener() {
 
         @Override
         public void onClick(View arg0) {
             status = false;
-//            recorder.release();
-//            Log.d("VS","Recorder released");
-
             startButton.setVisibility(View.VISIBLE);
             stopButton.setVisibility(View.INVISIBLE);
 
@@ -232,18 +217,16 @@ public class ClientView extends Activity {
             startButton.setEnabled(false);
             stopButton.setEnabled(true);
             startStreaming();
-//            Log.d("2", "Recorder initialized");
         }
 
     };
 
-    //
+    private static int[] mSampleRates = new int[]{8000, 11025, 22050, 44100};
 
-    private static int[] mSampleRates = new int[] { 8000, 11025, 22050, 44100 };
     public AudioRecord findAudioRecord() {
         for (int rate : mSampleRates) {
-            for (short audioFormat : new short[] { AudioFormat.ENCODING_PCM_8BIT, AudioFormat.ENCODING_PCM_16BIT }) {
-                for (short channelConfig : new short[] { AudioFormat.CHANNEL_IN_MONO, AudioFormat.CHANNEL_IN_STEREO }) {
+            for (short audioFormat : new short[]{AudioFormat.ENCODING_PCM_8BIT, AudioFormat.ENCODING_PCM_16BIT}) {
+                for (short channelConfig : new short[]{AudioFormat.CHANNEL_IN_MONO, AudioFormat.CHANNEL_IN_STEREO}) {
                     try {
                         Log.d("errror_fining_channel", "Attempting rate " + rate + "Hz, bits: " + audioFormat + ", channel: "
                                 + channelConfig);
@@ -257,7 +240,7 @@ public class ClientView extends Activity {
                                 return recorder;
                         }
                     } catch (Exception e) {
-                        Log.e("errorrrr", rate + "Exception, keep trying.",e);
+                        Log.e("errorrrr", rate + "Exception, keep trying.", e);
                     }
                 }
             }
@@ -275,89 +258,54 @@ public class ClientView extends Activity {
                 try {
                     Socket clientSocket = new Socket();
                     clientSocket.bind(null);
-                    clientSocket.connect((new InetSocketAddress((DeviceDetailFragment.info.groupOwnerAddress.getHostAddress()),serverport)), SOCKET_TIMEOUT);
-//                    Log.d("Streaming", "Client socket - " + clientSocket.isConnected());
+                    clientSocket.connect((new InetSocketAddress((DeviceDetailFragment.info.groupOwnerAddress.getHostAddress()), serverport)), SOCKET_TIMEOUT);
                     OutputStream out_stream = clientSocket.getOutputStream();
                     PrintWriter pw = new PrintWriter(out_stream);
-                    // sent that microphone data has now ended
-//                    Log.d("Streaming", "MICROPHONE_androiddj_end");
-                    Log.i("MicUsing","Sending string - MICROPHONE_androiddj_start");
+                    Log.i("MicUsing", "Sending string - MICROPHONE_androiddj_start");
                     pw.println("MICROPHONE_androiddj_start");
                     pw.flush();
-                    Log.i("MicUsing","Sent string - MICROPHONE_androiddj_start");
+                    Log.i("MicUsing", "Sent string - MICROPHONE_androiddj_start");
                     InputStreamReader isr = new InputStreamReader(clientSocket.getInputStream());
                     BufferedReader bsr = new BufferedReader(isr);
                     String allow = bsr.readLine();
-                    Log.i("MicUsing","Using mic allowed - "+allow);
-                    if(allow.equals("yes"))
-                    {
+                    Log.i("MicUsing", "Using mic allowed - " + allow);
+                    if (allow.equals("yes")) {
                         DatagramSocket socket = new DatagramSocket();
-//                        Log.d("VS", "Socket Created");
-//                        Log.d("VS","Buffer created of size " + minBufSize);
                         DatagramPacket packet;
 
                         final InetAddress destination = InetAddress.getByName(DeviceDetailFragment.info.groupOwnerAddress.getHostAddress());// address of the host of the party u are joined to
-//                        Log.d("VS", "Address retrieved");
+                        recorder = new AudioRecord(MediaRecorder.AudioSource.DEFAULT, 44100, channelConfig, audioFormat, AudioRecord.getMinBufferSize(44100, channelConfig, audioFormat));
 
-                        //recorder = new AudioRecord(MediaRecorder.AudioSource.MIC,sampleRate,channelConfig,audioFormat,minBufSize*10);
-
-//                        Log.d("VS", "Recorder initialized");
-
-                        //      recorder = findAudioRecord();
-                        recorder= new AudioRecord(MediaRecorder.AudioSource.DEFAULT, 44100, channelConfig, audioFormat, AudioRecord.getMinBufferSize(44100, channelConfig, audioFormat));
-
-//recorder= new AudioRecord(44100, AudioFormat.CHANNEL_IN_MONO, AudioFormat.ENCODING_PCM_16BIT;)
-                        minBufSize= recorder.getMinBufferSize(
+                        minBufSize = recorder.getMinBufferSize(
                                 44100,
                                 AudioFormat.CHANNEL_IN_MONO,
                                 AudioFormat.ENCODING_PCM_16BIT);
-                        //  recorder = new AudioRecord(MediaRecorder.AudioSource.MIC,sampleRate,channelConfig,audioFormat,minBufSize);
-//                        Log.d("VS", "Recorder initialized");
                         byte[] buffer = new byte[minBufSize];
 
-                        //recorder.OutputFormat.THREE_GPP;
-                        //recorder.release();
                         recorder.startRecording();
-//------------
-                        speaker = new AudioTrack(AudioManager.STREAM_VOICE_CALL,sampleRate,AudioFormat.CHANNEL_OUT_STEREO,audioFormat,minBufSize,AudioTrack.MODE_STREAM);
+                        speaker = new AudioTrack(AudioManager.STREAM_VOICE_CALL, sampleRate, AudioFormat.CHANNEL_OUT_STEREO, audioFormat, minBufSize, AudioTrack.MODE_STREAM);
                         speaker.setPlaybackRate(22100);
-                        //  speaker.play();
-                        //--------------------------------
-                        while(status) {
-                            //reading data from MIC into buffer
+                        while (status) {
                             recorder.read(buffer, 0, minBufSize);
-                            // minBufSize = (int)(1024*3.5);
-                            //   Log.d("min buffer size"+ minBufSize );
-//                            Log.d("VS","minimum buffer size created is  " + minBufSize);
-//                            Log.d("1", "Recorder initialized");
-                            //putting buffer in the packet
-                            packet = new DatagramPacket (buffer,buffer.length,destination,dataport);
+                            packet = new DatagramPacket(buffer, buffer.length, destination, dataport);
 
                             socket.send(packet);
-                            String sentence = new String( packet.getData().toString());
-//                            System.out.println("sent packet: " + packet.getData());
-                            //    System.out.println();
-//                            System.out.println("MinBufferSize: " +minBufSize);
-
-//                        speaker = new AudioTrack(AudioManager.STREAM_MUSIC,sampleRate,channelConfig,audioFormat,minBufSize,AudioTrack.MODE_STREAM);
                             speaker.write(buffer, 0, buffer.length);
 
                         }
 
                         buffer = "end".getBytes();
-                        Log.d("MicUsing","end packet sending");
-                        packet  = new DatagramPacket(buffer,buffer.length,destination,dataport);
-                        Log.d("MicUsing","end packet sending");
+                        Log.d("MicUsing", "end packet sending");
+                        packet = new DatagramPacket(buffer, buffer.length, destination, dataport);
+                        Log.d("MicUsing", "end packet sending");
                         socket.send(packet);
-                        Log.d("MicUsing","release recorder");
+                        Log.d("MicUsing", "release recorder");
                         recorder.release();
-                        Log.d("MicUsing","socket closing");
+                        Log.d("MicUsing", "socket closing");
                         socket.close();
                         clientSocket.close();
-                    }
-                    else
-                    {
-                        Log.d("MicUsing","Mic Already in use");
+                    } else {
+                        Log.d("MicUsing", "Mic Already in use");
                         activity.runOnUiThread(new Runnable() {
                             public void run() {
                                 Toast.makeText(activity, "Mic Already in Use", Toast.LENGTH_LONG).show();
@@ -368,7 +316,7 @@ public class ClientView extends Activity {
                     }
 
 
-                } catch(UnknownHostException e) {
+                } catch (UnknownHostException e) {
                     Log.e("VS", "UnknownHostException");
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -380,11 +328,6 @@ public class ClientView extends Activity {
         streamThread.start();
     }
 
-    //
-
-
-    //
-
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -395,10 +338,9 @@ public class ClientView extends Activity {
             return;
         }
 
-        if(requestCode == CHOOSE_FILE_RESULT_CODE)
-        {
+        if (requestCode == CHOOSE_FILE_RESULT_CODE) {
             Uri uri = data.getData();
-            Cursor cursor = getContentResolver().query(uri,null,null,null,null);
+            Cursor cursor = getContentResolver().query(uri, null, null, null, null);
             int nameIndex = cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME);
             cursor.moveToFirst();
 
@@ -408,7 +350,7 @@ public class ClientView extends Activity {
             Intent serviceIntent = new Intent(this, FileTransferService.class);
             serviceIntent.setAction(FileTransferService.ACTION_SEND_FILE);
             serviceIntent.putExtra(FileTransferService.EXTRAS_FILE_PATH, uri.toString());
-            serviceIntent.putExtra(FileTransferService.EXTRAS_FILE_NAME,cursor.getString(nameIndex));
+            serviceIntent.putExtra(FileTransferService.EXTRAS_FILE_NAME, cursor.getString(nameIndex));
             serviceIntent.putExtra(FileTransferService.EXTRAS_GROUP_OWNER_ADDRESS,
                     DeviceDetailFragment.info.groupOwnerAddress.getHostAddress());
             serviceIntent.putExtra(FileTransferService.EXTRAS_GROUP_OWNER_PORT, 8988);
@@ -435,12 +377,10 @@ public class ClientView extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
-    private ArrayList<Songs> addSongs()
-    {
+    private ArrayList<Songs> addSongs() {
         ArrayList<Songs> songs = new ArrayList<Songs>();
-        for(int i=0;i<10;i++)
-        {
-            songs.add(new Songs(i+1,"Song " + Integer.toString(i + 1)));
+        for (int i = 0; i < 10; i++) {
+            songs.add(new Songs(i + 1, "Song " + Integer.toString(i + 1)));
         }
 
         return songs;
@@ -451,8 +391,6 @@ public class ClientView extends Activity {
     public void onRestart() {
         super.onRestart();
         Log.i(tag, "Activity is restarted");
-//        songs = addSongs();
-//        adapter.notifyDataSetChanged();
     }
 
 
@@ -460,7 +398,6 @@ public class ClientView extends Activity {
     public void onStop() {
         super.onStop();
         Log.i(tag, "Activity is stopped");
-//        songs.clear();
     }
 
     @Override
@@ -470,19 +407,19 @@ public class ClientView extends Activity {
         songs.clear();
     }
 
-    public String getPlaylist(){
+    public String getPlaylist() {
         int port = 8122;
-        ServerSocket serverSocket=null;
+        ServerSocket serverSocket = null;
         try {
-            serverSocket=new ServerSocket(port);
+            serverSocket = new ServerSocket(port);
         } catch (IOException e) {
             e.printStackTrace();
-            Log.i(tag, "Socket not opened on port"+Integer.toString(port));
+            Log.i(tag, "Socket not opened on port" + Integer.toString(port));
         }
         try {
             Log.d(tag, "Server-Socket opened for playlist transfer");
 
-            downloading=true;
+            downloading = true;
             Socket client = serverSocket.accept();
             Log.d(tag, "connection done");
 
@@ -491,7 +428,7 @@ public class ClientView extends Activity {
             BufferedReader br = new BufferedReader(isr);
             Log.d(tag, "recieving playlist");
             String playlist = br.readLine();
-            Log.d(tag, "recieved Playlist "+playlist);
+            Log.d(tag, "recieved Playlist " + playlist);
             serverSocket.close();
             return playlist;
         } catch (IOException e) {
@@ -502,17 +439,15 @@ public class ClientView extends Activity {
         }
     }
 
-    public void updateList(){
-        String db=getPlaylist();
-        Log.i(tag,db);
+    public void updateList() {
+        String db = getPlaylist();
+        Log.i(tag, db);
         //UpdateListView
     }
 
     @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event)
-    {
-        switch(keyCode)
-        {
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        switch (keyCode) {
             case KeyEvent.KEYCODE_BACK:
 
                 moveTaskToBack(true);
@@ -546,37 +481,29 @@ public class ClientView extends Activity {
          */
         @Override
         protected void onPostExecute(String result) {
-            Log.i("playlist1",result);
+            Log.i("playlist1", result);
             if (result != null) {
                 downloading = false;
                 try {
                     ArrayList<Songs> songsArray = new ArrayList<Songs>();
                     JSONArray jsonArray = new JSONArray(result);
-                    Log.i("playlist",Integer.toString(jsonArray.length()));
+                    Log.i("playlist", Integer.toString(jsonArray.length()));
                     JSONObject jsonObject = new JSONObject();
-                    Log.i("playlist","going to enter for loop");
+                    Log.i("playlist", "going to enter for loop");
                     for (int i = 0; i < jsonArray.length(); i++) {
                         jsonObject = jsonArray.getJSONObject(i);
-                        Log.i("playlist",jsonObject.toString());
-                        Log.i("playlist","inside for loop " + Integer.toString(i));
-                        Log.i("playlist","a" + Integer.toString(jsonArray.length()) + "b");
+                        Log.i("playlist", jsonObject.toString());
+                        Log.i("playlist", "inside for loop " + Integer.toString(i));
+                        Log.i("playlist", "a" + Integer.toString(jsonArray.length()) + "b");
 //                    Log.i("playlist",jsonObject.toString());
                         Songs newSong = new Songs();
-                        Log.i("playlist","new song created");
+                        Log.i("playlist", "new song created");
                         newSong.setID(jsonObject.getInt("id"));
-//                        Log.i("playlist","1");
-                        // Log.i("playlist",jsonObject.getString("id"));
-//                        Log.i("playlist","2");
-
                         newSong.setName(jsonObject.getString("name"));
-//                        Log.i("playlist","3");
-
                         newSong.setUpvotes(jsonObject.getInt("upvotes"));
                         newSong.setDownvotes(jsonObject.getInt("downvotes"));
-//                        Log.i("playlist","4");
 
                         songsArray.add(newSong);
-//                        Log.i("playlist","5");
 
                     }
                     songs = songsArray;
@@ -585,10 +512,8 @@ public class ClientView extends Activity {
                     adapter.setList(songs);
                     Log.i("playlist", Integer.toString(songs.size()));
                     adapter.notifyDataSetChanged();
-                }
-                catch(Exception e)
-                {
-                    Log.i("playlist",e.toString());
+                } catch (Exception e) {
+                    Log.i("playlist", e.toString());
                 }
                 // function to parse json result
 
@@ -599,8 +524,7 @@ public class ClientView extends Activity {
 
     }
 
-    public void refreshList()
-    {
+    public void refreshList() {
         adapter.notifyDataSetChanged();
     }
 }

@@ -25,7 +25,7 @@ public class  DatabaseHandler extends SQLiteOpenHelper
 	private static final String KEY_DOWNVOTES = "downvotes";
 	private static final String KEY_AGING = "aging";
     private static final String KEY_FLAG_YOUTUBE = "flag_Youtube";
-
+    private static final String KEY_YOUTUBE_LINK = "link_Youtube";
 
     private final String tag = "DJ Debugging";
 	
@@ -43,7 +43,8 @@ public class  DatabaseHandler extends SQLiteOpenHelper
 		Log.i("Debugging","database on create called");
 		String CREATE_SONGS_TABLE = "CREATE TABLE " + TABLE_SONGS + "("
 				+ KEY_ID + " INTEGER PRIMARY KEY," + KEY_NAME + " TEXT," + KEY_STATUS + " INTEGER," +  KEY_UPVOTES + 
-				" INTEGER," + KEY_DOWNVOTES + " INTEGER," + KEY_AGING + " INTEGER," + KEY_FLAG_YOUTUBE + " INTEGER" + ")";
+				" INTEGER," + KEY_DOWNVOTES + " INTEGER," + KEY_AGING + " INTEGER," + KEY_FLAG_YOUTUBE + " INTEGER," +
+                KEY_YOUTUBE_LINK+" TEXT"+")";
 		Log.i("Debugging", CREATE_SONGS_TABLE);
 		try
 		{
@@ -70,7 +71,6 @@ public class  DatabaseHandler extends SQLiteOpenHelper
         int i=0;
         for (String s: songs)
         {
-            Log.i("db","adding " + s);
             addSong(new Songs(++i, s));
         }
     }
@@ -92,14 +92,14 @@ public class  DatabaseHandler extends SQLiteOpenHelper
 		String query = "INSERT INTO " + TABLE_SONGS + " VALUES(" + Integer.toString(song.getID()) + ",'" + 
 		song.getName() + "'," + Integer.toString(song.getStatus()) + "," + Integer.toString(song.getUpvotes()) + "," + 
 		Integer.toString(song.getDownvotes()) + "," + Integer.toString(song.getAging()) +  "," + Integer.toString(song.getFlag_Youtube()) +")";
-		Log.i("db", query);
+		Log.i("Debugging", query);
 		try
 		{
 			int val = (int) db.insertOrThrow(TABLE_SONGS, null, values);
 		}
 		catch(Exception e)
 		{
-			Log.i("db",e.getMessage());
+			Log.i("Debugging",e.getMessage());
 		}
 		/*try
 		{
@@ -126,18 +126,21 @@ public class  DatabaseHandler extends SQLiteOpenHelper
         values.put(KEY_DOWNVOTES, 0);
         values.put(KEY_AGING,0);
         values.put(KEY_FLAG_YOUTUBE,1);
+        values.put(KEY_YOUTUBE_LINK,song.get_url());
 
         String query = "INSERT INTO " + TABLE_SONGS + " VALUES(" + Integer.toString(song.getID()) + ",'" +
                 song.getName() + "'," + Integer.toString(song.getStatus()) + "," + Integer.toString(song.getUpvotes()) + "," +
                 Integer.toString(song.getDownvotes()) + "," + Integer.toString(song.getAging()) +  "," + Integer.toString(song.getFlag_Youtube()) +")";
         Log.i("Debugging", query);
+        Log.i("Youtube1","adding youtube song - "+values.toString());
         try
         {
             int val = (int) db.insertOrThrow(TABLE_SONGS, null, values);
+            Log.i("Youtube1","adding youtube- "+val);
         }
         catch(Exception e)
         {
-            Log.i("Debugging",e.getMessage());
+            Log.i("Youtube1",e.getMessage());
         }
 		/*try
 		{
@@ -158,7 +161,7 @@ public class  DatabaseHandler extends SQLiteOpenHelper
 	{
 		SQLiteDatabase db = this.getReadableDatabase();
 		
-		Cursor cursor = db.query(TABLE_SONGS,new String[]{KEY_ID,KEY_NAME,KEY_STATUS,KEY_UPVOTES,KEY_DOWNVOTES,KEY_AGING,KEY_FLAG_YOUTUBE},
+		Cursor cursor = db.query(TABLE_SONGS,new String[]{KEY_ID,KEY_NAME,KEY_STATUS,KEY_UPVOTES,KEY_DOWNVOTES,KEY_AGING,KEY_FLAG_YOUTUBE,KEY_YOUTUBE_LINK},
 				KEY_ID + "=?",new String[] {Integer.toString(id)},null,null,null,null);
 		
 		if(cursor != null)
@@ -167,7 +170,8 @@ public class  DatabaseHandler extends SQLiteOpenHelper
 		}
 		
 		Songs song = new Songs(Integer.parseInt(cursor.getString(0)),cursor.getString(1),Integer.parseInt(cursor.getString(2)),
-				Integer.parseInt(cursor.getString(3)),Integer.parseInt(cursor.getString(4)),Integer.parseInt(cursor.getString(5)),Integer.parseInt(cursor.getString(6)));
+				Integer.parseInt(cursor.getString(3)),Integer.parseInt(cursor.getString(4)),Integer.parseInt(cursor.getString(5)),Integer.parseInt(cursor.getString(6)),
+                cursor.getString(7));
 
         db.close();
 
@@ -199,6 +203,7 @@ public class  DatabaseHandler extends SQLiteOpenHelper
 				song.setDownvotes(Integer.parseInt(cursor.getString(4)));
 				song.setAging(Integer.parseInt(cursor.getString(5)));
                 song.setFlag_Youtube(Integer.parseInt(cursor.getString(6)));
+                song.set_url(cursor.getString(7));
 				songs.add(song);
 			}while(cursor.moveToNext());
 		}
@@ -230,6 +235,7 @@ public class  DatabaseHandler extends SQLiteOpenHelper
                 song.setDownvotes(Integer.parseInt(cursor.getString(4)));
                 song.setAging(Integer.parseInt(cursor.getString(5)));
                 song.setFlag_Youtube(Integer.parseInt(cursor.getString(6)));
+                song.set_url(cursor.getString(7));
                 songs.add(song);
             }while(cursor.moveToNext());
         }
@@ -262,6 +268,7 @@ public class  DatabaseHandler extends SQLiteOpenHelper
                 song.setDownvotes(Integer.parseInt(cursor.getString(4)));
                 song.setAging(Integer.parseInt(cursor.getString(5)));
                 song.setFlag_Youtube(Integer.parseInt(cursor.getString(6)));
+                song.set_url(cursor.getString(7));
                 songs.add(song);
             }while(cursor.moveToNext());
         }

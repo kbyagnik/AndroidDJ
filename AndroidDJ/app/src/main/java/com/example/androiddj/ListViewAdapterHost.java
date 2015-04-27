@@ -25,6 +25,7 @@ public class ListViewAdapterHost extends ArrayAdapter<Songs> {
     public Button save;
     final String tag = "DJ Debugging";
     final HostView host;
+    private static boolean flag = false;
     final DatabaseHandler db;
     private HashSet<Integer> songsUpvoted;
     private HashSet<Integer> songsDownvoted;
@@ -58,6 +59,10 @@ public class ListViewAdapterHost extends ArrayAdapter<Songs> {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(R.layout.listview_content, parent, false);
         }
+
+//        if (position==0) {
+//            convertView.findViewById(R.id.table).setBackgroundColor(Color.GREEN);
+//        }
         // Now we can fill the layout with the right values
         TextView name;
         Songs p;
@@ -65,27 +70,27 @@ public class ListViewAdapterHost extends ArrayAdapter<Songs> {
             name = (TextView) convertView.findViewById(R.id.listViewItem);
             Log.d(tag,"size of adapter: "+this.getCount()+" size of list: "+StringList.size());
             p = StringList.get(position);
+            Log.i("songdebug", "Song StringList- id " + Integer.toString(p.getID()) + "upvotes " + p.getUpvotes()+" link - "+p.get_url());
+
             p = db.getSong(p.getID());
 
-//        Log.i(tag, "Song id " + Integer.toString(p.getID()) + "upvotes " + p.getUpvotes());
+        Log.i("songdebug", "Song db- id " + Integer.toString(p.getID()) + "upvotes " + p.getUpvotes()+" link - "+p.get_url());
         final int id = p.getID();
-            Log.i("songbug",Integer.toString(position) + StringList.get(position).getName() + p.getName());
         name.setEllipsize(TextUtils.TruncateAt.MARQUEE);
         name.setSelected(true);
         name.setSingleLine(true);
-        String temp = p.getName();
-        int index = temp.lastIndexOf("_");
-            Log.i("json1",db.getSong(1).getName() + " " + db.getSong(1).getUpvotes() + " " + db.getSong(1).getDownvotes());
-        /*if(index == -1)
-        {*/
+        //String temp = p.getName();
+          //  int index = temp.lastIndexOf("_");
+            //Log.i("json1",db.getSong(1).getName() + " " + db.getSong(1).getUpvotes() + " " + db.getSong(1).getDownvotes());
+        if(p.getName().lastIndexOf("_") == -1)
+        {
             name.setText(p.getName());
-        /*}
+        }
             else
         {
-            Log.i("newname",p.getName().substring(0,index));
-            name.setText(p.getName().substring(0,index));
-        }*/
-        Log.i("bug1",Integer.toString(position) + name.getText());
+            //Log.i("newname",p.getName().substring(0,index));
+            name.setText(p.getName().substring(0,p.getName().lastIndexOf("_")));
+        }
         final TextView upvotes = (TextView) convertView.findViewById(R.id.upvoteCount);
         final TextView downvotes = (TextView) convertView.findViewById(R.id.downvoteCount);
         upvotes.setText(Integer.toString(p.getUpvotes()));
@@ -168,8 +173,7 @@ public class ListViewAdapterHost extends ArrayAdapter<Songs> {
 		}*/
 
         } catch (Exception e) {
-            Log.i("catch", e.getMessage());
-            Log.i("catch","error");
+            Log.i(tag, e.getMessage());
         }
 
         return convertView;

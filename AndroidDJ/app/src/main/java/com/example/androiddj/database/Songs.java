@@ -66,7 +66,7 @@ public class Songs
         this._flag_Youtube=0;
 	}
 
-    public Songs(int id,String name,int status,int upvotes,int downvotes,int aging, int flag)
+    public Songs(int id,String name,int status,int upvotes,int downvotes,int aging, int flag, String link)
     {
         this._id = id;
         this._name = name;
@@ -76,6 +76,7 @@ public class Songs
         this._downvotes = downvotes;
         this._aging = aging;
         this._flag_Youtube=flag;
+        this._url = link;
     }
 
 

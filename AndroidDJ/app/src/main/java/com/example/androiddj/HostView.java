@@ -15,7 +15,6 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.FileObserver;
 import android.os.Handler;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -56,29 +55,21 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
-
-
 public class HostView extends Activity {
-    //
-
     static Activity mActivity;
-    private Button startButton,stopButton;
+    private Button startButton, stopButton;
     private MediaRecorder myAudioRecorder;
     public byte[] buffer;
     AudioRecord recorder;
-    private Random r;
-
+    private Handler youTubehandler;
     private int sampleRate = 44100;
     private int channelConfig = AudioFormat.CHANNEL_IN_MONO;
     private int audioFormat = AudioFormat.ENCODING_PCM_16BIT;
-    //int minBufSize = AudioRecord.getMinBufferSize(sampleRate, channelConfig, audioFormat);
-    int minBufSize= 1024;
+    int minBufSize = 1024;
     private boolean status = false;
     private AudioTrack speaker;
-    //
     private static String tag = "DJ Debugging";
     ListView list;
     private boolean downloading = false;
@@ -90,15 +81,11 @@ public class HostView extends Activity {
     private ArrayList<String> song_names;
     boolean flag = true;
 
-    boolean linkflag = false;
-
     private Handler playlistHandler;
     public String folder;
     private int plist_size = 0;
     private ArrayList<Songs> songs;
     private DatabaseHandler db;
-    final private int updateTime = 5000;
-    private FileObserver plistObserver;
     public TextView startTimeField, endTimeField;
     private MediaPlayer mediaPlayer;
     private double startTime = 0;
@@ -111,48 +98,32 @@ public class HostView extends Activity {
     private ImageButton playButton, pauseButton;
     public static int oneTimeOnly = 0;
     int index = 0;
-    private int changeSongVotes = 0;
-
-    //    AudioRecord recorder;
-//    private AudioTrack speaker;
-////    private AudioRecord audiorecord;
-//    //Audio Configuration.
-    //  private int sampleRate = 44100;      //How much will be ideal?
-//    private int channelConfig = AudioFormat.CHANNEL_CONFIGURATION_MONO;
-//    private int audioFormat = AudioFormat.ENCODING_PCM_16BIT;
     int MinBufSize;
-//    static AudioFormat format;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-//
         Log.i(tag, "Going to call oncreate");
         super.onCreate(savedInstanceState);
 
-        // for youtube activity
-        mActivity = this ;
+        mActivity = this;
 
         Log.i(tag, "calling setcontent view");
         setContentView(R.layout.activity_main);
 
+        startButton = (Button) findViewById(R.id.host_mic_start);
+        stopButton = (Button) findViewById(R.id.host_mic_stop);
 
+        startButton.setOnClickListener(startListener);
+        stopButton.setOnClickListener(stopListener);
 
-        startButton = (Button) findViewById (R.id.host_mic_start);
-        stopButton = (Button) findViewById (R.id.host_mic_stop);
-
-        startButton.setOnClickListener (startListener);
-        stopButton.setOnClickListener (stopListener);
-        r = new Random();
         minBufSize += 2048;
         System.out.println("minBufSize: " + minBufSize);
-        //
 
-
+        youTubehandler = new Handler();
 
         mediaHandler = new Handler();
         downloadHandler = new Handler();
         playlistHandler = new Handler();
-//        customHandler.postDelayed(updateSongsList, 0);
         folder = Environment.getExternalStorageDirectory() + "/AndroidDJ-Playlist/";
         File dirs = new File(folder);
 
@@ -161,17 +132,14 @@ public class HostView extends Activity {
 
         Log.i(tag, "Going to create list_file");
         db = new DatabaseHandler(this);
-        //addSongs(db);
         Log.i(tag, "Going to add song");
         db.deleteAllSongs();
 
         song_names = updatePlaylist();
 
-        Log.i("Music_add",Integer.toString(song_names.size()));
-
         db.addAllSongs(song_names);
 
-        Log.i("db", "Going to create list: db size : " + String.valueOf(db.getSongsCount()));
+        Log.i(tag, "Going to create list: db size : " + String.valueOf(db.getSongsCount()));
 
         songs = db.getAllSongs();
         plist_size = songs.size();
@@ -214,44 +182,34 @@ public class HostView extends Activity {
             public void run() {
                 int port = 8988;
 
-                try{
-                    Log.d(tag,"create download serversocket");
+                try {
+                    Log.d(tag, "create download serversocket");
                     ServerSocket fileServer = new ServerSocket();
                     fileServer.setReuseAddress(true);
                     fileServer.bind(new InetSocketAddress(port));
-                    Log.d(tag,"Reuse download address "+fileServer.getReuseAddress());
+                    Log.d(tag, "Reuse download address " + fileServer.getReuseAddress());
 
-                    while(true)
-                    {
+                    while (true) {
                         try {
-                            Log.d(tag,"create download client");
-                            Log.d(tag,"accept download client on "+fileServer.getReuseAddress());
+                            Log.d(tag, "create download client");
+                            Log.d(tag, "accept download client on " + fileServer.getReuseAddress());
                             Socket client = fileServer.accept();
-                            Log.d(tag, "Starting Download from........."+client.getInetAddress().toString());
+                            Log.d(tag, "Starting Download from........." + client.getInetAddress().toString());
                             FileServerAsyncTask file = new FileServerAsyncTask(HostView.this);
-                            Log.d(tag,"start download asyctask");
+                            Log.d(tag, "start download asyctask");
                             file.execute(new Socket[]{client});
 
-                        }catch (IOException ex)
-                        {
+                        } catch (IOException ex) {
                             ex.printStackTrace();
                             break;
                         }
                     }
-                }
-                catch (IOException ex)
-                {
-                    Log.d(tag,ex.getMessage());
+                } catch (IOException ex) {
+                    Log.d(tag, ex.getMessage());
                 }
 
-//                Log.d(tag, "handler attached....");
             }
         };
-
-
-
-
-
 
         Thread download = new Thread(downloadFile);
         download.start();
@@ -261,37 +219,32 @@ public class HostView extends Activity {
             public void run() {
                 int port = 8986;
 
-                try{
-                    Log.d(tag,"create serversocket");
+                try {
+                    Log.d(tag, "create serversocket");
                     ServerSocket fileServer = new ServerSocket();
                     fileServer.setReuseAddress(true);
                     fileServer.bind(new InetSocketAddress(port));
-                    Log.d(tag,"Reuse address "+fileServer.getReuseAddress());
+                    Log.d(tag, "Reuse address " + fileServer.getReuseAddress());
 
-                    while(true)
-                    {
+                    while (true) {
                         try {
-                            Log.d(tag,"create client");
-                            Log.d(tag,"accept client on "+fileServer.getReuseAddress());
+                            Log.d(tag, "create client");
+                            Log.d(tag, "accept client on " + fileServer.getReuseAddress());
                             Socket client = fileServer.accept();
-                            Log.d(tag, "Starting Download from........."+client.getInetAddress().toString());
+                            Log.d(tag, "Starting Download from........." + client.getInetAddress().toString());
                             FileServerAsyncTask file = new FileServerAsyncTask(HostView.this);
-                            Log.d(tag,"start asyctask");
+                            Log.d(tag, "start asyctask");
                             file.execute(new Socket[]{client});
 
-                        }catch (IOException ex)
-                        {
+                        } catch (IOException ex) {
                             ex.printStackTrace();
                             break;
                         }
                     }
-                }
-                catch (IOException ex)
-                {
-                    Log.d(tag,ex.getMessage());
+                } catch (IOException ex) {
+                    Log.d(tag, ex.getMessage());
                 }
 
-//                Log.d(tag, "handler attached....");
             }
         };
 
@@ -303,37 +256,32 @@ public class HostView extends Activity {
             public void run() {
                 int port = 8987;
 
-                try{
-                    Log.d(tag,"create mic serversocket");
+                try {
+                    Log.d(tag, "create mic serversocket");
                     ServerSocket micServer = new ServerSocket();
                     micServer.setReuseAddress(true);
                     micServer.bind(new InetSocketAddress(port));
-                    Log.d(tag,"Reuse mic  address "+micServer.getReuseAddress());
+                    Log.d(tag, "Reuse mic  address " + micServer.getReuseAddress());
 
-                    while(true)
-                    {
+                    while (true) {
                         try {
-                            Log.d(tag,"create mic client");
-                            Log.d(tag,"accept mic client on "+micServer.getReuseAddress());
+                            Log.d(tag, "create mic client");
+                            Log.d(tag, "accept mic client on " + micServer.getReuseAddress());
                             Socket client = micServer.accept();
-                            Log.d(tag, "Starting mic streaming from........."+client.getInetAddress().toString());
+                            Log.d(tag, "Starting mic streaming from........." + client.getInetAddress().toString());
                             MicAsyncTask micTask = new MicAsyncTask(HostView.this);
-                            Log.d(tag,"start mic asyctask");
+                            Log.d(tag, "start mic asyctask");
                             micTask.execute(new Socket[]{client});
 
-                        }catch (IOException ex)
-                        {
+                        } catch (IOException ex) {
                             ex.printStackTrace();
                             break;
                         }
                     }
-                }
-                catch (IOException ex)
-                {
-                    Log.d(tag,ex.getMessage());
+                } catch (IOException ex) {
+                    Log.d(tag, ex.getMessage());
                 }
 
-//                Log.d(tag, "handler attached....");
             }
         };
 
@@ -345,37 +293,32 @@ public class HostView extends Activity {
             public void run() {
                 int port = 8111;
 
-                try{
-                    Log.d(tag,"create serversocket");
+                try {
+                    Log.d(tag, "create serversocket");
                     ServerSocket votesServer = new ServerSocket();
                     votesServer.setReuseAddress(true);
                     votesServer.bind(new InetSocketAddress(port));
-                    Log.d(tag,"Reuse address "+votesServer.getReuseAddress());
+                    Log.d(tag, "Reuse address " + votesServer.getReuseAddress());
 
-                    while(true)
-                    {
+                    while (true) {
                         try {
-                            Log.d(tag,"create client");
-                            Log.d(tag,"accept client on "+votesServer.getReuseAddress());
+                            Log.d(tag, "create client");
+                            Log.d(tag, "accept client on " + votesServer.getReuseAddress());
                             Socket client = votesServer.accept();
-                            Log.d(tag, "Starting Download from........."+client.getInetAddress().toString());
+                            Log.d(tag, "Starting Download from........." + client.getInetAddress().toString());
                             GetVotes voteTask = new GetVotes(HostView.this);
-                            Log.d(tag,"start asyctask");
+                            Log.d(tag, "start asyctask");
                             voteTask.execute(new Socket[]{client});
 
-                        }catch (IOException ex)
-                        {
+                        } catch (IOException ex) {
                             ex.printStackTrace();
                             break;
                         }
                     }
-                }
-                catch (IOException ex)
-                {
-                    Log.d(tag,ex.getMessage());
+                } catch (IOException ex) {
+                    Log.d(tag, ex.getMessage());
                 }
 
-//                Log.d(tag, "handler attached....");
             }
         };
 
@@ -383,52 +326,43 @@ public class HostView extends Activity {
         votesThread.start();
 
 
-
         Runnable linkRunnable = new Runnable() {
             @Override
             public void run() {
                 int port = 8119;
                 String tag1 = "linkRunnable";
-                try{
+                try {
 
-                    Log.d(tag1,"create serversocket");
+                    Log.d(tag1, "create serversocket");
                     ServerSocket linkServer = new ServerSocket();
                     linkServer.setReuseAddress(true);
                     linkServer.bind(new InetSocketAddress(port));
-                    Log.d(tag1,"Reuse address "+linkServer.getReuseAddress());
+                    Log.d(tag1, "Reuse address " + linkServer.getReuseAddress());
 
-                    while(true)
-                    {
+                    while (true) {
                         try {
-                            Log.d(tag1,"create client");
-                            Log.d(tag1,"accept client on "+linkServer.getReuseAddress());
+                            Log.d(tag1, "create client");
+                            Log.d(tag1, "accept client on " + linkServer.getReuseAddress());
                             Socket client = linkServer.accept();
-                            Log.d(tag1, "Starting link download from........."+client.getInetAddress().toString());
+                            Log.d(tag1, "Starting link download from........." + client.getInetAddress().toString());
                             GetYoutubeLinks linkTask = new GetYoutubeLinks(HostView.this);
-                            Log.d(tag1,"start asyctask");
+                            Log.d(tag1, "start asyctask");
                             linkTask.execute(new Socket[]{client});
 
-                        }catch (IOException ex)
-                        {
+                        } catch (IOException ex) {
                             ex.printStackTrace();
                             break;
                         }
                     }
-                }
-                catch (IOException ex)
-                {
-                    Log.d(tag1,ex.getMessage());
+                } catch (IOException ex) {
+                    Log.d(tag1, ex.getMessage());
                 }
 
-//                Log.d(tag, "handler attached....");
             }
         };
 
         Thread linkThread = new Thread(linkRunnable);
         linkThread.start();
-
-
-
 
 
         Runnable playlist = new Runnable() {
@@ -491,55 +425,28 @@ public class HostView extends Activity {
             @Override
             public void run() {
 
-                recorder= new AudioRecord(MediaRecorder.AudioSource.DEFAULT, 44100, channelConfig, audioFormat, AudioRecord.getMinBufferSize(44100, channelConfig, audioFormat));
+                recorder = new AudioRecord(MediaRecorder.AudioSource.DEFAULT, 44100, channelConfig, audioFormat, AudioRecord.getMinBufferSize(44100, channelConfig, audioFormat));
 
-//recorder= new AudioRecord(44100, AudioFormat.CHANNEL_IN_MONO, AudioFormat.ENCODING_PCM_16BIT;)
-                minBufSize= recorder.getMinBufferSize(
+                minBufSize = recorder.getMinBufferSize(
                         44100,
                         AudioFormat.CHANNEL_IN_MONO,
                         AudioFormat.ENCODING_PCM_16BIT);
-                //  recorder = new AudioRecord(MediaRecorder.AudioSource.MIC,sampleRate,channelConfig,audioFormat,minBufSize);
-                Log.d("VS", "Recorder initialized");
                 byte[] buffer = new byte[minBufSize];
 
-                //recorder.OutputFormat.THREE_GPP;
-                //recorder.release();
                 recorder.startRecording();
-                //------------
-                speaker = new AudioTrack(AudioManager.STREAM_VOICE_CALL,sampleRate,AudioFormat.CHANNEL_OUT_STEREO,audioFormat,minBufSize,AudioTrack.MODE_STREAM);
+                speaker = new AudioTrack(AudioManager.STREAM_VOICE_CALL, sampleRate, AudioFormat.CHANNEL_OUT_STEREO, audioFormat, minBufSize, AudioTrack.MODE_STREAM);
                 speaker.setPlaybackRate(22100);
                 speaker.play();
-                //--------------------------------
-                while(status) {
-                    //reading data from MIC into buffer
+                while (status) {
                     recorder.read(buffer, 0, minBufSize);
-                    // minBufSize = (int)(1024*3.5);
-                    //   Log.d("min buffer size"+ minBufSize );
-                    Log.d("VS","minimum buffer size created is  " + minBufSize);
+                    Log.d("VS", "minimum buffer size created is  " + minBufSize);
                     Log.d("1", "Recorder initialized");
-                    //putting buffer in the packet
-                    //packet = new DatagramPacket (buffer,buffer.length,destination,dataport);
-
-                    //socket.send(packet);
-                    //String sentence = new String( packet.getData().toString());
-                    //System.out.println("sent packet: " + packet.getData());
-                    //    System.out.println();
-                    //System.out.println("MinBufferSize: " +minBufSize);
-
-                    //speaker = new AudioTrack(AudioManager.STREAM_MUSIC,sampleRate,channelConfig,audioFormat,minBufSize,AudioTrack.MODE_STREAM);
                     Log.d("2", "Recddorder initialized");
                     speaker.write(buffer, 0, minBufSize);
 
                 }
 
-                buffer = "end".getBytes();
-                Log.d("Streaming","end packet sending");
-                //packet  = new DatagramPacket(buffer,buffer.length,destination,dataport);
-                Log.d("Streaming","end packet sending");
-                //socket.send(packet);
-                Log.d("Streaming","release recorder");
                 recorder.release();
-                Log.d("Streaming","socket closing");
 
             }
 
@@ -552,7 +459,6 @@ public class HostView extends Activity {
     public ArrayList<String> updatePlaylist() {
         String tag = "Music_add";
         File dir = new File(folder);
-        Log.i(tag,folder.toString());
         if (!dir.isDirectory())
             Log.i(tag, "Not a directory");
 
@@ -567,8 +473,6 @@ public class HostView extends Activity {
         for (int i = 0; i < listOfFiles.length; i++) {
             if (listOfFiles[i].isFile()) {
                 name.add(listOfFiles[i].getName());
-            } else if (listOfFiles[i].isDirectory()) {
-                ;//System.out.println("Directory " + listOfFiles[i].getName());
             }
         }
 
@@ -581,15 +485,11 @@ public class HostView extends Activity {
     public void play(View view) {
         if (songs.size() > 0) {
 
-            if(songs.get(0).getFlag_Youtube() == 0) {
+            if (songs.get(0).getFlag_Youtube() == 0) {
                 if (flag) {
                     File file = new File(folder + songs.get(0).getName());
                     Uri uri = Uri.fromFile(file);
                     mediaPlayer = MediaPlayer.create(this, uri);
-                    if(mediaPlayer == null)
-                    {
-                        Log.i("media","is null");
-                    }
                 }
 
                 Log.i(tag, "usee");
@@ -643,67 +543,57 @@ public class HostView extends Activity {
                 pauseButton.setVisibility(View.VISIBLE);
                 playButton.setVisibility(View.INVISIBLE);
 
-            }
+            } else if (songs.get(0).getFlag_Youtube() == 1) {
 
-            else if (songs.get(0).getFlag_Youtube() == 1)
-            {
-//                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-//                startActivity(browserIntent);
-
-                play(songs.get(0).get_url());
+                playYoutube(songs.get(0).get_url());
             }
 
         } else {
-            if (mediaPlayer != null)
-                mediaPlayer.stop();
             Toast.makeText(this, "Playlist Empty", Toast.LENGTH_SHORT).show();
             flag = true;
-
-            File dir = new File(folder);
-
-            File[] listOfFiles = dir.listFiles();
-            int[] arr = new int[listOfFiles.length];
-            int count=0;
-            for (int i = 0; i < listOfFiles.length; i++)
-            {
-                if (listOfFiles[i].isFile()) arr[count++]=i;
-            }
-
-            if (count>0)
-            {
-                int ran = r.nextInt(count-1);
-
-                String song_name=listOfFiles[arr[ran]].getName();
-
-                File file = new File(folder + song_name);
-                Uri uri = Uri.fromFile(file);
-                mediaPlayer = MediaPlayer.create(this, uri);
-                mediaPlayer.start();
-            }
         }
     }
-
 
 
     // YoutubeDialogfrag methods
 
     private static final int REQ_START_STANDALONE_PLAYER = 1;
     private static final int REQ_RESOLVE_SERVICE_MISSING = 2;
-    private static final String DEVELOPER_KEY="AIzaSyAniiilDhSSjvOCNEGge7TakYkOaCqTtZg";
+    private static final String DEVELOPER_KEY = "AIzaSyAniiilDhSSjvOCNEGge7TakYkOaCqTtZg";
+
     //@Override
-    public static void play(String VIDEO_ID) {
+    public void playYoutube(String VIDEO_ID) {
         //super.onCreate(savedInstanceState);
         // final Bundle bundle = getIntent().getExtras();
         //final String VIDEO_ID =bundle.getString("videoId");
-        final int startTimeMillis=0;
-        final boolean autoplay=true;
-        final boolean lightboxMode=true;
+        final int startTimeMillis = 0;
+        final boolean autoplay = true;
+        final boolean lightboxMode = true;
         // setContentView(R.layout.standalone_player);
+        Log.d("Youtube1", "Video - " + VIDEO_ID);
+        Log.d("Youtube1", "starting intent");
+        Runnable closeFrag = new Runnable() {
+            @Override
+            public void run() {
+                mActivity.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Log.d("backpress", "Pressing back");
+                        dispatchKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_BACK));
+                        dispatchKeyEvent(new KeyEvent(KeyEvent.ACTION_UP, KeyEvent.KEYCODE_BACK));
+                    }
+                });
+            }
+        };
+
         Intent intent = YouTubeStandalonePlayer.createVideoIntent(
-                mActivity , DEVELOPER_KEY, VIDEO_ID, startTimeMillis, autoplay, lightboxMode);
+                mActivity, DEVELOPER_KEY, VIDEO_ID, startTimeMillis, autoplay, lightboxMode);
+        Log.d("Youtube1", "intent started");
+
         if (intent != null) {
             if (canResolveIntent(intent)) {
                 mActivity.startActivityForResult(intent, REQ_START_STANDALONE_PLAYER);
+//                youTubehandler.postDelayed(closeFrag, 6000);
             } else {
                 // Could not resolve the intent - must need to install or update the YouTube API service.
                 YouTubeInitializationResult.SERVICE_MISSING
@@ -718,15 +608,10 @@ public class HostView extends Activity {
     }
 
 
-
-    //-----------------------------------
-
-
-
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        Log.d("Youtube1", "on activity result");
         if (requestCode == REQ_START_STANDALONE_PLAYER && resultCode != RESULT_OK) {
             YouTubeInitializationResult errorReason =
                     YouTubeStandalonePlayer.getReturnedInitializationResult(data);
@@ -739,12 +624,6 @@ public class HostView extends Activity {
             }
         }
     }
-
-
-
-
-
-
 
 
     private Runnable UpdateSongTime = new Runnable() {
@@ -771,9 +650,9 @@ public class HostView extends Activity {
 //                  adapter.setList(songs);
 //                  adapter.notifyDataSetChanged();
 
-                    Log.i("adapter","adapter size: "+adapter.getCount()+" Song size :"+songs.size());
+                    Log.i("adapter", "adapter size: " + adapter.getCount() + " Song size :" + songs.size());
 
-                    if (songs.size() > 0) {
+                    if (songs.size() > 0 && songs.get(index).getFlag_Youtube() == 0) {
                         Log.i(tag, "Media PLayer list index - " + String.valueOf(index) + " songs size - " + String.valueOf(songs.size()));
 //                        String loc = Environment.getExternalStorageDirectory() + "/AndroidDJ-Playlist/";
                         File file = new File(folder + songs.get(index).getName());
@@ -790,7 +669,7 @@ public class HostView extends Activity {
 
                         finalTime = mediaPlayer.getDuration();
                         startTime = mediaPlayer.getCurrentPosition();
-                        oneTimeOnly=0;
+                        oneTimeOnly = 0;
 
                         if (oneTimeOnly == 0) {
                             seekbar.setMax((int) finalTime);
@@ -813,6 +692,8 @@ public class HostView extends Activity {
                     } else {
                         mediaPlayer.stop();
                         flag = true;
+                        Log.d("Youtube1", "youtube link - " + db.getSong(songs.get(index).getID()).get_url());
+                        playYoutube(db.getSong(songs.get(index).getID()).get_url());
                     }
                 }
             }
@@ -860,17 +741,6 @@ public class HostView extends Activity {
 
     }
 
-    public void next(View view)
-    {
-        changeSongVotes = 0;
-        if(seekbar != null) {
-            seekbar.setProgress((int) finalTime);
-            if (mediaPlayer != null) {
-                mediaPlayer.seekTo((int) finalTime);
-                return;
-            }
-        }
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -892,23 +762,27 @@ public class HostView extends Activity {
     }
 
 
+    public void next(View view) {
+        if (seekbar != null) {
+            seekbar.setProgress((int) finalTime);
+            if (mediaPlayer != null) {
+                mediaPlayer.seekTo((int) finalTime);
+                return;
+            }
+        }
+    }
 
-
-    public void sortList()
-    {
+    public void sortList() {
         ArrayList<Songs> tempSongs = new ArrayList<Songs>();
-        if(songs.size() != 0) {
+        if (songs.size() != 0) {
             tempSongs.add(db.getSong(songs.get(0).getID()));
-            Log.i("songdb",songs.get(0).getName() + " " + songs.get(0).getID());
             tempSongs.addAll(db.getAllSongsSorted(songs.get(0).getID()));
             songs = tempSongs;
-        }
-        else
-        {
+        } else {
             songs = db.getAllSongsSorted();
         }
         adapter.setList(songs);
-        //adapter.notifyDataSetChanged();
+//        adapter.notifyDataSetChanged();
     }
 
     private synchronized void addSong(String name) {
@@ -920,37 +794,22 @@ public class HostView extends Activity {
     }
 
     private synchronized void addYouSong(String url, String title) {
+        Log.i("songdebug", "Song url " + url);
         Songs s = new Songs(++plist_size, url, title, 1);
         db.addYoutube_Song(s);
         songs.add(s);
-        Log.d("yousong", "Song added : " + s.getName() + " url : " + s.get_url() );
+        Log.d("yousong", "Song added : " + s.getName() + " url : " + s.get_url());
 
         sortList();
     }
 
 
-
-
-    public static String append(String filename,String time)
-    {
-//        String arr[]=filename.split("\\.",2);
-        int index = filename.lastIndexOf(".");
-        if(index == -1)
-        {
-            return filename;
-        }
-        String newName = filename.substring(0,index)+ "_" + time + filename.substring(index);
-        Log.i("newname",newName);
-        return newName;
-        /*if(filename.substring(index+1).equalsIgnoreCase())
-        String songname = filename.substring(0,index);
-        String format = filename.substring(index);
-        Log.d("format",format+"-"+songname);
-        return songname+"_"+time+format;
-//        if (arr.length==2)
-//            return arr[0]+"_"+time+"."+arr[1];
-//        else
-//            return arr[0];*/
+    public static String append(String filename, String time) {
+        String arr[] = filename.split("\\.", 2);
+        if (arr.length == 2)
+            return arr[0] + "_" + time + "." + arr[1];
+        else
+            return arr[0];
     }
 
     @Override
@@ -966,15 +825,11 @@ public class HostView extends Activity {
     public void onStop() {
         super.onStop();
         Log.i(tag, "Activity is stopped");
-//        songs.clear();
-//        db.deleteAllSongs();
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-//        songs.clear();
-//        db.deleteAllSongs();
         Log.i(tag, "Activity is destroyed:" + String.valueOf(db.getSongsCount()) + " " + String.valueOf(songs.size()));
     }
 
@@ -991,23 +846,18 @@ public class HostView extends Activity {
     }
 
 
-
-    public JSONArray arrayToJSON()
-    {
+    public JSONArray arrayToJSON() {
         JSONArray jsonArray = new JSONArray();
-        for(Songs s:songs) {
+        for (Songs s : songs) {
             JSONObject jsonobject = new JSONObject();
             try {
-                jsonobject.put("id",s.getID());
-                jsonobject.put("name",s.getName());
-                jsonobject.put("upvotes",s.getUpvotes());
-                jsonobject.put("downvotes",s.getDownvotes());
+                jsonobject.put("id", s.getID());
+                jsonobject.put("name", s.getName());
+                jsonobject.put("upvotes", s.getUpvotes());
+                jsonobject.put("downvotes", s.getDownvotes());
                 jsonArray.put(jsonobject);
-                Log.i("json",s.getID() + " " + s.getName() + " " + s.getDownvotes() + " " + s.getUpvotes());
-            }
-            catch(Exception e)
-            {
-                Log.i(tag,e.getMessage());
+            } catch (Exception e) {
+                Log.i(tag, e.getMessage());
             }
         }
         return jsonArray;
@@ -1016,13 +866,12 @@ public class HostView extends Activity {
     public void sendPlaylist() {
 
         // json playlist to send
-        Log.i("playlist",arrayToJSON().toString());
+        Log.i("playlist", arrayToJSON().toString());
         String playlist = arrayToJSON().toString();
         ArrayList<String> address = getIp();
-        for(String addr:address)
-        {
+        for (String addr : address) {
             Intent serviceIntent = new Intent(this, PlaylistTransferService.class);
-            Log.d(tag,addr);
+            Log.d(tag, addr);
             serviceIntent.setAction(PlaylistTransferService.ACTION_SEND_FILE);
             serviceIntent.putExtra(PlaylistTransferService.EXTRAS_PLAYLIST, playlist);
             serviceIntent.putExtra(PlaylistTransferService.EXTRAS_CLIENT_ADDRESS, addr);
@@ -1033,28 +882,26 @@ public class HostView extends Activity {
     }
 
 
-
-
     public ArrayList<String> getIp() {
         BufferedReader br = null;
-        ArrayList<String> clientIP=new ArrayList<String>();
+        ArrayList<String> clientIP = new ArrayList<String>();
 
         try {
 
             br = new BufferedReader(new FileReader("/proc/net/arp"));
             String line;
-            int i=1;
+            int i = 1;
             while ((line = br.readLine()) != null) {
-                Log.d(tag,line);
+                Log.d(tag, line);
                 String[] splitted = line.split(" +");
                 if (splitted != null && splitted.length >= 4) {
                     // Basic sanity check
                     String device = splitted[5];
-                    if (device.matches(".*p2p-p2p0.*")){
+                    if (device.matches(".*p2p-p2p0.*")) {
                         String mac = splitted[3];
                         if (mac.matches("..:..:..:..:..:..")) {
-                            String ip=splitted[0];
-                            Log.d(tag,"Address "+String.valueOf(i)+" - "+ip);
+                            String ip = splitted[0];
+                            Log.d(tag, "Address " + String.valueOf(i) + " - " + ip);
                             i++;
                             clientIP.add(ip);
                         }
@@ -1103,71 +950,46 @@ public class HostView extends Activity {
                 BufferedReader br = new BufferedReader(isr);
                 String recieved_fname = br.readLine();
 
-                Log.d("MicUsing","Recieved File name: "+recieved_fname);
+                Log.d("MicUsing", "Recieved File name: " + recieved_fname);
                 OutputStream out_stream = client.getOutputStream();
                 PrintWriter pw = new PrintWriter(out_stream);
-                Log.i("MicUsing1",micUsing?"yes":"no");
+                Log.i("MicUsing1", micUsing ? "yes" : "no");
 
-                if(!micUsing)
-                {
+                if (!micUsing) {
                     pw.println("yes");
                     pw.flush();
-//                        Log.d(WiFiDirectActivity.TAG, "microphone android dj");
-                    micUsing=true;
-                    Log.i("MicUsing2",micUsing?"yes":"no");
-//                        Log.d(tag, "recieved file name" + " " + recieved_fname);
-//                        Log.d("VS", "Recorder initialized");
-                    MinBufSize=1024*3;
+                    micUsing = true;
+                    Log.i("MicUsing2", micUsing ? "yes" : "no");
+                    MinBufSize = 1024 * 3;
 
-                    speaker = new AudioTrack(AudioManager.STREAM_VOICE_CALL,sampleRate,AudioFormat.CHANNEL_OUT_STEREO,audioFormat,MinBufSize,AudioTrack.MODE_STREAM);
+                    speaker = new AudioTrack(AudioManager.STREAM_VOICE_CALL, sampleRate, AudioFormat.CHANNEL_OUT_STEREO, audioFormat, MinBufSize, AudioTrack.MODE_STREAM);
 
-                    byte[] receiveData = new byte[3*1024];
+                    byte[] receiveData = new byte[3 * 1024];
 
                     String data = "";
-
-                    //   int minBufSize = AudioRecord.getMinBufferSize(sampleRate, channelConfig, audioFormat);
-
-                    // speaker = new AudioTrack(AudioManager.STREAM_MUSIC,sampleRate,AudioFormat.CHANNEL_OUT_STEREO,audioFormat,MinBufSize,AudioTrack.MODE_STREAM);
-                    speaker = new AudioTrack(AudioManager.STREAM_VOICE_CALL,sampleRate,AudioFormat.CHANNEL_OUT_STEREO,audioFormat,MinBufSize,AudioTrack.MODE_STREAM);
+                    speaker = new AudioTrack(AudioManager.STREAM_VOICE_CALL, sampleRate, AudioFormat.CHANNEL_OUT_STEREO, audioFormat, MinBufSize, AudioTrack.MODE_STREAM);
 
                     speaker.setPlaybackRate(22100);
                     speaker.play();
 
                     String sentence = "";
-                    Log.i("MicUsing","Start mic receiving");
+                    Log.i("MicUsing", "Start mic receiving");
 
-                    while(!sentence.equals("end"))
-                    {
-//                            Log.d("in while loop", "in while loop" + " " + recieved_fname);
+                    while (!sentence.equals("end")) {
                         DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
-//                            Log.i("VR", "Socket Created");
                         dataServer.receive(receivePacket);
-                        //  out.write(receivePacket.getData(), 0, receiveData.length);
-//                            Log.i(tag,"receiving streaming");
                         sentence = new String(receivePacket.getData(), 0, receivePacket.getLength());
                         data = receivePacket.getData().toString();
-
-//                            System.out.println("RECEIVED: " + data);
-//
                         receiveData = receivePacket.getData();
                         speaker.write(receiveData, 0, receiveData.length);
-                        // speaker.write(buffer, 0, MinBufSize);
-//                            Log.d("VR", "Writing buffer content to speaker");
-                        ///AudioTrack(AudioManager.STREAM_MUSIC,sampleRate,channelConfig,audioFormat,minBufSize,AudioTrack.MODE_STREAM);
 
                     }
 
-//                        Log.d("Streaming","dataserver closing");
                     dataServer.close();
-//                        Log.d("Streaming","dataserver closed");
                     client.close();
-//                        Log.d("Streaming","client closed");
-                    Log.i("MicUsing3",micUsing?"yes":"no");
-                    //   play(findViewById(R.id.play));
-                }
-                else
-                {
-                    Log.i("MicUsing4",micUsing?"yes":"no");
+                    Log.i("MicUsing3", micUsing ? "yes" : "no");
+                } else {
+                    Log.i("MicUsing4", micUsing ? "yes" : "no");
                     pw.println("no"); // if mic already used
                     pw.flush();
                     client.close();
@@ -1183,14 +1005,13 @@ public class HostView extends Activity {
         protected void onPostExecute(String result) {
             Log.i("Streaming Complete", result);
             if (result != null) {
-                micUsing=false;
-                Log.d("MicUsing",result+" : " +(micUsing?"yes":"no"));
+                micUsing = false;
+                Log.d("MicUsing", result + " : " + (micUsing ? "yes" : "no"));
             }
 
         }
 
     }
-
 
 
     private class FileServerAsyncTask extends AsyncTask<Socket, Void, String> {
@@ -1215,26 +1036,26 @@ public class HostView extends Activity {
                 Socket client = params[0];
 
                 String recieved_fname = "";
-                Log.d(tag, "Server: connection done "+client.getInetAddress().toString());
+                Log.d(tag, "Server: connection done " + client.getInetAddress().toString());
 
                 InputStream inputstream = client.getInputStream();
                 InputStreamReader isr = new InputStreamReader(inputstream);
 
                 BufferedReader br = new BufferedReader(isr);
                 recieved_fname = br.readLine();
-                Log.d("fileName", "receiving file "+recieved_fname);
+                Log.d("fileName", "receiving file " + recieved_fname);
 
 
-                if(recieved_fname.startsWith("SEND_SONG")){
-                    String id= br.readLine();
-                    String songName=db.getSong(Integer.parseInt(id)).getName();
-                    Log.d(WiFiDirectActivity.TAG, "id - "+id+" recieved file name" + " " + songName);
-                    Uri fileUri=Uri.fromFile(new File(folder+"/"+songName));
+                if (recieved_fname.startsWith("SEND_SONG")) {
+                    String id = br.readLine();
+                    String songName = db.getSong(Integer.parseInt(id)).getName();
+                    Log.d(WiFiDirectActivity.TAG, "id - " + id + " recieved file name" + " " + songName);
+                    Uri fileUri = Uri.fromFile(new File(folder + "/" + songName));
                     ContentResolver cr = context.getContentResolver();
                     InputStream is = null;
                     try {
                         is = cr.openInputStream(Uri.parse(String.valueOf(fileUri)));
-                        Log.d("Fileuri", "uri - "+Uri.parse(String.valueOf(fileUri)));
+                        Log.d("Fileuri", "uri - " + Uri.parse(String.valueOf(fileUri)));
                     } catch (FileNotFoundException e) {
                         Log.d(WiFiDirectActivity.TAG, e.toString());
                     }
@@ -1242,11 +1063,9 @@ public class HostView extends Activity {
                     client.close();
                     return null;
 
-                }
-
-                else {
+                } else {
                     Log.d(WiFiDirectActivity.TAG, "recieved file name" + " " + recieved_fname);
-                    String filename = append(recieved_fname,String.valueOf(System.currentTimeMillis()));
+                    String filename = append(recieved_fname, String.valueOf(System.currentTimeMillis()));
                     final File f = new File(folder + filename);
                     f.createNewFile();
                     Log.d(WiFiDirectActivity.TAG, "recieved file written " + f.getAbsolutePath());
@@ -1254,7 +1073,7 @@ public class HostView extends Activity {
                     copyFile(inputstream, new FileOutputStream(f));
                     client.close();
 //                    dataServer.close();
-                    Log.d(tag,"client socket closed");
+                    Log.d(tag, "client socket closed");
                     return filename;
 
                 }
@@ -1302,8 +1121,6 @@ public class HostView extends Activity {
     }
 
 
-
-
     public String getUpvotes(Socket client) {
         try {
 
@@ -1341,6 +1158,7 @@ public class HostView extends Activity {
             String votesJSON = getUpvotes(params[0]);
             return votesJSON;
         }
+
         @Override
         protected void onPostExecute(String result) {
             Log.i("votes_received", result);
@@ -1354,14 +1172,14 @@ public class HostView extends Activity {
                         Songs song = db.getSong(id);
                         song.setUpvotes(song.getUpvotes() + 1);
 
-                        db.updateSongUp(id, song.getUpvotes()) ;
+                        db.updateSongUp(id, song.getUpvotes());
                         sortList();
                         adapter.notifyDataSetChanged();
                     } else {
                         int id = jsonObject.getInt("id");
                         Songs song = db.getSong(id);
                         song.setDownvotes(song.getDownvotes() + 1);
-                        db.updateSongDown(id, song.getDownvotes()) ;
+                        db.updateSongDown(id, song.getDownvotes());
                         sortList();
                         adapter.notifyDataSetChanged();
                     }
@@ -1377,9 +1195,6 @@ public class HostView extends Activity {
         }
 
     }
-
-
-
 
 
     public String getyoutubelink(Socket client) {
@@ -1416,9 +1231,9 @@ public class HostView extends Activity {
         @Override
         protected String doInBackground(Socket... params) {
 
-            String youtubelink = getyoutubelink(params[0]);
-            return youtubelink;
+            return getyoutubelink(params[0]);
         }
+
         @Override
         protected void onPostExecute(String link) {
             Log.i("link_received", link);
@@ -1446,7 +1261,6 @@ public class HostView extends Activity {
         }
 
     }
-
 
 
 }

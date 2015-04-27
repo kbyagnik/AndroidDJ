@@ -15,7 +15,8 @@
     android:bottomLeftRadius="7dp"
     android:topLeftRadius="7dp"
     android:topRightRadius="7dp"
-    android:background="@drawable/list_view_item_custom_shape">
+    android:background="@drawable/list_view_item_custom_shape"
+    android:id="@+id/table">
     
     <TableRow 
         android:layout_height="wrap_content"

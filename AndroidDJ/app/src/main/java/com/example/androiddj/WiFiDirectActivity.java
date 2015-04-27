@@ -57,6 +57,8 @@ public class WiFiDirectActivity extends Activity implements ChannelListener, Dev
     private boolean retryChannel = false;
     private String CALL_TYPE="call";
     private String HOST_NAME="host";
+    private String HOST_PASS="";
+    private String host_pwd="";
     private String hostName="";
     private String call_type ="" ;
     private int count = 0;
@@ -129,7 +131,8 @@ public class WiFiDirectActivity extends Activity implements ChannelListener, Dev
 
         call_type = intent.getExtras().getString(CALL_TYPE);
         hostName = intent.getExtras().getString(HOST_NAME);
-        fragmentList.setHostType(call_type);
+        host_pwd=intent.getExtras().getString(HOST_PASS);
+        fragmentList.setHostType(call_type,host_pwd);
 
         if(call_type.equals("Host"))
         {

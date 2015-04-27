@@ -16,6 +16,7 @@
 
 package com.example.androiddj;
 
+import android.app.AlertDialog;
 import android.app.ListFragment;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -26,15 +27,26 @@ import android.net.wifi.p2p.WifiP2pDevice;
 import android.net.wifi.p2p.WifiP2pDeviceList;
 import android.net.wifi.p2p.WifiP2pManager.PeerListListener;
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.PrintWriter;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,6 +62,8 @@ public class DeviceListFragment extends ListFragment implements PeerListListener
     private boolean visible = false ;
     private WifiP2pDevice device;
     private String hostType="";
+    private String host_pwd=null;
+    public String client_pwd="";
     int request_code = 1;
     private String e_tag = "tag";
 
@@ -69,17 +83,164 @@ public class DeviceListFragment extends ListFragment implements PeerListListener
             public void onClick(View view) {
                 if(hostType.equals("Client"))
                 {
-                   Intent intent = new Intent(getActivity(),ClientView.class);
-                   startActivityForResult(intent, request_code);
+                    if (host_pwd.equals("open"))
+                    {
+                        // mContentView.findViewById(R.id.start_party).setEnabled(false);
+                        final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                        builder.setTitle("Enter Password");
+
+                        final EditText input = new EditText(getActivity());
+                        input.setInputType(InputType.TYPE_CLASS_TEXT);
+                        input.setText("open");
+
+                        builder.setView(input);
+
+                        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            int set = 0;
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                                client_pwd = input.getText().toString();
+
+                                Runnable pwdcheck = new Runnable() {
+                                    @Override
+                                    public void run() {
+
+                                        try {
+                                            String s = DeviceDetailFragment.info.groupOwnerAddress.getHostAddress();
+
+                                            Socket socket = new Socket(s, 6666); // Create and connect the socket
+                                            OutputStream dout = socket.getOutputStream();
+                                            InputStream ir = socket.getInputStream();
+                                            BufferedReader br = new BufferedReader(new InputStreamReader(ir));
+
+                                            PrintWriter pw = new PrintWriter(dout);
+                                            pw.println(client_pwd);
+                                            pw.flush();
+                                            Log.d("HOST", "1");
+                                            String passed = br.readLine();
+                                            Log.d("HOST", "2" + passed);
+                                            if (passed.equals("TRUE")) {
+                                                Intent intent = new Intent(getActivity(), ClientView.class);
+                                                startActivityForResult(intent, request_code);
+
+                                            } else {
+                                                getActivity().runOnUiThread(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+                                                        Toast.makeText(getActivity(),"Password Incorrect.",Toast.LENGTH_SHORT).show();
+                                                    }
+                                                });
+                                            }
+
+                                            socket.close();
+
+                                        } catch (SocketException e) {
+                                            e.printStackTrace();
+                                        } catch (IOException e) {
+                                            e.printStackTrace();
+                                        }
+
+                                    }
+                                };
+
+                                Thread cpwd = new Thread(pwdcheck);
+                                cpwd.start();
+                                try {
+                                    cpwd.join();
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        });
+
+                        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.cancel();
+                            }
+                        });
+
+                        builder.show();
+                    }
+                    else
+                    {
+                        Intent intent = new Intent(getActivity(), ClientView.class);
+                        startActivityForResult(intent, request_code);
+                    }
                 }
                 else if(hostType.equals("Host"))
                 {
+                    if (true) {
+                        mContentView.findViewById(R.id.start_party).setEnabled(false);
+
+                        Runnable recepwd = new Runnable() {
+                            @Override
+                            public void run() {
+
+                                try {
+                                    ServerSocket ss = new ServerSocket(6666);
+
+                                    while (true) {
+                                        try {
+                                            final Socket s = ss.accept();//establishes connection
+
+                                            Runnable clientcheck = new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    try {
+                                                        pwdcheck(s);
+                                                    } catch (IOException e) {
+                                                        e.printStackTrace();
+                                                    }
+
+                                                }
+                                            };
+
+                                            Thread clienthread = new Thread(clientcheck);
+                                            clienthread.start();
+                                        } catch (IOException io) {
+//                                        ss.close();
+                                            io.printStackTrace();
+                                        }
+                                    }
+
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        };
+
+                        Thread recepwdth = new Thread(recepwd);
+                        recepwdth.start();
+                    }
+
                     Intent intent = new Intent(getActivity(),HostView.class);
                     startActivity(intent);
                 }
             }
         });
         return mContentView;
+    }
+
+    public synchronized void pwdcheck (Socket s) throws IOException {
+        InputStream ir = s.getInputStream();
+        BufferedReader br = new BufferedReader(new InputStreamReader(ir));
+        OutputStream dout = s.getOutputStream();
+        PrintWriter pw = new PrintWriter(dout);
+        String str = br.readLine();
+        Log.d("HOST", "Receving Pwd to host " + str + " hostpwd: " + host_pwd);
+
+        if (str.equals(host_pwd)) {
+            pw.println("TRUE");
+            pw.flush();
+        } else {
+            pw.println("FALSE");
+            pw.flush();
+        }
+
+        s.close();
+
     }
 
     @Override
@@ -95,7 +256,6 @@ public class DeviceListFragment extends ListFragment implements PeerListListener
         }
         else
         {
-//            Log.d(TAG,"Leave party");
             Toast.makeText(getActivity(), "Some error has occurred while leaving party.", Toast.LENGTH_SHORT).show();
         }
 
@@ -127,9 +287,10 @@ public class DeviceListFragment extends ListFragment implements PeerListListener
         }
     }
 
-    public void setHostType(String type)
+    public void setHostType(String type, String password)
     {
         hostType = type;
+        host_pwd = password;
     }
 
     /**
